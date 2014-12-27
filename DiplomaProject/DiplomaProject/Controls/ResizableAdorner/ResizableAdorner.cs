@@ -24,7 +24,7 @@ namespace DiplomaProject.Controls
             FrameworkElement element = AdornedElement as FrameworkElement;
             if(Double.IsNaN(element.Width)) element.Width = ActualWidth;
             if(Double.IsNaN(element.Height)) element.Height = ActualHeight;
-
+            
             element.Width += e.HorizontalChange;
             element.Height += e.VerticalChange;
             InvalidateArrange();

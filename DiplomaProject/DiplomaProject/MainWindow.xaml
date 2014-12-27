@@ -4,7 +4,7 @@
         xmlns:linq="clr-namespace:System.Linq;assembly=System.Core"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:DiplomaProject"
-
+        xmlns:controls="clr-namespace:DiplomaProject.Controls"
         Title="MainWindow" Height="700" Width="1000">
 <Window.Resources>
     <ObjectDataProvider x:Key="FontSizesDataProvider" ObjectType="linq:Enumerable" MethodName="Range">
@@ -82,15 +82,16 @@
             </RibbonTab>
         </Ribbon>
         <Grid>
-            <RichTextBox VerticalScrollBarVisibility="Visible">
+            <RichTextBox SelectionChanged="TextBoxBase_OnSelectionChanged" VerticalScrollBarVisibility="Visible" x:Name="RichTextBox">
                 <FlowDocument FontSize="20">
                     <Paragraph>
                         <Run Text="RichTextBox"/>
                     </Paragraph>
-                    <BlockUIContainer>
+                    <!--<BlockUIContainer>
                         <Image Name="ImageTest" HorizontalAlignment="Left" MaxWidth="600" Source="C:\Users\Антон\Pictures\Screenshots\Снимок экрана (2).png"/>
-                        
-                    </BlockUIContainer>
+                    </BlockUIContainer>-->
+
+                    <controls:BlockImageContainer Source="C:\Users\Антон\Pictures\Screenshots\Снимок экрана (2).png"/>
                 </FlowDocument>
             </RichTextBox>
             <!--<Image Name="ImageTest" HorizontalAlignment="Left" MaxWidth="600" Source="C:\Users\Антон\Pictures\Screenshots\Снимок экрана (2).png"/>-->

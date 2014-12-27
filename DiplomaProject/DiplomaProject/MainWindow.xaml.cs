@@ -25,13 +25,16 @@ namespace DiplomaProject {
             //ImageTest.AddHandler(MouseLeaveEvent, new MouseEventHandler(ImageTestOnMouseLeave));
             //ImageTest.MouseEnter += ImageTestOnMouseEnter; 
             //ImageTest.MouseLeave += ImageTestOnMouseLeave; 
-            Loaded += MainWindow_Loaded;
-            
+           // Loaded += MainWindow_Loaded;
+                
         }
 
-        void MainWindow_Loaded(object sender, RoutedEventArgs e) {
-            var adornerLayer = AdornerLayer.GetAdornerLayer(ImageTest);
-            adornerLayer.Add(new ResizableAdorner(ImageTest));
+        //void MainWindow_Loaded(object sender, RoutedEventArgs e) {
+        //    var adornerLayer = AdornerLayer.GetAdornerLayer(ImageTest);
+        //    adornerLayer.Add(new ResizableAdorner(ImageTest));
+        //}
+        private void TextBoxBase_OnSelectionChanged(object sender, RoutedEventArgs e)
+        {
         }
     }
 
