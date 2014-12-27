@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -20,16 +21,19 @@ namespace DiplomaProject {
     public partial class MainWindow : Window {
         public MainWindow() {
             InitializeComponent();
+            //ImageTest.AddHandler(MouseEnterEvent, new MouseEventHandler(ImageTestOnMouseEnter));
+            //ImageTest.AddHandler(MouseLeaveEvent, new MouseEventHandler(ImageTestOnMouseLeave));
+            //ImageTest.MouseEnter += ImageTestOnMouseEnter; 
+            //ImageTest.MouseLeave += ImageTestOnMouseLeave; 
+            Loaded += MainWindow_Loaded;
+            
         }
 
-        private void UIElement_OnMouseEnter(object sender, MouseEventArgs e)
-        {
-            Mouse.OverrideCursor = Cursors.SizeNWSE;
-        }
-
-        private void UIElement_OnMouseLeave(object sender, MouseEventArgs e)
-        {
-            Mouse.OverrideCursor = Cursors.Arrow;
+        void MainWindow_Loaded(object sender, RoutedEventArgs e) {
+            var adornerLayer = AdornerLayer.GetAdornerLayer(ImageTest);
+            adornerLayer.Add(new ResizableAdorner(ImageTest));
         }
     }
+
+    
 }

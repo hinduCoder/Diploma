@@ -1,39 +1,83 @@
 ﻿<Window x:Class="DiplomaProject.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:local="clr-namespace:DiplomaProject.Controls.ResizableContainer"
-        
+        xmlns:linq="clr-namespace:System.Linq;assembly=System.Core"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        xmlns:local="clr-namespace:DiplomaProject"
+
         Title="MainWindow" Height="700" Width="1000">
+<Window.Resources>
+    <ObjectDataProvider x:Key="FontSizesDataProvider" ObjectType="linq:Enumerable" MethodName="Range">
+            <ObjectDataProvider.MethodParameters>
+                <system:Int32>8</system:Int32>
+                <system:Int32>20</system:Int32>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    <CollectionViewSource x:Key="FontSizeCollectionViewSource" Source="{StaticResource FontSizesDataProvider}">
+        
+    </CollectionViewSource>
+</Window.Resources>
     <DockPanel>
-        <Ribbon DockPanel.Dock="Top" x:Name="Ribbon" Title="Ribbon Title">
-            <Ribbon.HelpPaneContent>
-                <RibbonButton Content="Images/SmallIcon.png" />
-            </Ribbon.HelpPaneContent>
-            <Ribbon.QuickAccessToolBar>
-                <RibbonQuickAccessToolBar >
-                    <RibbonButton x:Name="QATButton1"/>
-                    <RibbonButton x:Name="QATButton2"/>
-                </RibbonQuickAccessToolBar>
-            </Ribbon.QuickAccessToolBar>
+        <Ribbon DockPanel.Dock="Top" x:Name="Ribbon" >
             <Ribbon.ApplicationMenu>
                 <RibbonApplicationMenu >
-                    <RibbonApplicationMenuItem Header="Hello _Ribbon"
-                                                      x:Name="MenuItem1"
-                                                     />
+                    <RibbonApplicationMenuItem Header="Hello _Ribbon" x:Name="MenuItem1"/>
                 </RibbonApplicationMenu>
             </Ribbon.ApplicationMenu>
             <RibbonTab x:Name="HomeTab" 
-                              Header="Home">
-                <RibbonGroup x:Name="Group1" 
-                                    Header="Group1">
-                    <RibbonButton x:Name="Button1"
-                                         Label="Button1" />
-                    <RibbonButton x:Name="Button2"
-                                         Label="Button2" />
-                    <RibbonButton x:Name="Button3"
-                                         Label="Button3" />
-                    <RibbonButton x:Name="Button4"
-                                         Label="Button4" />
+                              Header="Текст">
+                <RibbonGroup x:Name="GroupFont" 
+                                    Header="Шрифт" Width="auto">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <RibbonComboBox x:Name="FontFamilyComboBox">
+                            <RibbonGallery>
+                                <RibbonGalleryCategory ItemsSource="{x:Static local:Fonts.AvailablleFontFamilies}"/>
+                            </RibbonGallery>    
+                        </RibbonComboBox>
+                        <RibbonComboBox Grid.Column="1" IsEditable="True">
+                            <RibbonGallery>
+                                <RibbonGalleryCategory ItemsSource="{Binding Source={StaticResource FontSizesDataProvider}}">
+                                    <RibbonGalleryCategory.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel/>
+                                        </ItemsPanelTemplate>
+                                    </RibbonGalleryCategory.ItemsPanel>
+                                </RibbonGalleryCategory>
+                            </RibbonGallery>
+                        </RibbonComboBox>
+                        <UniformGrid Rows="1" Grid.Row="1" Grid.ColumnSpan="100">
+                            
+                            <RibbonToggleButton Height="20" Label="B" FontWeight="Bold"/>
+                            <RibbonToggleButton Label="I" FontStyle="Italic"/>
+                            <RibbonToggleButton Label="U"/>
+                        </UniformGrid>
+                    </Grid>
+                </RibbonGroup>
+            </RibbonTab>
+            <RibbonTab Header="Test">
+                <RibbonGroup>
+                    <RibbonComboBox Label="1" 
+                  SelectionBoxWidth="62"
+                  VerticalAlignment="Center" 
+                  IsEditable="True" >
+                        <RibbonGallery SelectedValue="Green"
+                          SelectedValuePath="Content"
+                          MaxColumnCount="1">
+                            <RibbonGalleryCategory>
+                                <RibbonGalleryItem Content="Green" Foreground="Green" />
+                                <RibbonGalleryItem Content="Blue" Foreground="Blue" />
+                                <RibbonGalleryItem Content="Orange" Foreground="Orange" />
+                            </RibbonGalleryCategory>
+                        </RibbonGallery>
+                    </RibbonComboBox>
                 </RibbonGroup>
             </RibbonTab>
         </Ribbon>
@@ -44,10 +88,12 @@
                         <Run Text="RichTextBox"/>
                     </Paragraph>
                     <BlockUIContainer>
-                            <Image HorizontalAlignment="Left" MaxWidth="600" Source="C:\Users\Антон\Pictures\Screenshots\Снимок экрана (2).png"/>
+                        <Image Name="ImageTest" HorizontalAlignment="Left" MaxWidth="600" Source="C:\Users\Антон\Pictures\Screenshots\Снимок экрана (2).png"/>
+                        
                     </BlockUIContainer>
                 </FlowDocument>
             </RichTextBox>
+            <!--<Image Name="ImageTest" HorizontalAlignment="Left" MaxWidth="600" Source="C:\Users\Антон\Pictures\Screenshots\Снимок экрана (2).png"/>-->
         </Grid>
     </DockPanel>
 </Window>
