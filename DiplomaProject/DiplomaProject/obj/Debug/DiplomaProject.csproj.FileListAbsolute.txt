@@ -1,0 +1,13 @@
+c:\users\антон\documents\visual studio 2013\Projects\DiplomaProject\DiplomaProject\bin\Debug\DiplomaProject.exe.config
+c:\users\антон\documents\visual studio 2013\Projects\DiplomaProject\DiplomaProject\bin\Debug\DiplomaProject.exe
+c:\users\антон\documents\visual studio 2013\Projects\DiplomaProject\DiplomaProject\bin\Debug\DiplomaProject.pdb
+c:\users\антон\documents\visual studio 2013\Projects\DiplomaProject\DiplomaProject\obj\Debug\DiplomaProject.csprojResolveAssemblyReference.cache
+c:\users\антон\documents\visual studio 2013\Projects\DiplomaProject\DiplomaProject\obj\Debug\MainWindow.baml
+c:\users\антон\documents\visual studio 2013\Projects\DiplomaProject\DiplomaProject\obj\Debug\MainWindow.g.cs
+c:\users\антон\documents\visual studio 2013\Projects\DiplomaProject\DiplomaProject\obj\Debug\App.g.cs
+c:\users\антон\documents\visual studio 2013\Projects\DiplomaProject\DiplomaProject\obj\Debug\DiplomaProject_MarkupCompile.cache
+c:\users\антон\documents\visual studio 2013\Projects\DiplomaProject\DiplomaProject\obj\Debug\DiplomaProject.g.resources
+c:\users\антон\documents\visual studio 2013\Projects\DiplomaProject\DiplomaProject\obj\Debug\DiplomaProject.Properties.Resources.resources
+c:\users\антон\documents\visual studio 2013\Projects\DiplomaProject\DiplomaProject\obj\Debug\DiplomaProject.csproj.GenerateResource.Cache
+c:\users\антон\documents\visual studio 2013\Projects\DiplomaProject\DiplomaProject\obj\Debug\DiplomaProject.exe
+c:\users\антон\documents\visual studio 2013\Projects\DiplomaProject\DiplomaProject\obj\Debug\DiplomaProject.pdb

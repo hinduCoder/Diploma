@@ -1,0 +1,21 @@
+﻿<Window x:Class="DiplomaProject.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <RichTextBox VerticalScrollBarVisibility="Visible
+                     ">
+            <FlowDocument FontSize="20">
+                <Paragraph>
+                    <Run Text="RichTextBox"/>
+                </Paragraph>
+                <BlockUIContainer>
+                    <Grid>
+                        <Image MaxWidth="600" Source="C:\Users\Антон\Pictures\Screenshots\Снимок экрана (2).png"/>
+                        <ResizeGrip MouseEnter="UIElement_OnMouseEnter" MouseLeave="UIElement_OnMouseLeave"/>
+                    </Grid>
+                </BlockUIContainer>
+            </FlowDocument>
+        </RichTextBox>
+    </Grid>
+</Window>
