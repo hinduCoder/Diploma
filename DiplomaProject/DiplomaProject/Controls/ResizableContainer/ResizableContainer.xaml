@@ -1,9 +1,13 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <ControlTemplate x:Key="ResizableControlTemplate">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:resizableContainer="clr-namespace:DiplomaProject.Controls.ResizableContainer">
+    <ControlTemplate x:Key="ResizableControlTemplate" TargetType="resizableContainer:ResizableContainer">
         <Grid>
             <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"/>
             <ResizeGrip x:Name="PartResizeGrip"/>
         </Grid>
     </ControlTemplate>
+    <Style TargetType="resizableContainer:ResizableContainer">
+        <Setter Property="Template" Value="{StaticResource ResizableControlTemplate}"/>
+    </Style>
 </ResourceDictionary>

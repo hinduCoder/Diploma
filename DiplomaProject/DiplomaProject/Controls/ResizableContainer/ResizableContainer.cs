@@ -1,5 +1,6 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Documents;
 using System.Windows.Input;
 
 namespace DiplomaProject.Controls.ResizableContainer {
@@ -16,11 +17,16 @@ namespace DiplomaProject.Controls.ResizableContainer {
 
         void partResizeGrip_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            Mouse.OverrideCursor = Cursors.Arrow;
+            Mouse.OverrideCursor = Cursors.Arrow; 
         }
 
         void partResizeGrip_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e) {
             Mouse.OverrideCursor = Cursors.SizeNWSE;
         }
+    }
+
+    class ImageBlock : Block
+    {
+        
     }
 }
