@@ -34,6 +34,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DevExpress.Mvvm">
+      <HintPath>..\packages\DevExpressMvvm.14.2.3.0\lib\net40-client\DevExpress.Mvvm.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Mvvm.UI">
+      <HintPath>..\packages\DevExpressMvvm.14.2.3.0\lib\net40-client\DevExpress.Mvvm.UI.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Controls.Ribbon" />
@@ -62,7 +68,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controls\BlockImageContainer\BlockImageContainer.cs" />
+    <Compile Include="Controls\BlockImageContainer\BlockImageContainer.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Controls\ResizableAdorner\ResizableAdorner.cs" />
     <Compile Include="Global\Fonts.cs" />
     <Compile Include="MainWindow.xaml.cs">
@@ -88,6 +96,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -97,6 +106,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
