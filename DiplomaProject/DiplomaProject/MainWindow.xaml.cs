@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DiplomaProject.Controls;
 
 namespace DiplomaProject {
     /// <summary>
@@ -21,20 +22,34 @@ namespace DiplomaProject {
     public partial class MainWindow : Window {
         public MainWindow() {
             InitializeComponent();
-            //ImageTest.AddHandler(MouseEnterEvent, new MouseEventHandler(ImageTestOnMouseEnter));
-            //ImageTest.AddHandler(MouseLeaveEvent, new MouseEventHandler(ImageTestOnMouseLeave));
-            //ImageTest.MouseEnter += ImageTestOnMouseEnter; 
-            //ImageTest.MouseLeave += ImageTestOnMouseLeave; 
-           // Loaded += MainWindow_Loaded;
-                
         }
 
-        //void MainWindow_Loaded(object sender, RoutedEventArgs e) {
-        //    var adornerLayer = AdornerLayer.GetAdornerLayer(ImageTest);
-        //    adornerLayer.Add(new ResizableAdorner(ImageTest));
-        //}
         private void TextBoxBase_OnSelectionChanged(object sender, RoutedEventArgs e)
         {
+        }
+
+        private void RichTextBox_OnDrop(object sender, DragEventArgs e)//TODO bitmap
+        {
+            var imageSource = ((String[])e.Data.GetData(DataFormats.FileDrop))[0];
+            
+            Point position = e.GetPosition(RichTextBox);
+            var hitTestResult = VisualTreeHelper.HitTest(RichTextBox, position);
+            var element = hitTestResult.VisualHit;
+            while (!(element is Block) && element != null)
+            {
+                element = LogicalTreeHelper.GetParent(element);
+            }
+            Block block;
+            block = element != null ? RichTextBox.Document.Blocks.First(b => ReferenceEquals(b, element)) : RichTextBox.CaretPosition.Paragraph;
+
+                RichTextBox.Document.Blocks.InsertAfter(block,
+                    new BlockImageContainer {Source = new BitmapImage(new Uri(imageSource))});
+        }
+
+        private void RichTextBox_OnPreviewDragOver(object sender, DragEventArgs e) //TODO bitmap
+        {
+            e.Effects = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.Copy : DragDropEffects.None; 
+            e.Handled = true;
         }
     }
 
