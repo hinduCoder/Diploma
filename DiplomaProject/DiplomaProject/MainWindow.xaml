@@ -4,9 +4,13 @@
         xmlns:linq="clr-namespace:System.Linq;assembly=System.Core"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:DiplomaProject"
+        xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
         xmlns:controls="clr-namespace:DiplomaProject.Controls"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="DiplomaProject.MainWindow"
-        Title="MainWindow" Height="700" Width="1000">
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModel="clr-namespace:DiplomaProject.ViewModel"
+    xmlns:sp="clr-namespace:DiplomaProject.Controls.StylePicker"
+    mc:Ignorable="d" x:Class="DiplomaProject.MainWindow"
+        Title="MainWindow" x:Name="TheWindow" Height="700" Width="1000">
     <Window.Resources>
         <ObjectDataProvider x:Key="FontSizesDataProvider" ObjectType="{x:Type linq:Enumerable}" MethodName="Range">
             <ObjectDataProvider.MethodParameters>
@@ -15,14 +19,15 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
         <CollectionViewSource x:Key="FontSizeCollectionViewSource" Source="{StaticResource FontSizesDataProvider}"/>
+        <DataTemplate DataType="{x:Type viewModel:TextStyle}">
+            <sp:StylePickerItem TextStyle="{Binding Style}" StyleName="{Binding Name}" Command="{Binding DataContext.ApplyStyleCommand, ElementName=TheWindow}" CommandParameter="{Binding TextStyle, RelativeSource={RelativeSource Self}}"/>
+        </DataTemplate>
     </Window.Resources>
+    <Window.DataContext>
+        <viewModel:MainWindowViewModel/>
+    </Window.DataContext>
     <DockPanel>
         <Ribbon DockPanel.Dock="Top" x:Name="Ribbon" >
-            <Ribbon.ApplicationMenu>
-                <RibbonApplicationMenu >
-                    <RibbonApplicationMenuItem Header="Hello _Ribbon" x:Name="MenuItem1"/>
-                </RibbonApplicationMenu>
-            </Ribbon.ApplicationMenu>
             <RibbonTab x:Name="HomeTab" 
 				Header="Текст">
                 <RibbonGroup x:Name="GroupFont" 
@@ -60,8 +65,7 @@
                         </UniformGrid>
                     </Grid>
                 </RibbonGroup>
-                <RibbonGroup x:Name="StyleGroup" Header="Стили">
-                    <RibbonButton Content="RibbonButton" HorizontalAlignment="Left" Height="100" Margin="27,25,-119,-117" VerticalAlignment="Top" Width="100"/>
+                <RibbonGroup x:Name="StyleGroup" Header="Стили"  ItemsSource="{Binding TextStyles}">
 
                 </RibbonGroup>
             </RibbonTab>
@@ -84,8 +88,8 @@
                 </RibbonGroup>
             </RibbonTab>
         </Ribbon>
-        <Grid AllowDrop="True" Background="Transparent">
-            <RichTextBox PreviewDragOver="RichTextBox_OnPreviewDragOver" Drop="RichTextBox_OnDrop" SelectionChanged="TextBoxBase_OnSelectionChanged" VerticalScrollBarVisibility="Visible" Background="Transparent" x:Name="RichTextBox">
+        <Grid AllowDrop="True" Background="LightGray">
+            <RichTextBox PreviewDragOver="RichTextBox_OnPreviewDragOver" Drop="RichTextBox_OnDrop" SelectionChanged="TextBoxBase_OnSelectionChanged" VerticalScrollBarVisibility="Visible" Background="White" x:Name="RichTextBox" Width="850" HorizontalAlignment="Center">
                 <FlowDocument FontSize="20">
                     <Paragraph>
                         <Run Text="RichTextBox"/>
@@ -94,8 +98,13 @@
                         <Run Text="Huy"></Run>
                     </Paragraph>
 
-                    <controls:BlockImageContainer Source="C:\Users\Антон\Pictures\Screenshots\Снимок экрана (2).png"/>
+<!--                    <controls:BlockImageContainer Source="C:\Users\Антон\Pictures\Screenshots\Снимок экрана (2).png"/>-->
                 </FlowDocument>
+                <dxmvvm:Interaction.Behaviors>
+                    <dxmvvm:EventToCommand EventName="SelectionChanged" Command="{Binding TextBoxSelectionChangedCommand}" CommandParameter="{x:Reference RichTextBox}">
+                        
+                    </dxmvvm:EventToCommand>
+                </dxmvvm:Interaction.Behaviors>
             </RichTextBox>
         </Grid>
     </DockPanel>

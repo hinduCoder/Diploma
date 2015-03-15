@@ -14,6 +14,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DiplomaProject.Controls;
+using DiplomaProject.Text;
+using DiplomaProject.Text.Extenstions;
+using DiplomaProject.ViewModel;
 
 namespace DiplomaProject {
     /// <summary>
@@ -23,9 +26,10 @@ namespace DiplomaProject {
         public MainWindow() {
             InitializeComponent();
         }
-
+        
         private void TextBoxBase_OnSelectionChanged(object sender, RoutedEventArgs e)
         {
+            
         }
 
         private void RichTextBox_OnDrop(object sender, DragEventArgs e)//TODO bitmap
@@ -51,7 +55,11 @@ namespace DiplomaProject {
             e.Effects = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.Copy : DragDropEffects.None; 
             e.Handled = true;
         }
+
+        private void ApplyStyle1Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            RichTextBox.Selection.ApplyTextStyle(new Style1());
+        }
     }
 
-    
 }

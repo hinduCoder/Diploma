@@ -20,7 +20,7 @@ namespace DiplomaProject.Controls
         private Image partImage;
         public BlockImageContainer()
         {
-            partImage = new Image { Margin = new Thickness(20), HorizontalAlignment = HorizontalAlignment.Left };
+            partImage = new Image { Margin = new Thickness(20), HorizontalAlignment = HorizontalAlignment.Left, Stretch = Stretch.Uniform};
             Child = partImage;
             partImage.Loaded += OnLoaded;
         }

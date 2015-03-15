@@ -14,7 +14,7 @@ namespace DiplomaProject.Controls
             visualChildren = new VisualCollection(this);
             visualChildren.Add(bottomRightThumb);
 
-            bottomRightThumb.Cursor = Cursors.SizeNWSE;
+            bottomRightThumb.Cursor = Cursors.SizeNS; // Cursors.SizeNWSE;
             bottomRightThumb.Width = bottomRightThumb.Height = 10;
             bottomRightThumb.Background = new SolidColorBrush(Colors.MediumBlue);
             bottomRightThumb.DragDelta += bottomRightThumb_DragDelta;
@@ -36,7 +36,7 @@ namespace DiplomaProject.Controls
         }
 
         protected override Size ArrangeOverride(Size finalSize) {
-            bottomRightThumb.Arrange(new Rect(new Point(finalSize.Width/* - bottomRightThumb.DesiredSize.Width*/, finalSize.Height /*- bottomRightThumb.DesiredSize.Height*/),
+            bottomRightThumb.Arrange(new Rect(new Point(finalSize.Width / 2, finalSize.Height),
                 bottomRightThumb.DesiredSize));
             return finalSize;
         }
