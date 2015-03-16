@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Configuration;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Xml.Serialization;
 using DevExpress.Mvvm;
 using DevExpress.Mvvm.UI.Interactivity;
+using DiplomaProject.Properties;
 using DiplomaProject.Text;
 using DiplomaProject.Text.Extenstions;
 
@@ -14,7 +18,8 @@ namespace DiplomaProject.ViewModel
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private ObservableCollection<TextStyle> _textStyles = new ObservableCollection<TextStyle> { new TextStyle { Style = new Style1(), Name = "Style1" }};
+        private ObservableCollection<TextStyle> _textStyles =
+            new ObservableCollection<TextStyle>(new TextStyleProvider().LoadTextStyles().Select(s => new TextStyle { Name = "Style", Style = s}));
 
         public ObservableCollection<TextStyle> TextStyles
         {
@@ -41,7 +46,7 @@ namespace DiplomaProject.ViewModel
 
         public MainWindowViewModel()
         {
-
+            
         }
     }
 
