@@ -89,7 +89,7 @@
             </RibbonTab>
         </Ribbon>
         <Grid AllowDrop="True" Background="LightGray">
-            <RichTextBox PreviewDragOver="RichTextBox_OnPreviewDragOver" Drop="RichTextBox_OnDrop" SelectionChanged="TextBoxBase_OnSelectionChanged" VerticalScrollBarVisibility="Visible" Background="White" x:Name="RichTextBox" Width="850" HorizontalAlignment="Center">
+            <RichTextBox PreviewDragOver="RichTextBox_OnPreviewDragOver" Drop="RichTextBox_OnDrop" SelectionChanged="TextBoxBase_OnSelectionChanged" VerticalScrollBarVisibility="Visible" Background="White" x:Name="RichTextBox" MaxWidth="850" HorizontalAlignment="Center">
                 <FlowDocument FontSize="20">
                     <Paragraph>
                         <Run Text="RichTextBox"/>

@@ -12,19 +12,69 @@
         <Border Height="55" Width="45" BorderBrush="Silver" x:Name="border" BorderThickness="3" Background="White" Margin="2">
             <Grid>
                 <TextBlock Text="{TemplateBinding StyleName}" VerticalAlignment="Center" Margin="3"/>
-                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="7" FontFamily="Segoe UI Symbol">
+                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="7" FontFamily="Segoe UI Symbol" Name="Settings">
                     <TextBlock.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Change style"></MenuItem>
                         </ContextMenu>
                     </TextBlock.ContextMenu>
                     &#xe115;</TextBlock>
+                <Popup PlacementTarget="{x:Reference border}" Name="SettingsPopup" DataContext="{TemplateBinding TextStyle}">
+                    <Border BorderBrush="Black" BorderThickness="1" Background="White">
+                        <Grid Margin="20">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.Resources>
+                                <Style TargetType="Label">
+                                    <Setter Property="Grid.Column" Value="0"/>
+                                    <Setter Property="Margin" Value="3, 2"/>
+                                </Style>
+                                <Style TargetType="TextBox">
+                                    <Setter Property="Grid.Column" Value="1"/>
+                                    <Setter Property="Margin" Value="3, 2"/>
+                                </Style>
+                            </Grid.Resources>
+                            <Label Grid.Row="0" Content="Font family:"></Label>
+                            <TextBox Grid.Row="0" Text="{Binding FontFamily}"></TextBox>
+
+                            <Label Grid.Row="1" Content="Font size:"></Label>
+                            <TextBox Grid.Row="1" Text="{Binding FontSize}"></TextBox>
+
+                            <Label Grid.Row="2" Content="Font style:"></Label>
+                            <TextBox Grid.Row="2" Text="{Binding FontStyle}"></TextBox>
+
+                            <Label Grid.Row="3" Content="Font weight"></Label>
+                            <TextBox Grid.Row="3" Text="{Binding FontWeight}"></TextBox>
+
+                            <Button Content="OK" Grid.ColumnSpan="2" Grid.Row="4"></Button>
+                        </Grid>
+                    </Border>
+                </Popup>
             </Grid>
         </Border>
         <ControlTemplate.Triggers>
             <Trigger Property="IsChecked" Value="True">
                 <Setter TargetName="border" Property="BorderBrush" Value="SteelBlue"/>
             </Trigger>
+            <EventTrigger SourceName="Settings" RoutedEvent="MouseLeftButtonDown">
+                <BeginStoryboard>
+                    <Storyboard TargetName="SettingsPopup" TargetProperty="IsOpen">
+                        <BooleanAnimationUsingKeyFrames>
+                            <DiscreteBooleanKeyFrame KeyTime="0" Value="True"/>
+                        </BooleanAnimationUsingKeyFrames>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
     

@@ -7,10 +7,7 @@ namespace DiplomaProject.Controls.StylePicker
 {
     public class StylePickerItem : RadioButton
     {
-//        static StylePickerItem()
-//        {
-//            DefaultStyleKeyProperty.OverrideMetadata(typeof(StylePickerItem), new FrameworkPropertyMetadata(typeof(StylePickerItem)));
-//        }
+
 
         public StylePickerItem()
         {
@@ -32,6 +29,22 @@ namespace DiplomaProject.Controls.StylePicker
         {
             get { return (ITextStyle) GetValue(TextStyleProperty); }
             set { SetValue(TextStyleProperty, value); }
+        }
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+            var huy = GetTemplateChild("Settings") as UIElement;
+            huy.MouseLeftButtonDown += huy_MouseLeftButtonDown;
+            huy.MouseLeftButtonUp += huy_MouseLeftButtonUp;
+        }
+
+        void huy_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+
+        }
+
+        void huy_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+           
         }
     }
 }
