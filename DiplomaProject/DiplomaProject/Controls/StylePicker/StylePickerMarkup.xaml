@@ -6,8 +6,27 @@
                     xmlns:viewModel="clr-namespace:DiplomaProject.ViewModel">
     <ControlTemplate x:Key="StylePickerTemplate" TargetType="stylePicker:StylePicker">
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
-            <ItemsPresenter/>
+            <StackPanel Orientation="Horizontal">
+                <ItemsPresenter/>
+                <Button Content="+" FontSize="50" Foreground="Silver">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Height="55" Width="45" BorderBrush="Silver" x:Name="border" BorderThickness="3" Background="White" Margin="2">
+                                <Grid>
+                                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}"  />
+                                </Grid>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="border" Property="BorderBrush" Value="SteelBlue"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </StackPanel>
         </ScrollViewer>
+        
     </ControlTemplate>
     
     

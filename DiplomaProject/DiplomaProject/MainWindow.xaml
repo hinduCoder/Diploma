@@ -64,12 +64,19 @@
                         </UniformGrid>
                     </Grid>
                 </RibbonGroup>
-                <RibbonGroup x:Name="StyleGroup" Header="Стили"  ItemsSource="{Binding TextStyles}">
-                    <RibbonGroup.ItemTemplate>
-                        <DataTemplate>
-                            <sp:StylePickerItem TextStyle="{Binding }" Command="{Binding DataContext.ApplyStyleCommand, ElementName=TheWindow}" CommandParameter="{Binding TextStyle, RelativeSource={RelativeSource Self}}"/>
-                        </DataTemplate>
-                    </RibbonGroup.ItemTemplate>
+                <RibbonGroup x:Name="StyleGroup" Header="Стили" >
+                    <sp:StylePicker ItemsSource="{Binding TextStyles}">
+                        <sp:StylePicker.ItemTemplate>
+                            <DataTemplate>
+                                <sp:StylePickerItem TextStyle="{Binding}" Command="{Binding DataContext.ApplyStyleCommand, ElementName=TheWindow}" CommandParameter="{Binding TextStyle, RelativeSource={RelativeSource Self}}"/>
+                            </DataTemplate>
+                        </sp:StylePicker.ItemTemplate>
+                    </sp:StylePicker>
+<!--                    <RibbonGroup.ItemTemplate>-->
+<!--                        <DataTemplate>-->
+<!--                            <sp:StylePickerItem TextStyle="{Binding }" Command="{Binding DataContext.ApplyStyleCommand, ElementName=TheWindow}" CommandParameter="{Binding TextStyle, RelativeSource={RelativeSource Self}}"/>-->
+<!--                        </DataTemplate>-->
+<!--                    </RibbonGroup.ItemTemplate>-->
                 </RibbonGroup>
             </RibbonTab>
             <RibbonTab Header="Test">
