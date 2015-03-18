@@ -18,10 +18,10 @@ namespace DiplomaProject.ViewModel
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private ObservableCollection<TextStyle> _textStyles =
-            new ObservableCollection<TextStyle>(new TextStyleProvider().LoadTextStyles().Select(s => new TextStyle { Name = "Style", Style = s}));
+        private ObservableCollection<ITextStyle> _textStyles =
+            new ObservableCollection<ITextStyle>(new TextStyleProvider().LoadTextStyles());//.Select(s => new TextStyle { Name = "Style", Style = s}));
 
-        public ObservableCollection<TextStyle> TextStyles
+        public ObservableCollection<ITextStyle> TextStyles
         {
             get { return _textStyles; }
             set { SetProperty(ref _textStyles, value, () => TextStyles); }
@@ -50,10 +50,10 @@ namespace DiplomaProject.ViewModel
         }
     }
 
-    public class TextStyle
-    {
-        public ITextStyle Style { get; set; }
-        public string Name { get; set; }
-    }
+//    public class TextStyle
+//    {
+//        public ITextStyle Style { get; set; }
+//        public string Name { get; set; }
+//    }
 
 }

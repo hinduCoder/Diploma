@@ -51,6 +51,7 @@ namespace DiplomaProject.Text
         public StyleSerializationWrapper() {}
         public StyleSerializationWrapper(ITextStyle style)
         {
+            Name = style.Name;
             IsOneParagraph = style.IsOneParagraph;
             FontWeight = style.FontWeight.ToString();
             FontFamily = style.FontFamily.ToString();
@@ -58,6 +59,9 @@ namespace DiplomaProject.Text
             FontSize = style.FontSize;
 
         }
+        [XmlAttribute]
+        public string Name { get; set; }
+
         [XmlAttribute]
         public bool IsOneParagraph { get; set; }
 
@@ -77,6 +81,7 @@ namespace DiplomaProject.Text
         {
             return new TextStyleImpl
             {
+                Name = Name,
                 IsOneParagraph = IsOneParagraph,
                 FontSize = FontSize,
                 FontFamily = new FontFamily(FontFamily),
@@ -87,6 +92,7 @@ namespace DiplomaProject.Text
     }
     public class TextStyleImpl : ITextStyle
     {
+        public string Name { get; set; }
         public bool IsOneParagraph { get; set; }
         public FontFamily FontFamily { get; set; }
         public FontWeight FontWeight { get; set; }

@@ -9,6 +9,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModel="clr-namespace:DiplomaProject.ViewModel"
     xmlns:sp="clr-namespace:DiplomaProject.Controls.StylePicker"
+    xmlns:text="clr-namespace:DiplomaProject.Text"
     mc:Ignorable="d" x:Class="DiplomaProject.MainWindow"
         Title="MainWindow" x:Name="TheWindow" Height="700" Width="1000">
     <Window.Resources>
@@ -19,9 +20,7 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
         <CollectionViewSource x:Key="FontSizeCollectionViewSource" Source="{StaticResource FontSizesDataProvider}"/>
-        <DataTemplate DataType="{x:Type viewModel:TextStyle}">
-            <sp:StylePickerItem TextStyle="{Binding Style}" StyleName="{Binding Name}" Command="{Binding DataContext.ApplyStyleCommand, ElementName=TheWindow}" CommandParameter="{Binding TextStyle, RelativeSource={RelativeSource Self}}"/>
-        </DataTemplate>
+
     </Window.Resources>
     <Window.DataContext>
         <viewModel:MainWindowViewModel/>
@@ -66,7 +65,11 @@
                     </Grid>
                 </RibbonGroup>
                 <RibbonGroup x:Name="StyleGroup" Header="Стили"  ItemsSource="{Binding TextStyles}">
-
+                    <RibbonGroup.ItemTemplate>
+                        <DataTemplate>
+                            <sp:StylePickerItem TextStyle="{Binding }" Command="{Binding DataContext.ApplyStyleCommand, ElementName=TheWindow}" CommandParameter="{Binding TextStyle, RelativeSource={RelativeSource Self}}"/>
+                        </DataTemplate>
+                    </RibbonGroup.ItemTemplate>
                 </RibbonGroup>
             </RibbonTab>
             <RibbonTab Header="Test">

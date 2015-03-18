@@ -56,10 +56,6 @@ namespace DiplomaProject {
             e.Handled = true;
         }
 
-        private void ApplyStyle1Button_OnClick(object sender, RoutedEventArgs e)
-        {
-            RichTextBox.Selection.ApplyTextStyle(new Style1());
-        }
     }
 
 }
