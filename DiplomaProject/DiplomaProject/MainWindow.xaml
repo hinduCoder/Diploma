@@ -27,6 +27,12 @@
     </Window.DataContext>
     <DockPanel>
         <Ribbon DockPanel.Dock="Top" x:Name="Ribbon" >
+            <Ribbon.ApplicationMenu>
+                <RibbonApplicationMenu>
+                    <RibbonApplicationMenuItem Header="Open"/>
+                    <RibbonApplicationMenuItem Header="Save"/>
+                </RibbonApplicationMenu>
+            </Ribbon.ApplicationMenu>
             <RibbonTab x:Name="HomeTab" 
 				Header="Текст">
                 <RibbonGroup x:Name="GroupFont" 
@@ -65,18 +71,16 @@
                     </Grid>
                 </RibbonGroup>
                 <RibbonGroup x:Name="StyleGroup" Header="Стили" >
-                    <sp:StylePicker ItemsSource="{Binding TextStyles}">
+                    <RibbonGroup.DataContext>
+                        <viewModel:StylesGroupViewModel/>
+                    </RibbonGroup.DataContext>
+                    <sp:StylePicker ItemsSource="{Binding TextStyles}" AddNewStyleCommand="{Binding AddStyleCommand}">
                         <sp:StylePicker.ItemTemplate>
                             <DataTemplate>
                                 <sp:StylePickerItem TextStyle="{Binding}" Command="{Binding DataContext.ApplyStyleCommand, ElementName=TheWindow}" CommandParameter="{Binding TextStyle, RelativeSource={RelativeSource Self}}"/>
                             </DataTemplate>
                         </sp:StylePicker.ItemTemplate>
                     </sp:StylePicker>
-<!--                    <RibbonGroup.ItemTemplate>-->
-<!--                        <DataTemplate>-->
-<!--                            <sp:StylePickerItem TextStyle="{Binding }" Command="{Binding DataContext.ApplyStyleCommand, ElementName=TheWindow}" CommandParameter="{Binding TextStyle, RelativeSource={RelativeSource Self}}"/>-->
-<!--                        </DataTemplate>-->
-<!--                    </RibbonGroup.ItemTemplate>-->
                 </RibbonGroup>
             </RibbonTab>
             <RibbonTab Header="Test">

@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Media;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Xml.XPath;
 using DiplomaProject.Properties;
 
 namespace DiplomaProject.Text
@@ -15,7 +18,8 @@ namespace DiplomaProject.Text
     {
         private readonly FileInfo _file = new FileInfo(String.Format(@"{0}\{1}\{2}", Environment.CurrentDirectory, Resources.AssetsFolder,
             Resources.TextStylesFile));
-        private readonly XmlSerializer _xmlSerializer = new XmlSerializer(typeof(StyleCollectionSerializationWrapper));
+        private readonly XmlSerializer _xmlSerializer = new XmlSerializer(typeof(StyleCollectionSerializationProxy));
+        private List<ITextStyle> _styles;
 
         public TextStyleProvider()
         {
@@ -28,28 +32,47 @@ namespace DiplomaProject.Text
 
         public IReadOnlyList<ITextStyle> LoadTextStyles()
         {
+            if (_styles != null)
+            {
+                return _styles; // Lazy
+            }
             using (var xmlTextReader = new XmlTextReader(_file.OpenRead()))
             {
                 var result = _xmlSerializer.Deserialize(xmlTextReader);
-                return ((StyleCollectionSerializationWrapper)result).Styles.Select(s => s.ToRealTextStyle()).ToList();
+                _styles = ((StyleCollectionSerializationProxy)result).Styles.Select(s => s.ToRealTextStyle()).ToList();
+                return _styles;
+            }
+        }
+
+        public void AddTextStyle(ITextStyle textStyle)
+        {
+            _styles.Add(textStyle);
+        }
+
+        public void DumpTextStyles(IList<ITextStyle> textStyles)
+        {
+            _styles = new List<ITextStyle>(textStyles);
+            using (var xmlTextWriter = new XmlTextWriter(_file.OpenWrite(), Encoding.Default))
+            {
+                _xmlSerializer.Serialize(xmlTextWriter, new StyleCollectionSerializationProxy { Styles = new List<StyleSerializationProxy>(textStyles.Select(s => new StyleSerializationProxy(s)))});
             }
         }
     }
     [XmlRoot("Styles")]
-    public class StyleCollectionSerializationWrapper
+    public class StyleCollectionSerializationProxy
     {
-        public StyleCollectionSerializationWrapper()
+        public StyleCollectionSerializationProxy()
         {
-            Styles = new List<StyleSerializationWrapper>();
+            Styles = new List<StyleSerializationProxy>();
         }
         [XmlArray("StyleCollection")]
         [XmlArrayItem("Style")]
-        public List<StyleSerializationWrapper> Styles { get; set; }
+        public List<StyleSerializationProxy> Styles { get; set; }
     }
-    public class StyleSerializationWrapper
+    public class StyleSerializationProxy
     {
-        public StyleSerializationWrapper() {}
-        public StyleSerializationWrapper(ITextStyle style)
+        public StyleSerializationProxy() {}
+        public StyleSerializationProxy(ITextStyle style)
         {
             Name = style.Name;
             IsOneParagraph = style.IsOneParagraph;

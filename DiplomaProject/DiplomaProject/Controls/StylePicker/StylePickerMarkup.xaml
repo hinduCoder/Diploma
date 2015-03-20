@@ -4,48 +4,29 @@
                     xmlns:text="clr-namespace:DiplomaProject.Text"
                     xmlns:local="clr-namespace:DiplomaProject"
                     xmlns:viewModel="clr-namespace:DiplomaProject.ViewModel">
+    <ControlTemplate x:Key="AddStyleButtonTemplate" TargetType="Button">
+        <Border Height="55" Width="45" BorderBrush="Silver" x:Name="border" BorderThickness="3" Background="White" Margin="2">
+            <Grid>
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}"/>
+            </Grid>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter TargetName="border" Property="BorderBrush" Value="SteelBlue"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    
     <ControlTemplate x:Key="StylePickerTemplate" TargetType="stylePicker:StylePicker">
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
             <StackPanel Orientation="Horizontal">
                 <ItemsPresenter/>
-                <Button Content="+" FontSize="50" Foreground="Silver">
-                    <Button.Template>
-                        <ControlTemplate TargetType="Button">
-                            <Border Height="55" Width="45" BorderBrush="Silver" x:Name="border" BorderThickness="3" Background="White" Margin="2">
-                                <Grid>
-                                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}"  />
-                                </Grid>
-                            </Border>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsPressed" Value="True">
-                                    <Setter TargetName="border" Property="BorderBrush" Value="SteelBlue"/>
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-            </StackPanel>
-        </ScrollViewer>
-        
-    </ControlTemplate>
-    
-    
-    
-    <ControlTemplate x:Key="StylePickerItemTemplate" TargetType="stylePicker:StylePickerItem">
-        <Border Height="55" Width="45" BorderBrush="Silver" x:Name="border" BorderThickness="3" Background="White" Margin="2">
-            <Grid>
-                <TextBlock Text="{Binding TextStyle.Name, RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Center" Margin="3"/>
-                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="7" FontFamily="Segoe UI Symbol" Name="Settings">
-                    <TextBlock.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="Change style"></MenuItem>
-                        </ContextMenu>
-                    </TextBlock.ContextMenu>
-                    &#xe115;</TextBlock>
-                <Popup PlacementTarget="{x:Reference border}" Name="SettingsPopup" DataContext="{TemplateBinding TextStyle}">
+                <Button Content="+" FontSize="50" Foreground="Silver" Name="AddButton" Template="{StaticResource AddStyleButtonTemplate}" />
+                <Popup MinWidth="250"  PlacementTarget="{x:Reference AddButton}" Name="SettingsPopup" DataContext="{TemplateBinding NewTextStyle}">
                     <Border BorderBrush="Black" BorderThickness="1" Background="White">
                         <Grid Margin="20">
                             <Grid.RowDefinitions>
+                                <RowDefinition/>
                                 <RowDefinition/>
                                 <RowDefinition/>
                                 <RowDefinition/>
@@ -71,19 +52,103 @@
                                     <Setter Property="Margin" Value="3, 2"/>
                                 </Style>
                             </Grid.Resources>
-                            <Label Grid.Row="0" Content="Font family:"></Label>
-                            <TextBox Grid.Row="0" Text="{Binding FontFamily}"></TextBox>
+                            <Label Grid.Row="0" Content="Name: "/>
+                            <TextBox Grid.Row="0" Text="{Binding Name}"></TextBox>
+                            <Label Grid.Row="1" Content="Font family:"/>
+                            <TextBox Grid.Row="1" Text="{Binding FontFamily}"/>
 
-                            <Label Grid.Row="1" Content="Font size:"></Label>
-                            <TextBox Grid.Row="1" Text="{Binding FontSize}"></TextBox>
+                            <Label Grid.Row="2" Content="Font size:"/>
+                            <TextBox Grid.Row="2" Text="{Binding FontSize}"/>
 
-                            <Label Grid.Row="2" Content="Font style:"></Label>
-                            <ComboBox Grid.Row="2" ItemsSource="{x:Static text:FontParameters.FontStyles}" SelectedItem="{Binding FontStyle, Converter={local:FontStyleToStringConverter}}"/>
+                            <Label Grid.Row="3" Content="Font style:"/>
+                            <ComboBox Grid.Row="3" ItemsSource="{x:Static text:FontParameters.FontStyles}" SelectedItem="{Binding FontStyle, Converter={local:FontStyleToStringConverter}}"/>
 
-                            <Label Grid.Row="3" Content="Font weight"></Label>
-                            <ComboBox Grid.Row="3" ItemsSource="{x:Static text:FontParameters.FontWeights}" SelectedItem="{Binding FontWeight, Converter={local:FontWeightToStringConverter}}"/>
+                            <Label Grid.Row="4" Content="Font weight"/>
+                            <ComboBox Grid.Row="4" ItemsSource="{x:Static text:FontParameters.FontWeights}" SelectedItem="{Binding FontWeight, Converter={local:FontWeightToStringConverter}}"/>
 
-                            <Button Name="SaveStyleButton" Content="OK" Grid.ColumnSpan="2" Grid.Row="4"></Button>
+                            <Button Name="SaveStyleButton" Content="OK" Command="{TemplateBinding AddNewStyleCommand}" CommandParameter="{TemplateBinding NewTextStyle}" Grid.ColumnSpan="2" Grid.Row="5"/>
+                        </Grid>
+                    </Border>
+                </Popup>
+            </StackPanel>
+        </ScrollViewer>
+        <ControlTemplate.Triggers>
+            <EventTrigger SourceName="AddButton" RoutedEvent="Button.Click">
+                <BeginStoryboard>
+                    <Storyboard TargetName="SettingsPopup" TargetProperty="IsOpen">
+                        <BooleanAnimationUsingKeyFrames>
+                            <DiscreteBooleanKeyFrame KeyTime="0" Value="True"/>
+                        </BooleanAnimationUsingKeyFrames>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+            <EventTrigger SourceName="SaveStyleButton" RoutedEvent="Button.Click">
+                <BeginStoryboard>
+                    <Storyboard TargetName="SettingsPopup" TargetProperty="IsOpen">
+                        <BooleanAnimationUsingKeyFrames>
+                            <DiscreteBooleanKeyFrame KeyTime="0" Value="False"/>
+                        </BooleanAnimationUsingKeyFrames>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    
+    <ControlTemplate x:Key="StylePickerItemTemplate" TargetType="stylePicker:StylePickerItem">
+        <Border Height="55" Width="45" BorderBrush="Silver" x:Name="border" BorderThickness="3" Background="White" Margin="2">
+            <Grid>
+                <TextBlock Text="{Binding TextStyle.Name, RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Center" Margin="3"/>
+                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="7" FontFamily="Segoe UI Symbol" Name="Settings">
+                    <TextBlock.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Change style"></MenuItem>
+                        </ContextMenu>
+                    </TextBlock.ContextMenu>
+                    &#xe115;</TextBlock>
+                <Popup MinWidth="250" PlacementTarget="{x:Reference border}" Name="SettingsPopup" DataContext="{TemplateBinding TextStyle}">
+                    <Border BorderBrush="Black" BorderThickness="1" Background="White">
+                        <Grid Margin="20">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.Resources>
+                                <Style TargetType="Label">
+                                    <Setter Property="Grid.Column" Value="0"/>
+                                    <Setter Property="Margin" Value="3, 2"/>
+                                </Style>
+                                <Style TargetType="TextBox">
+                                    <Setter Property="Grid.Column" Value="1"/>
+                                    <Setter Property="Margin" Value="3, 2"/>
+                                </Style>
+                                <Style TargetType="ComboBox">
+                                    <Setter Property="Grid.Column" Value="1"/>
+                                    <Setter Property="Margin" Value="3, 2"/>
+                                </Style>
+                            </Grid.Resources>
+                            <Label Grid.Row="0" Content="Name: "/>
+                            <TextBox Grid.Row="0" Text="{Binding Name}"></TextBox>
+                            <Label Grid.Row="1" Content="Font family:"/>
+                            <TextBox Grid.Row="1" Text="{Binding FontFamily}"/>
+
+                            <Label Grid.Row="2" Content="Font size:"/>
+                            <TextBox Grid.Row="2" Text="{Binding FontSize}"/>
+
+                            <Label Grid.Row="3" Content="Font style:"/>
+                            <ComboBox Grid.Row="3" ItemsSource="{x:Static text:FontParameters.FontStyles}" SelectedItem="{Binding FontStyle, Converter={local:FontStyleToStringConverter}}"/>
+
+                            <Label Grid.Row="4" Content="Font weight"/>
+                            <ComboBox Grid.Row="4" ItemsSource="{x:Static text:FontParameters.FontWeights}" SelectedItem="{Binding FontWeight, Converter={local:FontWeightToStringConverter}}"/>
+                            <Button Name="SaveStyleButton" Content="OK" Grid.ColumnSpan="2" Grid.Row="5"></Button>
                         </Grid>
                     </Border>
                 </Popup>

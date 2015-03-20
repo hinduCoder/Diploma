@@ -26,11 +26,11 @@ namespace DiplomaProject.ViewModel
             get { return _textStyles; }
             set { SetProperty(ref _textStyles, value, () => TextStyles); }
         }
-
         public ICommand ApplyStyleCommand
         {
             get {  return new DelegateCommand<ITextStyle>(ApplyStyle);}
         }
+        public ViewModelBase StylesGroupVM { get; set; }
 
         private void ApplyStyle(ITextStyle style)
         {
@@ -46,14 +46,7 @@ namespace DiplomaProject.ViewModel
 
         public MainWindowViewModel()
         {
-            
+            StylesGroupVM = new StylesGroupViewModel();
         }
     }
-
-//    public class TextStyle
-//    {
-//        public ITextStyle Style { get; set; }
-//        public string Name { get; set; }
-//    }
-
 }

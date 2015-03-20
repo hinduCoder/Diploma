@@ -73,6 +73,7 @@
     <Compile Include="Text\Style\ITextStyle.cs" />
     <Compile Include="Text\Style\Serialization.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
+    <Compile Include="ViewModel\StylesGroupViewModel.cs" />
     <Page Include="Controls\StylePicker\StylePickerMarkup.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
