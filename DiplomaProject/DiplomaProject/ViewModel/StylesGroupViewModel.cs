@@ -23,7 +23,9 @@ namespace DiplomaProject.ViewModel
         {
             get { return new DelegateCommand<ITextStyle>(s => _textStyles.Add(s)); }
         }
-
+        public ICommand DeleteTextStyleCommand {
+            get { return new DelegateCommand<ITextStyle>(s => _textStyles.Remove(s)); }
+        }
         public StylesGroupViewModel()
         {
             _textStyles = new ObservableCollection<ITextStyle>(_textStyleProvider.LoadTextStyles());

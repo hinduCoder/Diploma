@@ -77,7 +77,13 @@
                     <sp:StylePicker ItemsSource="{Binding TextStyles}" AddNewStyleCommand="{Binding AddStyleCommand}">
                         <sp:StylePicker.ItemTemplate>
                             <DataTemplate>
-                                <sp:StylePickerItem TextStyle="{Binding}" Command="{Binding DataContext.ApplyStyleCommand, ElementName=TheWindow}" CommandParameter="{Binding TextStyle, RelativeSource={RelativeSource Self}}"/>
+                                <sp:StylePickerItem TextStyle="{Binding}" Command="{Binding DataContext.ApplyStyleCommand, ElementName=TheWindow}" CommandParameter="{Binding TextStyle, RelativeSource={RelativeSource Self}}">
+                                    <sp:StylePickerItem.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="Delete" CommandParameter="{Binding }" Command="{Binding DataContext.DeleteTextStyleCommand, Source={x:Reference StyleGroup}}"/>
+                                        </ContextMenu>
+                                    </sp:StylePickerItem.ContextMenu>    
+                                </sp:StylePickerItem>
                             </DataTemplate>
                         </sp:StylePicker.ItemTemplate>
                     </sp:StylePicker>
@@ -104,7 +110,7 @@
         </Ribbon>
         <Grid AllowDrop="True" Background="LightGray">
             <RichTextBox PreviewDragOver="RichTextBox_OnPreviewDragOver" Drop="RichTextBox_OnDrop" SelectionChanged="TextBoxBase_OnSelectionChanged" VerticalScrollBarVisibility="Visible" Background="White" x:Name="RichTextBox" MaxWidth="850" HorizontalAlignment="Center">
-                <FlowDocument FontSize="20">
+                <FlowDocument>
                     <Paragraph>
                         <Run Text="RichTextBox"/>
                     </Paragraph>
