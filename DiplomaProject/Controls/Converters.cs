@@ -7,10 +7,10 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace Ekh {
+namespace Controls {
     public class Converter : MarkupExtension, IValueConverter {
         public override sealed object ProvideValue(IServiceProvider serviceProvider) {
-            return this; System.Windows.Media.Stretch
+            return this;
         }
         public virtual object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) {
             return Convert(value);    
