@@ -46,8 +46,6 @@ namespace DiplomaProject.ViewModel
 
         public TextSelection CurrentSelection { get; set; }
 
-     
-
         public MainWindowViewModel()
         {
             StylesGroupVM = new StylesGroupViewModel();

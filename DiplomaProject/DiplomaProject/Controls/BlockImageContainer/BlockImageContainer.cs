@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Media;
+using System.Xaml;
 
 namespace DiplomaProject.Controls
 {
@@ -18,6 +19,7 @@ namespace DiplomaProject.Controls
         }
 
         private Image partImage;
+        
         public BlockImageContainer()
         {
             partImage = new Image { Margin = new Thickness(20), HorizontalAlignment = HorizontalAlignment.Left, Stretch = Stretch.Uniform};
