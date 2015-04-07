@@ -4,6 +4,6 @@
         xmlns:local="clr-namespace:Controls"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <local:Cartesian/>
+        <local:Formula/>
     </Grid>
 </Window>

@@ -17,6 +17,7 @@ namespace Controls {
     /// <summary>
     /// Interaction logic for Drawer.xaml
     /// </summary>
+    /// 
     public partial class Drawer : UserControl {
         public Drawer() {
             InitializeComponent();
