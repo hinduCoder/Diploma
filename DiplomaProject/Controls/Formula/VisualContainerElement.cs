@@ -4,6 +4,10 @@ using System.Windows.Media;
 namespace Controls
 {
     public class VisualContainerElement : FrameworkElement {
+        public static readonly DependencyProperty VisualProperty = DependencyProperty.Register(
+            "Visual", typeof (DrawingVisual), typeof (VisualContainerElement), new PropertyMetadata(default(DrawingVisual)));
+
+        
         private DrawingVisual _visual;
 
         public VisualContainerElement()
@@ -13,14 +17,17 @@ namespace Controls
 
         public DrawingVisual Visual {
             get { return _visual; }
-            set {
-                RemoveVisualChild(_visual);
-                _visual = value;
-                AddVisualChild(_visual);
+            set { SetVisual(value); }
+        }
 
-                InvalidateMeasure();
-                InvalidateVisual();
-            }
+        private void SetVisual(DrawingVisual value)
+        {
+            RemoveVisualChild(_visual);
+            _visual = value;
+            AddVisualChild(_visual);
+
+            InvalidateMeasure();
+            InvalidateVisual();
         }
 
         protected override int VisualChildrenCount {

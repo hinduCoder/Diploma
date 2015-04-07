@@ -55,6 +55,10 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WpfMath, Version=0.1.0.29424, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Desktop\TeXExpressionVisualizer\wpf-math\WpfMath\bin\Debug\WpfMath.dll</HintPath>
+    </Reference>
     <Reference Include="Xceed.Wpf.Toolkit">
       <HintPath>..\..\Extended WPF Toolkit Binaries\Xceed.Wpf.Toolkit.dll</HintPath>
     </Reference>
@@ -64,6 +68,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\BlockImageContainer\DrawerBlock.cs" />
+    <Compile Include="Controls\BlockImageContainer\FormulaBlock.cs" />
+    <Compile Include="Controls\Formula\FormulaControl.cs" />
+    <Compile Include="Controls\Formula\VisualContainerElement.cs" />
     <Compile Include="Controls\StylePicker\StylePicker.cs" />
     <Compile Include="Controls\StylePicker\StylePickerItem.cs" />
     <Compile Include="DocumentSerialization\FlowDocumentSerializer.cs" />
@@ -73,6 +81,7 @@
     <Compile Include="DocumentSerialization\xamlserializerfactory.cs" />
     <Compile Include="DocumentSerialization\xamlserializerwriter.cs" />
     <Compile Include="Misc\Converters.cs" />
+    <Compile Include="Misc\DependencyPropertyRegistator.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Text\Extenstions\ParagraphExtension.cs" />
@@ -81,6 +90,10 @@
     <Compile Include="Text\Style\Serialization.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\StylesGroupViewModel.cs" />
+    <Page Include="Controls\Formula\FormulaControlMarkup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\StylePicker\StylePickerMarkup.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -120,6 +133,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -133,6 +147,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Assets\RibbonApplicationMenuIconMin.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Controls\Controls.csproj">
+      <Project>{764E9893-F31A-418F-A24F-22BBDDDBF402}</Project>
+      <Name>Controls</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

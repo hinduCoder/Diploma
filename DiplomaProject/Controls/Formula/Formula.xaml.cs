@@ -20,13 +20,9 @@ namespace Controls {
         }
 
         private void renderButton_Click(object sender, RoutedEventArgs e) {
-            TexFormula formula;
-            
-                formula = _formulaParser.Parse(inputTextBox.Text);
-
+            var formula = _formulaParser.Parse(inputTextBox.Text);
             var visual = new DrawingVisual();
             var renderer = formula.GetRenderer(TexStyle.Display, 20d);
-            var formulaSize = renderer.RenderSize;
 
             using(var drawingContext = visual.RenderOpen()) {
                 renderer.Render(drawingContext, 0, 1);

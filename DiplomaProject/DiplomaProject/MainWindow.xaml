@@ -9,6 +9,7 @@
     xmlns:viewModel="clr-namespace:DiplomaProject.ViewModel"
     xmlns:sp="clr-namespace:DiplomaProject.Controls.StylePicker"
     xmlns:controls="clr-namespace:DiplomaProject.Controls"
+    xmlns:c="clr-namespace:Controls;assembly=Controls"
     mc:Ignorable="d" x:Class="DiplomaProject.MainWindow"
         Title="MainWindow" x:Name="TheWindow" Height="700" Width="1000">
     <Window.Resources>
@@ -109,16 +110,13 @@
             </RibbonTab>
         </Ribbon>
         <Grid AllowDrop="True" Background="LightGray">
-            <RichTextBox PreviewDragOver="RichTextBox_OnPreviewDragOver" Drop="RichTextBox_OnDrop" VerticalScrollBarVisibility="Visible" Background="White" x:Name="RichTextBox" MaxWidth="850" HorizontalAlignment="Center" TextChanged="RichTextBox_OnTextChanged">
+            <RichTextBox PreviewDragOver="RichTextBox_OnPreviewDragOver" Drop="RichTextBox_OnDrop" VerticalScrollBarVisibility="Visible" Background="White" x:Name="RichTextBox" MaxWidth="850" HorizontalAlignment="Center" TextChanged="RichTextBox_OnTextChanged" IsDocumentEnabled="True">
                 <FlowDocument>
                     <Paragraph>
                         <Run Text="RichTextBox"/>
                     </Paragraph>
-                    <controls:BlockImageContainer Source="C:\Users\Антон\Pictures\Screenshots\Снимок экрана (2).png"/>
-
-                    <Paragraph>
-                        <Run Text="Huy"></Run>
-                    </Paragraph>
+                    <controls:FormulaBlock Formula="L = \int_a^b \sqrt[4]{ |\sum_{i,j=1}^ng_{ij}(\gamma(t)) (\frac{d}{dt}x^i\circ\gamma(t) ) (\frac{d}{dt}x^j\circ\gamma(t) ) |}dt"></controls:FormulaBlock>
+                   
                 </FlowDocument>
                 <dxmvvm:Interaction.Behaviors>
                     <dxmvvm:EventToCommand EventName="SelectionChanged" Command="{Binding TextBoxSelectionChangedCommand}" CommandParameter="{x:Reference RichTextBox}">

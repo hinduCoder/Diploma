@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Documents.Serialization;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -25,6 +26,7 @@ namespace DiplomaProject
 
         public MainWindow()
         {
+            //SerializerProvider.RegisterSerializer(SerializerDescriptor.CreateFromFactoryInstance(new XamlSerializerFactory()), false);
             InitializeComponent();
         }
 
@@ -104,6 +106,7 @@ namespace DiplomaProject
             {
                 case 1:
                     FlowDocumentSerializer.SaveDocumentToXaml(RichTextBox.Document, saveFileDialog.FileName);
+//                    new FlowDocumentSerializer().SerializeToXaml(RichTextBox.Document, saveFileDialog.FileName);
                     IsDocumentChanged = false;
                     break;
                 case 2:

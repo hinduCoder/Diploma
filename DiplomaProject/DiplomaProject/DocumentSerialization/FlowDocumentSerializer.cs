@@ -43,7 +43,7 @@ namespace DiplomaProject.DocumentSerialization
         public static void SaveDocumentToXaml(FlowDocument document, string fileName) {
             using(var fs = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.Write)) {
                 var content = new TextRange(document.ContentStart, document.ContentEnd);
-                content.Save(fs, DataFormats.Xaml, true);
+                content.Save(fs, DataFormats.XamlPackage, true);
             }
         }
 

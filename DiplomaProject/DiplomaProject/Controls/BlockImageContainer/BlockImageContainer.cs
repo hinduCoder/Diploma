@@ -4,13 +4,14 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Xaml;
+using DiplomaProject.Annotations;
 
 namespace DiplomaProject.Controls
 {
     public class BlockImageContainer : BlockUIContainer
     {
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(
-            "Source", typeof (ImageSource), typeof (BlockImageContainer), new PropertyMetadata(default(ImageSource)));
+            "Source", typeof (ImageSource), typeof (BlockImageContainer), new PropertyMetadata(null));
 
         public ImageSource Source
         {
