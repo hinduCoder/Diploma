@@ -26,6 +26,7 @@ namespace DiplomaProject.Controls
             partImage = new Image { Margin = new Thickness(20), HorizontalAlignment = HorizontalAlignment.Left, Stretch = Stretch.Uniform};
             Child = partImage;
             partImage.Loaded += OnLoaded;
+            
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)

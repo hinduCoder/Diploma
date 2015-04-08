@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace DiplomaProject.Controls
@@ -13,6 +14,7 @@ namespace DiplomaProject.Controls
             var registator = new DependencyPropertyRegistator<VisualContainerElement>();
             VisualProperty = registator.Register<Visual>("Visual", propertyChanged: VisualChanged);
         }
+
 
         private static void VisualChanged(DependencyObject dependencyObject,
             DependencyPropertyChangedEventArgs e)

@@ -115,7 +115,7 @@
                     <Paragraph>
                         <Run Text="RichTextBox"/>
                     </Paragraph>
-                    <controls:FormulaBlock Formula="L = \int_a^b \sqrt[4]{ |\sum_{i,j=1}^ng_{ij}(\gamma(t)) (\frac{d}{dt}x^i\circ\gamma(t) ) (\frac{d}{dt}x^j\circ\gamma(t) ) |}dt"></controls:FormulaBlock>
+                    <controls:FormulaBlock Formula="L = \int_a^b \sqrt[4]{ |\sum_{i,j=1}^ng_{ij}(\gamma(t)) (\frac{d}{dt}x^i\circ\gamma(t) ) (\frac{d}{dt}x^j\circ\gamma(t) ) |}dt"/>
                    
                 </FlowDocument>
                 <dxmvvm:Interaction.Behaviors>

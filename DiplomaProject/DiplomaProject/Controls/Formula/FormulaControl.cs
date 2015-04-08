@@ -1,6 +1,8 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace DiplomaProject.Controls
@@ -9,15 +11,18 @@ namespace DiplomaProject.Controls
     {
         public static readonly DependencyProperty FormulaProperty;
         public static readonly DependencyProperty FormulaVisualProperty;
+        public static readonly DependencyProperty EditableNowProperty;
         private static readonly DependencyPropertyKey FormulaVisualPropertyKey;
+        private static readonly DependencyPropertyKey EditableNowPropertyKey;
 
         static FormulaControl()
         {
             var registator = new DependencyPropertyRegistator<FormulaControl>();
             FormulaProperty = registator.Register<string>("Formula", propertyChanged:FormulaChanged);
-            FormulaVisualPropertyKey = DependencyProperty.RegisterReadOnly("FormulaVisual", typeof (DrawingVisual),
-                typeof (FormulaControl), new PropertyMetadata());
+            FormulaVisualPropertyKey = registator.RegisterReadOnly<DrawingVisual>("FormulaVisual");
+            EditableNowPropertyKey = registator.RegisterReadOnly<bool>("EditableNow");
             FormulaVisualProperty = FormulaVisualPropertyKey.DependencyProperty;
+            EditableNowProperty = EditableNowPropertyKey.DependencyProperty;
         }
 
         private readonly TexFormulaParser _formulaParser;
@@ -26,7 +31,12 @@ namespace DiplomaProject.Controls
         {
             TexFormulaParser.Initialize();
             _formulaParser = new TexFormulaParser();
+        }
 
+        protected override void OnMouseDoubleClick(MouseButtonEventArgs e)
+        {
+            base.OnMouseDoubleClick(e);
+            SetValue(EditableNowPropertyKey, true);
         }
 
         private static void FormulaChanged(DependencyObject dependencyObject,
@@ -45,6 +55,7 @@ namespace DiplomaProject.Controls
             }
 
             formulaControl.SetValue(FormulaVisualPropertyKey, visual);
+            formulaControl.SetValue(EditableNowPropertyKey, false);
         }
 
         public string Formula
@@ -56,6 +67,11 @@ namespace DiplomaProject.Controls
         public DrawingVisual FormulaVisual
         {
             get { return (DrawingVisual) GetValue(FormulaVisualProperty); }
+        }
+
+        public bool EditableNow
+        {
+            get { return (bool) GetValue(EditableNowProperty); }
         }
     }
 }

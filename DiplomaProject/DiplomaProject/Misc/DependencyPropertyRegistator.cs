@@ -9,9 +9,10 @@ namespace DiplomaProject
     {
         public DependencyProperty Register<TT>(string name, TT defaultValue = default(TT), PropertyChangedCallback propertyChanged = null)
         {
-//            var member = ((MemberExpression)nameExpression.Body).Member;
-//            var name = ((PropertyInfo)member).Name;
             return DependencyProperty.Register(name, typeof (TT), typeof (T), new PropertyMetadata(defaultValue, propertyChanged));
+        }
+        public DependencyPropertyKey RegisterReadOnly<TT>(string name, TT defaultValue = default(TT), PropertyChangedCallback propertyChanged = null) {
+            return DependencyProperty.RegisterReadOnly(name, typeof(TT), typeof(T), new PropertyMetadata(defaultValue, propertyChanged));
         }  
     }
 }
