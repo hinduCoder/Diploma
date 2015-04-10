@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
@@ -7,6 +8,8 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Documents.Serialization;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Xml;
 using DiplomaProject.Controls;
 using Ionic.Zip;
@@ -56,6 +59,50 @@ namespace DiplomaProject.DocumentSerialization
                 }
             }
             File.Delete(outputFileName);
+        }
+
+        public static FlowDocument Deserialize()
+        {
+            //Directory.Delete("doca", true);
+            var directory = Directory.CreateDirectory("doca");
+            directory.Attributes = FileAttributes.Hidden;
+            using (var zipFile = ZipFile.Read("doca.zip"))
+            {
+                zipFile.ExtractAll(directory.FullName);
+            }
+            var xmlFile = directory.EnumerateFiles().Single(f => f.Name == "xml.xml").FullName;
+            var xmlDocument = new XmlDocument();
+            using (var xmlReader = XmlReader.Create(xmlFile))
+            {
+                xmlDocument.Load(xmlReader);
+            }
+            var flowDocument = new FlowDocument();
+            foreach (XmlNode block in xmlDocument.LastChild.ChildNodes)
+            {
+                switch (block.Name)
+                {
+                    case "Formula":
+                        flowDocument.Blocks.Add(new FormulaBlock { Formula = block.Attributes["Tex"].InnerText });
+                        break;
+                    case "Image":
+                        flowDocument.Blocks.Add(new BlockImageContainer { Source = new BitmapImage(new Uri(block.Attributes["Src"].InnerText)) });
+                        break;
+                    case "Paragraph":
+                        var paragraph = new Paragraph();
+                        foreach (XmlNode inline in block.ChildNodes)
+                        {
+                            var run = new Run();
+                            foreach (XmlAttribute attribute in inline.Attributes)
+                            {
+                                run.GetType().GetProperty(attribute.Name).SetValue(run, ParagraphSerializeStrategy.PropertyConverters[attribute.Name].ConvertFromString(attribute.InnerText));
+                            }
+                            paragraph.Inlines.Add(run);
+                        }
+                        flowDocument.Blocks.Add(paragraph);
+                        break;
+                }
+            }
+            return flowDocument;
         }
         public void SerializeToRtf(FlowDocument flowDocument, string fileName)
         {
@@ -123,6 +170,19 @@ namespace DiplomaProject.DocumentSerialization
 
     public class ParagraphSerializeStrategy : ISerializeBlockStrategy
     {
+        public static readonly Dictionary<string, TypeConverter> PropertyConverters = new Dictionary<string, TypeConverter>()
+        {
+            {"TextIndent", new DoubleConverter()},//Maybe unless
+            {"TextAlignment", new EnumConverter(typeof(TextAlignment))},
+            {"LineHeight", new Int32Converter()},
+            {"FontStyle", new FontStyleConverter()},
+            {"FontSize", new Int32Converter()},
+            {"FontWeight", new FontWeightConverter()},
+            {"Foreground", new BrushConverter()},
+            {"FontStretch", new FontStretchConverter()},
+            {"FontFamily", new FontFamilyConverter()},
+            {"Text", new StringConverter()}
+        };
         public XmlElement Serialize(Block block, XmlDocument xmlDocument)
         {
             var paragraph = (Paragraph) block;
@@ -131,7 +191,7 @@ namespace DiplomaProject.DocumentSerialization
             foreach (var inline in paragraph.Inlines)
             {
                 var properties = inline.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.SetProperty)
-                    .Where(p => "TextIndent TextAlignment LineHeight FontStyle FontSize FontWeight Foreground FontStretch FontFamily".Split(' ').Contains(p.Name))
+                    .Where(p =>  PropertyConverters.Keys.Contains(p.Name))
                     .Select(p => Tuple.Create(p.Name, p.GetValue(inline)));
                 var inlineElement = xmlDocument.CreateElement("Inline");
                 foreach(var prop in properties) {
