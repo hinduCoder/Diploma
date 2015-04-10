@@ -28,6 +28,7 @@ namespace DiplomaProject
         {
             //SerializerProvider.RegisterSerializer(SerializerDescriptor.CreateFromFactoryInstance(new XamlSerializerFactory()), false);
             InitializeComponent();
+            FlowDocumentSerializer.Serialize(RichTextBox.Document);
         }
 
         

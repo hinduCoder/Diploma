@@ -18,6 +18,7 @@ namespace DiplomaProject.Controls
             get { return (string) GetValue(FormulaProperty); }
             set { SetValue(FormulaProperty, value); }
         }
+
         public FormulaBlock()
         {
             _formulaControl = new FormulaControl();
