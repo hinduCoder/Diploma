@@ -35,7 +35,7 @@
                 </RibbonApplicationMenu>
             </Ribbon.ApplicationMenu>
             <RibbonTab x:Name="HomeTab" 
-				Header="Текст">
+				Header="Главная">
                 <RibbonGroup x:Name="GroupFont" 
 					Header="Шрифт" Width="auto">
                     <Grid>
@@ -89,8 +89,19 @@
                         </sp:StylePicker.ItemTemplate>
                     </sp:StylePicker>
                 </RibbonGroup>
+                <RibbonGroup Header="Элементы">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel.Resources>
+                            <Style TargetType="RibbonButton" BasedOn="{StaticResource {x:Type RibbonButton}}">
+                                <Setter Property="FontFamily" Value="Segoe UI Symbol"></Setter>
+                            </Style>
+                        </StackPanel.Resources>
+                        <RibbonButton Content="f(x)" FontStyle="Italic" FontSize="25" ></RibbonButton>
+                        <RibbonButton Content="&#xe193;" FontSize="25"></RibbonButton>
+                    </StackPanel>
+                </RibbonGroup>
             </RibbonTab>
-            <RibbonTab Header="Test">
+            <!--<RibbonTab Header="Test">
                 <RibbonGroup>
                     <RibbonComboBox Label="1" 
 						SelectionBoxWidth="62"
@@ -107,11 +118,11 @@
                         </RibbonGallery>
                     </RibbonComboBox>
                 </RibbonGroup>
-            </RibbonTab>
+            </RibbonTab>-->
         </Ribbon>
         <Grid AllowDrop="True" Background="LightGray">
-            <RichTextBox PreviewDragOver="RichTextBox_OnPreviewDragOver" Drop="RichTextBox_OnDrop" VerticalScrollBarVisibility="Visible" Background="White" x:Name="RichTextBox" MaxWidth="850" HorizontalAlignment="Center" TextChanged="RichTextBox_OnTextChanged" IsDocumentEnabled="True">
-                <FlowDocument>
+            <RichTextBox PreviewDragOver="RichTextBox_OnPreviewDragOver" Drop="RichTextBox_OnDrop" VerticalScrollBarVisibility="Visible" Background="White" x:Name="RichTextBox" MaxWidth="850" HorizontalAlignment="Center" TextChanged="RichTextBox_OnTextChanged" IsDocumentEnabled="True" local:FlowDocumentHelper.Document="{Binding Document}">
+                <!--<FlowDocument>
                     <Paragraph>
                         <Run Text="RichTextBox"/>
                         <Run Text="R"/>
@@ -124,7 +135,7 @@
                     </Paragraph>
                     <controls:FormulaBlock Formula="L = \int_a^b \sqrt[4]{ |\sum_{i,j=1}^ng_{ij}(\gamma(t)) (\frac{d}{dt}x^i\circ\gamma(t) ) (\frac{d}{dt}x^j\circ\gamma(t) ) |}dt"/>
                     <controls:ImageBlock Source="C:\Users\Антон\Pictures\Девушки\iASlTv-yOgM.jpg"></controls:ImageBlock>
-                </FlowDocument>
+                </FlowDocument>-->
                 <dxmvvm:Interaction.Behaviors>
                     <dxmvvm:EventToCommand EventName="SelectionChanged" Command="{Binding TextBoxSelectionChangedCommand}" CommandParameter="{x:Reference RichTextBox}">
                         

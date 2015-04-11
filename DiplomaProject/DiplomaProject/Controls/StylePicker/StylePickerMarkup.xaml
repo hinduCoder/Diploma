@@ -194,4 +194,7 @@
         <Setter Property="Template" Value="{StaticResource StylePickerItemTemplate}"/>
 
     </Style>
+    <Style TargetType="RibbonButton">
+        <Setter Property="Template" Value="{StaticResource AddStyleButtonTemplate}"></Setter>
+    </Style>
 </ResourceDictionary>

@@ -58,7 +58,7 @@ namespace DiplomaProject
 
         private void OpenMenuItem_OnClick(object sender, RoutedEventArgs e)
         {
-            var openFileDialog = new OpenFileDialog();
+            var openFileDialog = new OpenFileDialog {Filter = "Xaml documents|*.xaml"};
             if (!openFileDialog.ShowDialog() ?? false)
                 return;
             RichTextBox.Document = _flowDocumentSerializer.Deserialize(openFileDialog.FileName);

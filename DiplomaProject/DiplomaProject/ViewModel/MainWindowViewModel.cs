@@ -21,11 +21,19 @@ namespace DiplomaProject.ViewModel
         private ObservableCollection<ITextStyle> _textStyles =
             new ObservableCollection<ITextStyle>(new TextStyleProvider().LoadTextStyles());//.Select(s => new TextStyle { Name = "Style", Style = s}));
 
+        private FlowDocument _document = new FlowDocument(new Paragraph(new Run("TEST")));
         public ObservableCollection<ITextStyle> TextStyles
         {
             get { return _textStyles; }
             set { SetProperty(ref _textStyles, value, () => TextStyles); }
         }
+
+        public FlowDocument Document
+        {
+            get { return _document; }
+            set { SetProperty(ref _document, value, () => Document); }
+        }
+
 
         public ICommand ApplyStyleCommand
         {
