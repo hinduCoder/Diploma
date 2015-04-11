@@ -63,8 +63,10 @@ namespace DiplomaProject.DocumentSerialization
 
         public static FlowDocument Deserialize()
         {
-            //Directory.Delete("doca", true);
-            var directory = Directory.CreateDirectory("doca");
+            var temporaryNameOfDir = "doca";
+            if (Directory.Exists(temporaryNameOfDir))
+                Directory.Delete(temporaryNameOfDir, true);
+            var directory = Directory.CreateDirectory(temporaryNameOfDir);
             directory.Attributes = FileAttributes.Hidden;
             using (var zipFile = ZipFile.Read("doca.zip"))
             {
@@ -84,14 +86,17 @@ namespace DiplomaProject.DocumentSerialization
                     case "Formula":
                         flowDocument.Blocks.Add(new FormulaBlock { Formula = block.Attributes["Tex"].InnerText });
                         break;
-                    case "Image":
-                        flowDocument.Blocks.Add(new BlockImageContainer { Source = new BitmapImage(new Uri(block.Attributes["Src"].InnerText)) });
+                    case "Image": 
+                        flowDocument.Blocks.Add(new BlockImageContainer
+                        {
+                            Source = new BitmapImage(new Uri(Path.GetFullPath(Path.Combine(temporaryNameOfDir+"\\"+"Images", block.Attributes["Src"].InnerText))))
+                        });
                         break;
                     case "Paragraph":
                         var paragraph = new Paragraph();
                         foreach (XmlNode inline in block.ChildNodes)
                         {
-                            var run = new Run();
+                            var run = new Run(); //TODO: other inlines ?
                             foreach (XmlAttribute attribute in inline.Attributes)
                             {
                                 run.GetType().GetProperty(attribute.Name).SetValue(run, ParagraphSerializeStrategy.PropertyConverters[attribute.Name].ConvertFromString(attribute.InnerText));
@@ -104,23 +109,20 @@ namespace DiplomaProject.DocumentSerialization
             }
             return flowDocument;
         }
-        public void SerializeToRtf(FlowDocument flowDocument, string fileName)
-        {
+        public void SerializeToRtf(FlowDocument flowDocument, string fileName) {
             SerializerProvider serializerProvider = new SerializerProvider();
             var rtfSerializerDescriptor =
                 serializerProvider.InstalledSerializers.Single(sd => sd.DisplayName.Contains("Rtf"));
             Serialize(rtfSerializerDescriptor, flowDocument, fileName);
         }
 
-        public void SerializeToXaml(FlowDocument flowDocument, string fileName)
-        {
+        public void SerializeToXaml(FlowDocument flowDocument, string fileName) {
             SerializerProvider serializerProvider = new SerializerProvider();
             var rtfSerializerDescriptor =
                 serializerProvider.InstalledSerializers.Single(sd => sd.DisplayName.Contains("Xaml"));
             Serialize(rtfSerializerDescriptor, flowDocument, fileName);
         }
-        private void Serialize(SerializerDescriptor serializerDescriptor, FlowDocument flowDocument, string fileName)
-        {
+        private void Serialize(SerializerDescriptor serializerDescriptor, FlowDocument flowDocument, string fileName) {
             if(File.Exists(fileName))
                 File.Delete(fileName);
 
@@ -225,7 +227,7 @@ namespace DiplomaProject.DocumentSerialization
             var image = (BlockImageContainer)block;
             var imageElement = xmlDocument.CreateElement("Image");
             var srcAttribute = xmlDocument.CreateAttribute("Src");
-            srcAttribute.InnerText = image.Source.ToString();
+            srcAttribute.InnerText = Path.GetFileName(image.Source.ToString());
             imageElement.Attributes.Append(srcAttribute);
             return imageElement;
         }
