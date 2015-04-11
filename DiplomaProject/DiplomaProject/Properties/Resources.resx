@@ -120,7 +120,16 @@
   <data name="AssetsFolder" xml:space="preserve">
     <value>Assets</value>
   </data>
+  <data name="ImagesFolder" xml:space="preserve">
+    <value>Images</value>
+  </data>
+  <data name="TempFolder" xml:space="preserve">
+    <value>doc_tmp</value>
+  </data>
   <data name="TextStylesFile" xml:space="preserve">
     <value>TextStyles.xml</value>
+  </data>
+  <data name="XmlMarkupFile" xml:space="preserve">
+    <value>markup.xml</value>
   </data>
 </root>

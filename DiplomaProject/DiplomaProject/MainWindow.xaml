@@ -123,7 +123,7 @@
                         <Run Text="RichTextBox2"/>
                     </Paragraph>
                     <controls:FormulaBlock Formula="L = \int_a^b \sqrt[4]{ |\sum_{i,j=1}^ng_{ij}(\gamma(t)) (\frac{d}{dt}x^i\circ\gamma(t) ) (\frac{d}{dt}x^j\circ\gamma(t) ) |}dt"/>
-                    <controls:BlockImageContainer Source="C:\Users\Антон\Pictures\Девушки\iASlTv-yOgM.jpg"></controls:BlockImageContainer>
+                    <controls:ImageBlock Source="C:\Users\Антон\Pictures\Девушки\iASlTv-yOgM.jpg"></controls:ImageBlock>
                 </FlowDocument>
                 <dxmvvm:Interaction.Behaviors>
                     <dxmvvm:EventToCommand EventName="SelectionChanged" Command="{Binding TextBoxSelectionChangedCommand}" CommandParameter="{x:Reference RichTextBox}">

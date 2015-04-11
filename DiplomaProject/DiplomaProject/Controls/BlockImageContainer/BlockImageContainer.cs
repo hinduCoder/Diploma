@@ -8,10 +8,10 @@ using DiplomaProject.Annotations;
 
 namespace DiplomaProject.Controls
 {
-    public class BlockImageContainer : BlockUIContainer
+    public class ImageBlock : BlockUIContainer
     {
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(
-            "Source", typeof (ImageSource), typeof (BlockImageContainer), new PropertyMetadata(null));
+            "Source", typeof (ImageSource), typeof (ImageBlock), new PropertyMetadata(null));
 
         public ImageSource Source
         {
@@ -21,7 +21,7 @@ namespace DiplomaProject.Controls
 
         private Image partImage;
         
-        public BlockImageContainer()
+        public ImageBlock()
         {
             partImage = new Image { Margin = new Thickness(20), HorizontalAlignment = HorizontalAlignment.Left, Stretch = Stretch.Uniform};
             Child = partImage;

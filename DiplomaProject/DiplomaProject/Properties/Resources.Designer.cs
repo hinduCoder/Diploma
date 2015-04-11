@@ -70,11 +70,38 @@ namespace DiplomaProject.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Images.
+        /// </summary>
+        internal static string ImagesFolder {
+            get {
+                return ResourceManager.GetString("ImagesFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to doc_tmp.
+        /// </summary>
+        internal static string TempFolder {
+            get {
+                return ResourceManager.GetString("TempFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to TextStyles.xml.
         /// </summary>
         internal static string TextStylesFile {
             get {
                 return ResourceManager.GetString("TextStylesFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to markup.xml.
+        /// </summary>
+        internal static string XmlMarkupFile {
+            get {
+                return ResourceManager.GetString("XmlMarkupFile", resourceCulture);
             }
         }
     }

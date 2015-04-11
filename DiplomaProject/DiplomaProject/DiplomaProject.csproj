@@ -78,6 +78,9 @@
     <Compile Include="Controls\StylePicker\StylePicker.cs" />
     <Compile Include="Controls\StylePicker\StylePickerItem.cs" />
     <Compile Include="DocumentSerialization\FlowDocumentSerializer.cs" />
+    <Compile Include="DocumentSerialization\IDeserializeBlockStrategy.cs" />
+    <Compile Include="DocumentSerialization\ISerializeBlockStrategy.cs" />
+    <Compile Include="DocumentSerialization\ParagraphSerializationHelper.cs" />
     <Compile Include="DocumentSerialization\rtfserializerfactory.cs" />
     <Compile Include="DocumentSerialization\rtfserializerwriter.cs" />
     <Compile Include="DocumentSerialization\xamlrtfconverter.cs" />

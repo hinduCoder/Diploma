@@ -23,16 +23,14 @@ namespace DiplomaProject
     {
         private bool IsDocumentChanged { get; set; }
         private string CurrentDocumentFileName { get; set; }
+        private readonly FlowDocumentSerializer _flowDocumentSerializer = new FlowDocumentSerializer();
 
         public MainWindow()
         {
-            //SerializerProvider.RegisterSerializer(SerializerDescriptor.CreateFromFactoryInstance(new XamlSerializerFactory()), false);
             InitializeComponent();
-            //FlowDocumentSerializer.Serialize(RichTextBox.Document);
-            RichTextBox.Document = FlowDocumentSerializer.Deserialize();
         }
 
-        
+        #region Event Handlers
         private void RichTextBox_OnDrop(object sender, DragEventArgs e) //TODO bitmap
         {
             var imageSource = ((String[]) e.Data.GetData(DataFormats.FileDrop))[0];
@@ -44,13 +42,12 @@ namespace DiplomaProject
             {
                 element = LogicalTreeHelper.GetParent(element);
             }
-            Block block;
-            block = element != null
+            var block = element != null
                 ? RichTextBox.Document.Blocks.First(b => ReferenceEquals(b, element))
                 : RichTextBox.CaretPosition.Paragraph;
 
             RichTextBox.Document.Blocks.InsertAfter(block,
-                new BlockImageContainer {Source = new BitmapImage(new Uri(imageSource))});
+                new ImageBlock {Source = new BitmapImage(new Uri(imageSource))});
         }
 
         private void RichTextBox_OnPreviewDragOver(object sender, DragEventArgs e) //TODO bitmap
@@ -61,24 +58,10 @@ namespace DiplomaProject
 
         private void OpenMenuItem_OnClick(object sender, RoutedEventArgs e)
         {
-            var openFileDialog = new OpenFileDialog {Filter = "Xaml documents|*.xaml"};
+            var openFileDialog = new OpenFileDialog();
             if (!openFileDialog.ShowDialog() ?? false)
                 return;
-            using (var fileStream = openFileDialog.OpenFile())
-            {
-                using (var reader = XmlReader.Create(new StreamReader(fileStream)))
-                {
-                    var xmlReader = reader;
-                    var documentRoot = XamlReader.Load(xmlReader) as Section;
-                    if (documentRoot == null)
-                    {
-                        MessageBox.Show("This document cannot be opened", "Problems", MessageBoxButton.OK,
-                            MessageBoxImage.Error);
-                        return;
-                    }
-                    RichTextBox.Document = new FlowDocument(documentRoot);
-                }
-            }
+            RichTextBox.Document = _flowDocumentSerializer.Deserialize(openFileDialog.FileName);
             CurrentDocumentFileName = openFileDialog.FileName;
         }
 
@@ -87,39 +70,28 @@ namespace DiplomaProject
             if (!IsDocumentChanged)
                 SaveAs();
             else
-                FlowDocumentSerializer.SaveDocumentToXaml(RichTextBox.Document, CurrentDocumentFileName);
+                _flowDocumentSerializer.Serialize(RichTextBox.Document, CurrentDocumentFileName);
         }
 
         private void SaveAsMenuItem_OnClick(object sender, RoutedEventArgs e)
         {
             SaveAs();
         }
-
+        private void RichTextBox_OnTextChanged(object sender, TextChangedEventArgs e) {
+            IsDocumentChanged = true;
+        }
+        #endregion
         private void SaveAs()
         {
             var saveFileDialog = new SaveFileDialog
             {
                 AddExtension = true,
-                Filter = "Xaml document|*.xaml|RTF document|*.rtf"
             };
             if (!saveFileDialog.ShowDialog() ?? false)
                 return;
-            switch (saveFileDialog.FilterIndex)
-            {
-                case 1:
-                    FlowDocumentSerializer.SaveDocumentToXaml(RichTextBox.Document, saveFileDialog.FileName);
-//                    new FlowDocumentSerializer().SerializeToXaml(RichTextBox.Document, saveFileDialog.FileName);
-                    IsDocumentChanged = false;
-                    break;
-                case 2:
-                    FlowDocumentSerializer.SaveDocumentToRtf(RichTextBox.Document, saveFileDialog.FileName);
-                    break;
-            }
+            _flowDocumentSerializer.Serialize(RichTextBox.Document, saveFileDialog.FileName);
         }
 
-        private void RichTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
-        {
-            IsDocumentChanged = true;
-        }
+      
     }
 }
