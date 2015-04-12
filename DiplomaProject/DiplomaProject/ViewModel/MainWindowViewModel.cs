@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Xml.Serialization;
 using DevExpress.Mvvm;
 using DevExpress.Mvvm.UI.Interactivity;
+using DiplomaProject.Controls;
 using DiplomaProject.DocumentSerialization;
 using DiplomaProject.Properties;
 using DiplomaProject.Text;
@@ -23,6 +24,7 @@ namespace DiplomaProject.ViewModel
         private bool IsDocumentChanged { get; set; }
         private string CurrentDocumentFileName { get; set; }
         private readonly FlowDocumentSerializer _flowDocumentSerializer = new FlowDocumentSerializer();
+        public TextSelection CurrentSelection { get; set; }
 
         private ObservableCollection<ITextStyle> _textStyles =
             new ObservableCollection<ITextStyle>(new TextStyleProvider().LoadTextStyles());//.Select(s => new TextStyle { Name = "Style", Style = s}));
@@ -66,6 +68,18 @@ namespace DiplomaProject.ViewModel
             get { return new DelegateCommand(() => IsDocumentChanged = true); }
         }
 
+        public ICommand AddFormulaCommand
+        {
+            get { return new DelegateCommand(AddFormula);}//TODO at cursor pos
+        }
+
+        private void AddFormula()
+        {
+//            if (CurrentSelection.Start == CurrentSelection.End)
+//                CurrentSelection.Text = "";
+            Document.Blocks.InsertAfter(CurrentSelection.End.Paragraph, new FormulaBlock { Formula = "f(x)" });
+        }
+
         #region Open&Save File
         private void SaveAsFile()
         {
@@ -104,10 +118,9 @@ namespace DiplomaProject.ViewModel
 
         public ICommand TextBoxSelectionChangedCommand
         {
-            get {  return new DelegateCommand<RichTextBox>(rtb => CurrentSelection = rtb.Selection);}
+            get { return new DelegateCommand<RichTextBox>(rtb => CurrentSelection = rtb.Selection);}
         }
 
-        public TextSelection CurrentSelection { get; set; }
 
         public MainWindowViewModel()
         {

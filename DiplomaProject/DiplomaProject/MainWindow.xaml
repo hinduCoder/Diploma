@@ -96,7 +96,7 @@
                                 <Setter Property="FontFamily" Value="Segoe UI Symbol"></Setter>
                             </Style>
                         </StackPanel.Resources>
-                        <RibbonButton Content="f(x)" FontStyle="Italic" FontSize="25" ></RibbonButton>
+                        <RibbonButton Content="f(x)" FontStyle="Italic" FontSize="25" Command="{Binding AddFormulaCommand}"></RibbonButton>
                         <RibbonButton Content="&#xe193;" FontSize="25"></RibbonButton>
                     </StackPanel>
                 </RibbonGroup>
