@@ -10,14 +10,20 @@ using System.Windows.Media;
 using System.Xml.Serialization;
 using DevExpress.Mvvm;
 using DevExpress.Mvvm.UI.Interactivity;
+using DiplomaProject.DocumentSerialization;
 using DiplomaProject.Properties;
 using DiplomaProject.Text;
 using DiplomaProject.Text.Extenstions;
+using Microsoft.Win32;
 
 namespace DiplomaProject.ViewModel
 {
     public class MainWindowViewModel : ViewModelBase
     {
+        private bool IsDocumentChanged { get; set; }
+        private string CurrentDocumentFileName { get; set; }
+        private readonly FlowDocumentSerializer _flowDocumentSerializer = new FlowDocumentSerializer();
+
         private ObservableCollection<ITextStyle> _textStyles =
             new ObservableCollection<ITextStyle>(new TextStyleProvider().LoadTextStyles());//.Select(s => new TextStyle { Name = "Style", Style = s}));
 
@@ -39,7 +45,56 @@ namespace DiplomaProject.ViewModel
         {
             get {  return new DelegateCommand<ITextStyle>(ApplyStyle);}
         }
-       
+
+        public ICommand OpenFileCommand
+        {
+            get { return new DelegateCommand(OpenFile);}
+        }
+
+        public ICommand SaveFileCommand
+        {
+            get { return new DelegateCommand(SaveFile);}
+        }
+
+        public ICommand SaveAsFileCommand
+        {
+            get { return new DelegateCommand(SaveAsFile);}
+        }
+
+        public ICommand TextChangedCommand
+        {
+            get { return new DelegateCommand(() => IsDocumentChanged = true); }
+        }
+
+        #region Open&Save File
+        private void SaveAsFile()
+        {
+            var saveFileDialog = new SaveFileDialog {
+                AddExtension = true,
+            };
+            if(!saveFileDialog.ShowDialog() ?? false)
+                return;
+            _flowDocumentSerializer.Serialize(Document, saveFileDialog.FileName);
+        }
+
+        private void SaveFile()
+        {
+            if(!IsDocumentChanged)
+                SaveAsFile();
+            else
+                _flowDocumentSerializer.Serialize(Document, CurrentDocumentFileName);
+        }
+
+
+        private void OpenFile()
+        {
+            var openFileDialog = new OpenFileDialog();
+            if(!openFileDialog.ShowDialog() ?? false)
+                return;
+            Document = _flowDocumentSerializer.Deserialize(openFileDialog.FileName);
+            CurrentDocumentFileName = openFileDialog.FileName;
+        }
+        #endregion
         public ViewModelBase StylesGroupVM { get; set; }
 
         private void ApplyStyle(ITextStyle style)

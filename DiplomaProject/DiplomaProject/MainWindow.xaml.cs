@@ -21,9 +21,6 @@ namespace DiplomaProject
     /// </summary>
     public partial class MainWindow : Window
     {
-        private bool IsDocumentChanged { get; set; }
-        private string CurrentDocumentFileName { get; set; }
-        private readonly FlowDocumentSerializer _flowDocumentSerializer = new FlowDocumentSerializer();
 
         public MainWindow()
         {
@@ -56,42 +53,10 @@ namespace DiplomaProject
             e.Handled = true;
         }
 
-        private void OpenMenuItem_OnClick(object sender, RoutedEventArgs e)
-        {
-            var openFileDialog = new OpenFileDialog {Filter = "Xaml documents|*.xaml"};
-            if (!openFileDialog.ShowDialog() ?? false)
-                return;
-            RichTextBox.Document = _flowDocumentSerializer.Deserialize(openFileDialog.FileName);
-            CurrentDocumentFileName = openFileDialog.FileName;
-        }
-
-        private void SaveMenuItem_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (!IsDocumentChanged)
-                SaveAs();
-            else
-                _flowDocumentSerializer.Serialize(RichTextBox.Document, CurrentDocumentFileName);
-        }
-
-        private void SaveAsMenuItem_OnClick(object sender, RoutedEventArgs e)
-        {
-            SaveAs();
-        }
-        private void RichTextBox_OnTextChanged(object sender, TextChangedEventArgs e) {
-            IsDocumentChanged = true;
-        }
+   
+//        private void RichTextBox_OnTextChanged(object sender, TextChangedEventArgs e) {
+//            IsDocumentChanged = true;
+//        }
         #endregion
-        private void SaveAs()
-        {
-            var saveFileDialog = new SaveFileDialog
-            {
-                AddExtension = true,
-            };
-            if (!saveFileDialog.ShowDialog() ?? false)
-                return;
-            _flowDocumentSerializer.Serialize(RichTextBox.Document, saveFileDialog.FileName);
-        }
-
-      
     }
 }

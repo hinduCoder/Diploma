@@ -29,9 +29,9 @@
         <Ribbon DockPanel.Dock="Top" x:Name="Ribbon">
             <Ribbon.ApplicationMenu>
                 <RibbonApplicationMenu>
-                    <RibbonApplicationMenuItem Header="Открыть" Name="OpenMenuItem" Click="OpenMenuItem_OnClick"/>
-                    <RibbonApplicationMenuItem Header="Сохранить" Name="SaveMenuItem" Click="SaveMenuItem_OnClick"/>
-                    <RibbonApplicationMenuItem Header="Сохранить как" Name="SaveAsMenuItem" Click="SaveAsMenuItem_OnClick"/>
+                    <RibbonApplicationMenuItem Header="Открыть" Name="OpenMenuItem" Command="{Binding OpenFileCommand}"/>
+                    <RibbonApplicationMenuItem Header="Сохранить" Name="SaveMenuItem" Command="{Binding SaveFileCommand}"/>
+                    <RibbonApplicationMenuItem Header="Сохранить как" Name="SaveAsMenuItem" Command="{Binding SaveAsFileCommand}"/>
                 </RibbonApplicationMenu>
             </Ribbon.ApplicationMenu>
             <RibbonTab x:Name="HomeTab" 
@@ -121,7 +121,7 @@
             </RibbonTab>-->
         </Ribbon>
         <Grid AllowDrop="True" Background="LightGray">
-            <RichTextBox PreviewDragOver="RichTextBox_OnPreviewDragOver" Drop="RichTextBox_OnDrop" VerticalScrollBarVisibility="Visible" Background="White" x:Name="RichTextBox" MaxWidth="850" HorizontalAlignment="Center" TextChanged="RichTextBox_OnTextChanged" IsDocumentEnabled="True" local:FlowDocumentHelper.Document="{Binding Document}">
+            <RichTextBox PreviewDragOver="RichTextBox_OnPreviewDragOver" Drop="RichTextBox_OnDrop" VerticalScrollBarVisibility="Visible" Background="White" x:Name="RichTextBox" MaxWidth="850" HorizontalAlignment="Center" IsDocumentEnabled="True" local:FlowDocumentHelper.Document="{Binding Document}">
                 <!--<FlowDocument>
                     <Paragraph>
                         <Run Text="RichTextBox"/>
@@ -137,9 +137,8 @@
                     <controls:ImageBlock Source="C:\Users\Антон\Pictures\Девушки\iASlTv-yOgM.jpg"></controls:ImageBlock>
                 </FlowDocument>-->
                 <dxmvvm:Interaction.Behaviors>
-                    <dxmvvm:EventToCommand EventName="SelectionChanged" Command="{Binding TextBoxSelectionChangedCommand}" CommandParameter="{x:Reference RichTextBox}">
-                        
-                    </dxmvvm:EventToCommand>
+                    <dxmvvm:EventToCommand EventName="SelectionChanged" Command="{Binding TextBoxSelectionChangedCommand}" CommandParameter="{x:Reference RichTextBox}"/>
+                    <dxmvvm:EventToCommand EventName="TextChanged" Command="{Binding TextChangedCommand}"/>
                 </dxmvvm:Interaction.Behaviors>
             </RichTextBox>
         </Grid>
