@@ -107,8 +107,11 @@
                         <StackPanel.Resources>
                             <Style TargetType="RibbonButton" BasedOn="{StaticResource {x:Type RibbonButton}}">
                                 <Setter Property="FontFamily" Value="Segoe UI Symbol"></Setter>
+
                             </Style>
                         </StackPanel.Resources>
+                        <RibbonButton Content="&#xe292;" FontSize="25" Command="{Binding AddUnorderedListCommand}"/>
+                        <RibbonButton Content="&#xe133;" FontSize="23" Command="{Binding AddOrderedListCommand}"/>
                         <RibbonButton Content="f(x)" FontStyle="Italic" FontSize="25" Command="{Binding AddFormulaCommand}"></RibbonButton>
                         <RibbonButton Content="&#xe193;" FontSize="25"></RibbonButton>
                     </StackPanel>

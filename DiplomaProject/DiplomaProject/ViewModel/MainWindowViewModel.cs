@@ -29,13 +29,14 @@ namespace DiplomaProject.ViewModel
         private ObservableCollection<ITextStyle> _textStyles =
             new ObservableCollection<ITextStyle>(new TextStyleProvider().LoadTextStyles());
 
-        //.Select(s => new TextStyle { Name = "Style", Style = s}));
+        private FormattingProvider _formattingProvider;
 
         private FlowDocument _document = new FlowDocument(new Paragraph(new Run("TESTTESTTEST")));
 
         public MainWindowViewModel()
         {
             StylesGroupVM = new StylesGroupViewModel();
+            _formattingProvider = new FormattingProvider(_document);
         }
 
         public ObservableCollection<ITextStyle> TextStyles
@@ -43,9 +44,7 @@ namespace DiplomaProject.ViewModel
             get { return _textStyles; }
             set
             {
-                SetProperty(ref _textStyles,
-                    value,
-                    () => TextStyles);
+                SetProperty(ref _textStyles, value, () => TextStyles);
             }
         }
 
@@ -54,9 +53,7 @@ namespace DiplomaProject.ViewModel
             get { return _document; }
             set
             {
-                SetProperty(ref _document,
-                    value,
-                    () => Document);
+                SetProperty(ref _document, value, () => Document);
             }
         }
 
@@ -70,7 +67,14 @@ namespace DiplomaProject.ViewModel
 
         public ICommand AddFormulaCommand
         {
-            get { return new DelegateCommand(AddFormula); } //TODO at cursor pos
+            get { return new DelegateCommand(() => _formattingProvider.AddFormula(CurrentSelection)); } //TODO at cursor pos
+        }
+
+        public ICommand AddUnorderedListCommand { get { return new DelegateCommand(() => _formattingProvider.AddUnorderedList(CurrentSelection)); } }
+
+        public ICommand AddOrderedListCommand
+        {
+            get { return new DelegateCommand(() => _formattingProvider.AddOrderedList(CurrentSelection)); }
         }
 
         public ICommand BoldCommand
@@ -147,23 +151,11 @@ namespace DiplomaProject.ViewModel
 
         #endregion
 
-        private void AddFormula()
-        {
-//            if (CurrentSelection.Start == CurrentSelection.End)
-//                CurrentSelection.Text = "";
-
-            Document.Blocks.InsertAfter(CurrentSelection.End.Paragraph,
-                new FormulaBlock {Formula = "f(x)"});
-        }
-
         #region Open&Save File
 
         private void SaveAsFile()
         {
-            var saveFileDialog = new SaveFileDialog
-            {
-                AddExtension = true,
-            };
+            var saveFileDialog = new SaveFileDialog();
             if (!saveFileDialog.ShowDialog() ?? false)
                 return;
             _flowDocumentSerializer.Serialize(Document,
@@ -178,7 +170,6 @@ namespace DiplomaProject.ViewModel
                 _flowDocumentSerializer.Serialize(Document,
                     CurrentDocumentFileName);
         }
-
 
         private void OpenFile()
         {
@@ -201,6 +192,46 @@ namespace DiplomaProject.ViewModel
         public ICommand TextBoxSelectionChangedCommand
         {
             get { return new DelegateCommand<RichTextBox>(rtb => CurrentSelection = rtb.Selection); }
+        }
+    }
+
+    public class FormattingProvider
+    {
+        private readonly FlowDocument _flowDocument;
+
+        private Block LastBlock { get { return _flowDocument.Blocks.LastBlock; } }
+
+        public FormattingProvider(FlowDocument flowDocument)
+        {
+            _flowDocument = flowDocument;
+        }
+
+        public void AddFormula(TextSelection selection)
+        {
+            AddBlock(new FormulaBlock {Formula = "f(x)"}, selection);
+        }
+
+        public void AddUnorderedList(TextSelection selection)
+        {
+            AddBlock(new List {ListItems = {new ListItem()}}, selection);
+        }
+
+        public void AddOrderedList(TextSelection selection)
+        {
+            AddBlock(new List {ListItems = {new ListItem()}, MarkerStyle = TextMarkerStyle.Decimal}, selection);
+        }
+
+        private void AddBlock(Block block, TextSelection selection)
+        {
+            if (selection == null || selection.End == null)
+                AddBlockToEnd(block);
+            else
+                _flowDocument.Blocks.InsertAfter(selection.End.Paragraph, block);
+        }
+
+        private void AddBlockToEnd(Block block)
+        {
+            _flowDocument.Blocks.InsertAfter(LastBlock, block);
         }
     }
 }
