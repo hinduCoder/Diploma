@@ -87,9 +87,9 @@
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Text\Extenstions\TextSelectionExtension.cs" />
-    <Compile Include="Text\Extenstions\XmlExtensions.cs" />
     <Compile Include="Text\Style\ITextStyle.cs" />
     <Compile Include="Text\Style\Serialization.cs" />
+    <Compile Include="ViewModel\FormattingProvider.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\StylesGroupViewModel.cs" />
     <Page Include="Controls\Formula\FormulaControlMarkup.xaml">

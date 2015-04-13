@@ -20,6 +20,11 @@ namespace DiplomaProject.DocumentSerialization
                 return new FormulaSerializeStrategy();
             if(block is ImageBlock)
                 return new ImageSerializeStrategy();
+            if (block is List)
+            {
+                var list = block as List;
+                return new ListSerializeStrategy(list.MarkerStyle == TextMarkerStyle.Decimal ? "Olist" : "UList");
+            }
             return null;
         }
     }
@@ -71,6 +76,33 @@ namespace DiplomaProject.DocumentSerialization
             srcAttribute.InnerText = Path.GetFileName(image.Source.ToString());
             imageElement.Attributes.Append(srcAttribute);
             return imageElement;
+        }
+    }
+    public class ListSerializeStrategy : ISerializeBlockStrategy
+    {
+        private string _tagName;
+
+        public ListSerializeStrategy(string tagName)
+        {
+            _tagName = tagName;
+        }
+
+        public XmlElement Serialize(Block block, XmlDocument xmlDocument)
+        {
+            var paragraphSerializeStrategy = new ParagraphSerializeStrategy();
+            var list = (List) block;
+            var listElement = xmlDocument.CreateElement(_tagName);
+            foreach (var listItem in list.ListItems)
+            {
+                var listItemElement = xmlDocument.CreateElement("Item");
+
+                foreach (var listItemBlock in listItem.Blocks)
+                {
+                    listItemElement.AppendChild(paragraphSerializeStrategy.Serialize(listItemBlock, xmlDocument));
+                }
+                listElement.AppendChild(listItemElement);
+            }
+            return listElement;
         }
     }
 }
