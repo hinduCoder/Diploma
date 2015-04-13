@@ -27,6 +27,19 @@ namespace DiplomaProject
         public static FlowDocument GetDocument(DependencyObject element)
         {
             return (FlowDocument) element.GetValue(DocumentProperty);
-        } 
+        }
+
+        public static readonly DependencyProperty StyleNameProperty = DependencyProperty.RegisterAttached("StyleName",
+            typeof (String), typeof (FlowDocumentHelper), new PropertyMetadata(default(String)));
+
+        public static void SetStyleName(DependencyObject element, String value)
+        {
+            element.SetValue(StyleNameProperty, value);
+        }
+
+        public static String GetStyleName(DependencyObject element)
+        {
+            return (String) element.GetValue(StyleNameProperty);
+        }
     }
 }

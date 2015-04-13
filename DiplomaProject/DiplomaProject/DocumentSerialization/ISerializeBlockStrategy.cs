@@ -45,6 +45,8 @@ namespace DiplomaProject.DocumentSerialization
                         xmlAttribute.InnerText = prop.Item2.ToString(); //TODO сложные объекты?
                     inlineElement.Attributes.Append(xmlAttribute);
                 }
+                inlineElement.SetAttribute("StyleName", FlowDocumentHelper.GetStyleName(inline));
+
                 paragraphElement.AppendChild(inlineElement);
             }
             return paragraphElement;

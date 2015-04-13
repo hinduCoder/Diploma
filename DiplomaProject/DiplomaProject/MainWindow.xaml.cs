@@ -1,27 +1,17 @@
 ﻿using System;
-using System.ComponentModel;
-using System.IO;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
+using System.Windows.Controls.Ribbon;
 using System.Windows.Documents;
-using System.Windows.Documents.Serialization;
-using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Xml;
 using DiplomaProject.Controls;
-using DiplomaProject.DocumentSerialization;
-using Microsoft.Win32;
 
 namespace DiplomaProject
 {
-    /// <summary>
-    ///     Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-
         public MainWindow()
         {
             InitializeComponent();
@@ -52,11 +42,43 @@ namespace DiplomaProject
             e.Effects = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.Copy : DragDropEffects.None;
             e.Handled = true;
         }
-
-   
-//        private void RichTextBox_OnTextChanged(object sender, TextChangedEventArgs e) {
-//            IsDocumentChanged = true;
-//        }
         #endregion
+    }
+
+    public class RibbonToggleButtonGroup : RibbonControlGroup
+    {
+        protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
+        {
+            foreach (var item in e.NewItems ?? Items)
+            {
+                var toggleButton = item as RibbonToggleButton;
+                if (toggleButton == null)
+                    continue;
+                toggleButton.Checked += ToggleButtonOnChecked;
+                toggleButton.Unchecked += ToggleButtonOnUnchecked;
+            }
+            foreach(var oldItem in e.OldItems ?? new object[0])
+            {
+                var toggleButton = oldItem as RibbonToggleButton;
+                if(toggleButton == null)
+                    continue;
+                toggleButton.Checked -= ToggleButtonOnChecked;
+                toggleButton.Unchecked -= ToggleButtonOnUnchecked;
+            }
+        }
+
+        private void ToggleButtonOnUnchecked(object sender, RoutedEventArgs routedEventArgs)
+        {
+            
+        }
+
+        private void ToggleButtonOnChecked(object sender, RoutedEventArgs routedEventArgs)
+        {
+            foreach(var item in Items) {
+                if(!ReferenceEquals(item, sender)) {
+                    ((RibbonToggleButton)item).IsChecked = false;
+                }
+            }
+        }
     }
 }

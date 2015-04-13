@@ -34,7 +34,9 @@ namespace DiplomaProject.DocumentSerialization
                 var run = new Run(); //TODO: other inlines ?
                 foreach(XmlAttribute attribute in inline.Attributes) {
                     run.GetType().GetProperty(attribute.Name).SetValue(run, ParagraphSerializationHelper.PropertyConverters[attribute.Name].ConvertFromString(attribute.InnerText));
+                   
                 }
+                FlowDocumentHelper.SetStyleName(run, xmlNode.Attributes["StyleName"].InnerText);
                 paragraph.Inlines.Add(run);
             }
             flowDocument.Blocks.Add(paragraph);
