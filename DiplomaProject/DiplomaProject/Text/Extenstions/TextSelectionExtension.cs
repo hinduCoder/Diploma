@@ -1,4 +1,5 @@
 ﻿using System.Windows.Documents;
+using System.Windows.Media;
 
 namespace DiplomaProject.Text.Extenstions
 {
@@ -11,6 +12,7 @@ namespace DiplomaProject.Text.Extenstions
             selection.ApplyPropertyValue(TextElement.FontSizeProperty, (double)style.FontSize);
             selection.ApplyPropertyValue(TextElement.FontStyleProperty, style.FontStyle);
             selection.ApplyPropertyValue(TextElement.FontWeightProperty, style.FontWeight);
+            selection.ApplyPropertyValue(TextElement.ForegroundProperty, new SolidColorBrush(style.FontColor));
             FlowDocumentHelper.SetStyleName(selection.Start.Parent, style.Name);
         }
     }

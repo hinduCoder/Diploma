@@ -113,7 +113,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controls\BlockUIContainers\BlockImageContainer.cs">
+    <Compile Include="Controls\BlockUIContainers\ImageBlock.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controls\ResizableAdorner\ResizableAdorner.cs" />

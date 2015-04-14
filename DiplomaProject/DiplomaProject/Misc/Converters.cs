@@ -48,4 +48,33 @@ namespace DiplomaProject
             return FontParameters.FontWeights.Single(s => s.Equals(name));
         }
     }
+
+    public class FontWeightToBooleanConverter : ValueConverter
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return  (FontWeight)value == FontWeights.Bold; 
+        }
+
+        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if ((bool) value)
+                return FontWeights.Bold;
+            return FontWeights.Normal;
+        }
+    }
+    public class FontStyleToBooleanConverter : ValueConverter
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return (FontStyle) value == FontStyles.Italic;
+        }
+
+        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if ((bool) value)
+                return FontStyles.Italic;
+            return FontStyles.Normal;
+        }
+    }
 }

@@ -80,7 +80,7 @@ namespace DiplomaProject.Text
             FontFamily = style.FontFamily.ToString();
             FontStyle = style.FontStyle.ToString();
             FontSize = style.FontSize;
-
+            FontColor = style.FontColor.ToString();
         }
         [XmlAttribute]
         public string Name { get; set; }
@@ -100,6 +100,9 @@ namespace DiplomaProject.Text
         [XmlAttribute]
         public int FontSize { get; set; }
 
+        [XmlAttribute]
+        public string FontColor { get; set; }
+
         public ITextStyle ToRealTextStyle()
         {
             return new TextStyleImpl
@@ -110,6 +113,7 @@ namespace DiplomaProject.Text
                 FontFamily = new FontFamily(FontFamily),
                 FontStyle = (FontStyle) new FontStyleConverter().ConvertFromString(FontStyle),
                 FontWeight = (FontWeight) new FontWeightConverter().ConvertFromString(FontWeight),
+                FontColor = (Color) ColorConverter.ConvertFromString(FontColor)
             };
         }
     }
@@ -121,6 +125,7 @@ namespace DiplomaProject.Text
         public FontWeight FontWeight { get; set; }
         public FontStyle FontStyle { get; set; }
         public int FontSize { get; set; }
+        public Color FontColor { get; set; }
     }
   
 }

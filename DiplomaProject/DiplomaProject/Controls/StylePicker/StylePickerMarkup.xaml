@@ -3,7 +3,8 @@
                     xmlns:stylePicker="clr-namespace:DiplomaProject.Controls.StylePicker"
                     xmlns:text="clr-namespace:DiplomaProject.Text"
                     xmlns:local="clr-namespace:DiplomaProject"
-                    xmlns:viewModel="clr-namespace:DiplomaProject.ViewModel">
+                    xmlns:viewModel="clr-namespace:DiplomaProject.ViewModel"
+                    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit">
     <ControlTemplate x:Key="AddStyleButtonTemplate" TargetType="Button">
         <Border Height="55" Width="45" BorderBrush="Silver" x:Name="border" BorderThickness="3" Background="White" Margin="2">
             <Grid>
@@ -52,20 +53,27 @@
                                     <Setter Property="Margin" Value="3, 2"/>
                                 </Style>
                             </Grid.Resources>
-                            <Label Grid.Row="0" Content="Name: "/>
+                            <Label Grid.Row="0" Content="Имя: "/>
                             <TextBox Grid.Row="0" Text="{Binding Name}"></TextBox>
-                            <Label Grid.Row="1" Content="Font family:"/>
+                            <Label Grid.Row="1" Content="Шрифт:"/>
                             <TextBox Grid.Row="1" Text="{Binding FontFamily}"/>
 
-                            <Label Grid.Row="2" Content="Font size:"/>
+                            <Label Grid.Row="2" Content="Размер:"/>
                             <TextBox Grid.Row="2" Text="{Binding FontSize}"/>
 
-                            <Label Grid.Row="3" Content="Font style:"/>
-                            <ComboBox Grid.Row="3" ItemsSource="{x:Static text:FontParameters.FontStyles}" SelectedItem="{Binding FontStyle, Converter={local:FontStyleToStringConverter}}"/>
+                            <Label Grid.Row="3" Content="Стиль:"/>
+                            <RibbonControlGroup Grid.Row="3" Grid.Column="1" >
+                                <RibbonControlGroup.Resources>
+                                    <Style TargetType="RibbonToggleButton">
+                                        <Setter Property="FontFamily" Value="Segoe UI Symbol"/>
+                                    </Style>
+                                </RibbonControlGroup.Resources>
+                                <RibbonToggleButton IsChecked="{Binding Converter={local:FontWeightToBooleanConverter}, Path=FontWeight, Mode=TwoWay}" Label="&#xe1b9;"/>
+                                <RibbonToggleButton IsChecked="{Binding Converter={local:FontStyleToBooleanConverter}, Path=FontStyle, Mode=TwoWay}" Label="&#xe1b4;"/>
+                            </RibbonControlGroup>
 
-                            <Label Grid.Row="4" Content="Font weight"/>
-                            <ComboBox Grid.Row="4" ItemsSource="{x:Static text:FontParameters.FontWeights}" SelectedItem="{Binding FontWeight, Converter={local:FontWeightToStringConverter}}"/>
-
+                            <Label Grid.Row="4" Content="Цвет"/>
+                            <xctk:ColorPicker Grid.Row="4" Grid.Column="1" SelectedColor="{Binding Path=FontColor, Mode=TwoWay}" />
                             <Button Name="SaveStyleButton" Content="OK" Command="{TemplateBinding AddNewStyleCommand}" CommandParameter="{TemplateBinding NewTextStyle}" Grid.ColumnSpan="2" Grid.Row="5"/>
                         </Grid>
                     </Border>
@@ -144,10 +152,19 @@
                             <TextBox Grid.Row="2" Text="{Binding FontSize}"/>
 
                             <Label Grid.Row="3" Content="Font style:"/>
-                            <ComboBox Grid.Row="3" ItemsSource="{x:Static text:FontParameters.FontStyles}" SelectedItem="{Binding FontStyle, Converter={local:FontStyleToStringConverter}}"/>
+                            <RibbonControlGroup Grid.Row="3" Grid.Column="1" >
+                                <RibbonControlGroup.Resources>
+                                    <Style TargetType="RibbonToggleButton">
+                                        <Setter Property="FontFamily" Value="Segoe UI Symbol"/>
+                                    </Style>
+                                </RibbonControlGroup.Resources>
+                                <RibbonToggleButton IsChecked="{Binding Converter={local:FontWeightToBooleanConverter}, Path=FontWeight, Mode=TwoWay}" Label="&#xe1b9;"/>
+                                <RibbonToggleButton IsChecked="{Binding Converter={local:FontStyleToBooleanConverter}, Path=FontStyle, Mode=TwoWay}" Label="&#xe1b4;"/>
+                            </RibbonControlGroup>
 
-                            <Label Grid.Row="4" Content="Font weight"/>
-                            <ComboBox Grid.Row="4" ItemsSource="{x:Static text:FontParameters.FontWeights}" SelectedItem="{Binding FontWeight, Converter={local:FontWeightToStringConverter}}"/>
+                            <Label Grid.Row="4" Content="Цвет"/>
+                            <xctk:ColorPicker Grid.Row="4" Grid.Column="1" SelectedColor="{Binding Path=FontColor, Mode=TwoWay}" />
+
                             <Button Name="SaveStyleButton" Content="OK" Grid.ColumnSpan="2" Grid.Row="5"></Button>
                         </Grid>
                     </Border>

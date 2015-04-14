@@ -10,11 +10,12 @@ namespace DiplomaProject.Text
 {
     public interface ITextStyle {
         string Name { get; set; }
-        bool IsOneParagraph { get; set; }
+        bool IsOneParagraph { get; set; } //TODO not applied yet
         FontFamily FontFamily { get; set; }
         FontWeight FontWeight { get; set; }
         FontStyle FontStyle { get; set; }
         int FontSize { get; set; }
+        Color FontColor { get; set; }
     }
 
     public static class FontParameters

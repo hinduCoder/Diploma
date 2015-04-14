@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Ink;
 using System.Windows.Input;
 using DevExpress.Mvvm;
+using Xceed.Wpf.Toolkit;
 
 namespace DiplomaProject.Controls
 {
