@@ -71,8 +71,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Controls\BlockImageContainer\DrawerBlock.cs" />
-    <Compile Include="Controls\BlockImageContainer\FormulaBlock.cs" />
+    <Compile Include="Controls\BlockUIContainers\DrawerBlock.cs" />
+    <Compile Include="Controls\BlockUIContainers\FormulaBlock.cs" />
+    <Compile Include="Controls\Drawer\DrawerControl.cs" />
     <Compile Include="Controls\Formula\FormulaControl.cs" />
     <Compile Include="Controls\Formula\VisualContainerElement.cs" />
     <Compile Include="Controls\StylePicker\StylePicker.cs" />
@@ -92,6 +93,10 @@
     <Compile Include="ViewModel\FormattingProvider.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\StylesGroupViewModel.cs" />
+    <Page Include="Controls\Drawer\DrawerControlMarkup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\Formula\FormulaControlMarkup.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -108,7 +113,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controls\BlockImageContainer\BlockImageContainer.cs">
+    <Compile Include="Controls\BlockUIContainers\BlockImageContainer.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controls\ResizableAdorner\ResizableAdorner.cs" />

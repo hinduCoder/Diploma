@@ -76,6 +76,9 @@ namespace DiplomaProject.ViewModel
             get { return new DelegateCommand(() => _formattingProvider.AddOrderedList(CurrentSelection)); }
         }
 
+        public ICommand AddDrawingCommand
+        { get { return new DelegateCommand(() => _formattingProvider.AddDrawing(CurrentSelection)); } }
+
         public ICommand BoldCommand
         {
             get

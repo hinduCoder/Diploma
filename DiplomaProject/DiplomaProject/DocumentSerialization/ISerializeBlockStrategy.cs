@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
@@ -25,6 +26,8 @@ namespace DiplomaProject.DocumentSerialization
                 var list = block as List;
                 return new ListSerializeStrategy(list.MarkerStyle == TextMarkerStyle.Decimal ? "Olist" : "UList");
             }
+            if (block is DrawerBlock)
+                return new DrawerSerializeStrategy();
             return null;
         }
     }
@@ -103,6 +106,28 @@ namespace DiplomaProject.DocumentSerialization
                 listElement.AppendChild(listItemElement);
             }
             return listElement;
+        }
+    }
+
+    public class DrawerSerializeStrategy : ISerializeBlockStrategy
+    {
+        public XmlElement Serialize(Block block, XmlDocument xmlDocument)
+        {
+            var drawerBlock = (DrawerBlock) block;
+            var drawerElement = xmlDocument.CreateElement("Drawing");
+            foreach (var stroke in drawerBlock.Drawer.Strokes)
+            {
+                var strokeElement = xmlDocument.CreateElement("Stroke");
+                foreach (var point in stroke.StylusPoints)
+                {
+                    var pointElement = xmlDocument.CreateElement("Point");
+                    pointElement.SetAttribute("X", point.X.ToString()); //TODO DrawingAttributes
+                    pointElement.SetAttribute("Y", point.Y.ToString());
+                    strokeElement.AppendChild(pointElement);
+                }
+                drawerElement.AppendChild(strokeElement);
+            }
+            return drawerElement;
         }
     }
 }

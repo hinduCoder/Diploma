@@ -8,6 +8,7 @@
              <ResourceDictionary.MergedDictionaries>
                  <ResourceDictionary Source="Controls/StylePicker/StylePickerMarkup.xaml"/>
                  <ResourceDictionary Source="Controls/Formula/FormulaControlMarkup.xaml"/>
+                 <ResourceDictionary Source="Controls/Drawer/DrawerControlMarkup.xaml"/>
              </ResourceDictionary.MergedDictionaries>
             
         </ResourceDictionary>

@@ -30,6 +30,11 @@ namespace DiplomaProject.ViewModel
             AddBlock(new List {ListItems = {new ListItem()}, MarkerStyle = TextMarkerStyle.Decimal}, selection);
         }
 
+        public void AddDrawing(TextSelection currentSelection) 
+        {
+            AddBlock(new DrawerBlock(), currentSelection);
+        }
+
         private void AddBlock(Block block, TextSelection selection)
         {
             if (selection == null || selection.End == null)
@@ -42,5 +47,6 @@ namespace DiplomaProject.ViewModel
         {
             _flowDocument.Blocks.Add(block);
         }
+
     }
 }

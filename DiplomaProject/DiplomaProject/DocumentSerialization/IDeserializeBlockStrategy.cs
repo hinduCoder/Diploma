@@ -1,7 +1,10 @@
 using System;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Ink;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Xml;
 using DiplomaProject.Controls;
@@ -23,6 +26,8 @@ namespace DiplomaProject.DocumentSerialization
                     return new ListDeserializeStrategy(TextMarkerStyle.Disc);
                 case "OList":
                     return new ListDeserializeStrategy(TextMarkerStyle.Decimal);
+                case "Drawing":
+                    return new DrawerDeserializeStrategy();
             }
             return null;
         }
@@ -99,6 +104,24 @@ namespace DiplomaProject.DocumentSerialization
                 list.ListItems.Add(listItem);
             }
             flowDocument.Blocks.Add(list);
+        }
+    }
+    public class DrawerDeserializeStrategy : IDeserializeBlockStrategy
+    {
+        public void Deserialize(XmlNode xmlNode, FlowDocument flowDocument)
+        {
+            var inkCanvas = new InkCanvas();
+            foreach (XmlNode strokeNode in xmlNode.ChildNodes)
+            {
+                var points = new StylusPointCollection();
+                foreach (XmlNode pointNode in strokeNode.ChildNodes)
+                {
+                    points.Add(new StylusPoint(Double.Parse(pointNode.Attributes["X"].InnerText),
+                        Double.Parse(pointNode.Attributes["Y"].InnerText)));
+                }
+                inkCanvas.Strokes.Add(new Stroke(points)); //TODO DrawingAttributes
+            }
+            flowDocument.Blocks.Add(new DrawerBlock { Child = new DrawerControl { Strokes = inkCanvas.Strokes }});
         }
     }
 }
