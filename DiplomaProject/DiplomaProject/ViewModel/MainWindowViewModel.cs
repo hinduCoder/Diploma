@@ -91,30 +91,14 @@ namespace DiplomaProject.ViewModel
             get { return new DelegateCommand(AddFromPhone);}
         }
 
-        private void AddFromPhone()
+        private async void AddFromPhone()
         {
-           
-            var waitDialogWindow = new WaitDialogWindow() { ShowInTaskbar = false };
-
-            Task.Factory.StartNew(() =>
-            {
-                JpegBitmapDecoder decoder = null;
-                waitDialogWindow.Dispatcher.BeginInvoke(new Action(() =>
-                    waitDialogWindow.ShowDialog()));
-                var socket = new Socket(SocketType.Dgram, ProtocolType.Udp);
-                EndPoint endPoint = new IPEndPoint(IPAddress.Any, 50001);
-                socket.Bind(endPoint);
-                var buffer = new byte[10000000];
-                socket.ReceiveFrom(buffer, ref endPoint);
-                var stream = new MemoryStream(buffer);
-                decoder = new JpegBitmapDecoder(stream, BitmapCreateOptions.None, BitmapCacheOption.None);
-                var frame = decoder.Frames[0];
-                waitDialogWindow.Dispatcher.Invoke(() =>
-                {
-                    waitDialogWindow.Close();
-                    Document.Blocks.Add(new ImageBlock {Source = frame});
-                });
-            });
+            var waitDialogWindow = new WaitDialogWindow { ShowInTaskbar = false };
+            waitDialogWindow.Show();
+            var reciever = new ImageFromPhoneReciever();
+            var bitmapSource = await reciever.RecieveAsync();
+            Document.Blocks.Add(new ImageBlock { Source = bitmapSource });
+            waitDialogWindow.Close();
         }
 
         public ICommand BoldCommand
