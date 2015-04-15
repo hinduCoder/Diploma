@@ -1,15 +1,22 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Configuration;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using System.Xml.Serialization;
 using DevExpress.Mvvm;
 using DevExpress.Mvvm.UI.Interactivity;
+using DiplomaProject.Controls;
 using DiplomaProject.DocumentSerialization;
 using DiplomaProject.Properties;
 using DiplomaProject.Text;
@@ -78,6 +85,37 @@ namespace DiplomaProject.ViewModel
 
         public ICommand AddDrawingCommand
         { get { return new DelegateCommand(() => _formattingProvider.AddDrawing(CurrentSelection)); } }
+
+        public ICommand AddFromPhoneCommand
+        {
+            get { return new DelegateCommand(AddFromPhone);}
+        }
+
+        private void AddFromPhone()
+        {
+           
+            var waitDialogWindow = new WaitDialogWindow() { ShowInTaskbar = false };
+
+            Task.Factory.StartNew(() =>
+            {
+                JpegBitmapDecoder decoder = null;
+                waitDialogWindow.Dispatcher.BeginInvoke(new Action(() =>
+                    waitDialogWindow.ShowDialog()));
+                var socket = new Socket(SocketType.Dgram, ProtocolType.Udp);
+                EndPoint endPoint = new IPEndPoint(IPAddress.Any, 50001);
+                socket.Bind(endPoint);
+                var buffer = new byte[10000000];
+                socket.ReceiveFrom(buffer, ref endPoint);
+                var stream = new MemoryStream(buffer);
+                decoder = new JpegBitmapDecoder(stream, BitmapCreateOptions.None, BitmapCacheOption.None);
+                var frame = decoder.Frames[0];
+                waitDialogWindow.Dispatcher.Invoke(() =>
+                {
+                    waitDialogWindow.Close();
+                    Document.Blocks.Add(new ImageBlock {Source = frame});
+                });
+            });
+        }
 
         public ICommand BoldCommand
         {
