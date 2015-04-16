@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using DiplomaProject.Annotations;
+using MathNet.Numerics.Integration;
 
 namespace DiplomaProject.Controls
 {
@@ -52,23 +53,32 @@ namespace DiplomaProject.Controls
             Rect rect = new Rect(this.AdornedElement.RenderSize);
             Pen renderPen = new Pen(new SolidColorBrush(Colors.CornflowerBlue), 0.1);
 
-            for(var i = rect.Left; i <= rect.Right; i += step) {
+            for(double x = 0; x <= rect.Right / 2; x += step) {
                 drawingContext.DrawLine(renderPen,
-                    new Point(rect.Left + i, rect.Top),
-                    new Point(rect.Left + i, rect.Bottom));
-            }
-            for(var i = rect.Top; i <= rect.Bottom; i += step) {
+                    new Point(x + rect.Right / 2, rect.Top),
+                    new Point(x + rect.Right / 2, rect.Bottom));
                 drawingContext.DrawLine(renderPen,
-                    new Point(rect.Left, rect.Top + i),
-                    new Point(rect.Right, rect.Top + i));
-            }
-            for(var i = rect.Left; i <= rect.Right; i += step) {
-                DrawPointCoord(drawingContext, Math.Floor((i - rect.Left - rect.Width / 2) / step * _plotControl.ScaleOfBox), new Point(rect.Left + i, rect.Height / 2));
-            }
+                    new Point(-x + rect.Right / 2, rect.Top),
+                    new Point(-x + rect.Right / 2, rect.Bottom));
+                DrawPointCoord(drawingContext, GetCoord(x, rect.Width, step), new Point(rect.Right / 2 + x, rect.Height / 2));
+                DrawPointCoord(drawingContext, GetCoord(-x, rect.Width, step), new Point(rect.Right / 2 - x, rect.Height / 2));
 
-            for(var i = rect.Top; i <= rect.Bottom; i += step) {
-                DrawPointCoord(drawingContext, -Math.Floor((i - rect.Top - rect.Height / 2) / step * _plotControl.ScaleOfBox), new Point(rect.Width / 2, rect.Top + i));
             }
+            for(double y = 0; y <= rect.Bottom / 2; y += step) {
+                drawingContext.DrawLine(renderPen,
+                    new Point(rect.Left, rect.Bottom / 2 + y),
+                    new Point(rect.Right, rect.Bottom / 2 + y));
+                drawingContext.DrawLine(renderPen,
+                    new Point(rect.Left, rect.Bottom / 2 - y),
+                    new Point(rect.Right, rect.Bottom / 2 - y));
+                DrawPointCoord(drawingContext, -GetCoord(y, rect.Height, step), new Point(rect.Width / 2, rect.Bottom / 2 + y));
+                DrawPointCoord(drawingContext, -GetCoord(-y, rect.Height, step), new Point(rect.Width / 2, rect.Bottom / 2 - y));
+            }
+        }
+
+        private double GetCoord(double i, double boxSize, double step)
+        {
+            return i / step * _plotControl.ScaleOfBox;
         }
 
         private static void DrawPointCoord(DrawingContext drawingContext, double coord, Point point) {

@@ -176,12 +176,6 @@
     <EmbeddedResource Include="Assets\RibbonApplicationMenuIconMin.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Controls\Controls.csproj">
-      <Project>{764E9893-F31A-418F-A24F-22BBDDDBF402}</Project>
-      <Name>Controls</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\OrderedListIcon.png" />
   </ItemGroup>
   <ItemGroup>
