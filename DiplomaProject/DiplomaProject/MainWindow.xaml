@@ -29,7 +29,7 @@
             <Ribbon.ApplicationMenu>
                 <RibbonApplicationMenu>
                     <RibbonApplicationMenu.AuxiliaryPaneContent>
-                        <local:DropboxView DownloadCommand="{Binding OpenFromDropbox}"/>
+                        <local:DropboxView DownloadCommand="{Binding OpenFromDropboxCommand}" UploadCommand="{Binding SaveToDropboxCommand}"/>
                     </RibbonApplicationMenu.AuxiliaryPaneContent>
                     <RibbonApplicationMenuItem Header="Открыть" Name="OpenMenuItem" Command="{Binding OpenFileCommand}"/>
                     <RibbonApplicationMenuItem Header="Сохранить" Name="SaveMenuItem" Command="{Binding SaveFileCommand}"/>
@@ -83,8 +83,6 @@
                             <RibbonToggleButton Label="&#xe1a1;" Command="{Binding CenterAlignCommand}"/>
                             <RibbonToggleButton Label="&#xe1a2;" Command="{Binding RightAlignCommand}"/>
                         </local:RibbonToggleButtonGroup>
-                        <!--                        <RibbonToggleButton Grid.Row="2" Grid.Column="0" Label="^" Command="{Binding OverlineDecorationCommand}"/>-->
-                        <!--                        <RibbonToggleButton Grid.Row="2" Grid.Column="1" Label="_" Command="{Binding UnderlineDecorationCommand}"/>-->
                     </Grid>
                 </RibbonGroup>
                 <RibbonGroup Header="Элементы" >

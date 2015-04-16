@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -167,7 +168,7 @@ namespace DiplomaProject.ViewModel
 
         #endregion
 
-        #region Open&Save File
+        #region Open&Save Files
 
         private void SaveAsFile()
         {
@@ -178,14 +179,29 @@ namespace DiplomaProject.ViewModel
                 saveFileDialog.FileName);
         }
 
-        public ICommand OpenFromDropbox
+        public ICommand OpenFromDropboxCommand
         {
-            get { return new DelegateCommand<byte[]>(bytes =>
+            get {
+                return new DelegateCommand<byte[]>(bytes =>
+                {
+                    File.WriteAllBytes("temp", bytes);
+                    Document = _flowDocumentSerializer.Deserialize("temp");
+                    File.Delete("temp");
+                }); 
+            }
+        }
+
+        public ICommand SaveToDropboxCommand
+        {
+            get
             {
-                File.WriteAllBytes("temp", bytes);
-                Document = _flowDocumentSerializer.Deserialize("temp");
-                File.Delete("temp");
-            }); }
+                return new DelegateCommand<Action<byte[]>>(a =>
+                {
+                    _flowDocumentSerializer.Serialize(Document, "temp");
+                    a(File.ReadAllBytes("temp"));
+                    File.Delete("temp");
+                });
+            }
         }
         private void SaveFile()
         {
