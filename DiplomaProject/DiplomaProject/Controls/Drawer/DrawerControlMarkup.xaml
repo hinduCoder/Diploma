@@ -15,7 +15,7 @@
                     <Button x:Name="PaintBtn">&#xe104;</Button>
                     <Button x:Name="ClearBtn">&#xe106;</Button>
                 </StackPanel>
-                <InkCanvas Strokes="{TemplateBinding Strokes}" Background="{Binding ElementName=root, Path=Background}" x:Name="Canvas"/>
+                <controls:InkCanvasEx Strokes="{TemplateBinding Strokes}" Background="{Binding ElementName=root, Path=Background}" x:Name="Canvas"/>
             </DockPanel>
         </Border>
     </ControlTemplate>
