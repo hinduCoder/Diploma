@@ -37,7 +37,7 @@
 				Header="Главная">
                 <RibbonGroup x:Name="GroupFont" 
 					Header="Шрифт" Width="auto">
-                        <!--<RibbonComboBox x:Name="FontFamilyComboBox">
+                    <!--<RibbonComboBox x:Name="FontFamilyComboBox">
                             <RibbonGallery>
                                 <RibbonGalleryCategory ItemsSource="{x:Static local:Fonts.AvailablleFontFamilies}"/>
                             </RibbonGallery>
@@ -72,17 +72,39 @@
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <RibbonToggleButton Grid.Column="0" Height="20" Label="B" FontWeight="Bold" Command="{Binding BoldCommand}"/>
-                        <RibbonToggleButton Grid.Row="0" Grid.Column="1" Label="I" FontStyle="Italic" Command="{Binding ItalicCommand}" />
-                        <RibbonToggleButton Grid.Row="0" Grid.Column="2" Label="U" Command="{Binding UnderlinedCommand}"/>
+                        <RibbonToggleButton Grid.Column="0" Height="20" Label="&#xe1b9;" FontWeight="Bold" Command="{Binding BoldCommand}"/>
+                        <RibbonToggleButton Grid.Row="0" Grid.Column="1" Label="&#xe1b4;" FontStyle="Italic" Command="{Binding ItalicCommand}" />
+                        <RibbonToggleButton Grid.Row="0" Grid.Column="2" Label="&#xe1b8;" Command="{Binding UnderlinedCommand}"/>
                         <local:RibbonToggleButtonGroup Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" >
                             <RibbonToggleButton Label="&#xe1a0;" Command="{Binding LeftAlignCommand}"/>
                             <RibbonToggleButton Label="&#xe1a1;" Command="{Binding CenterAlignCommand}"/>
                             <RibbonToggleButton Label="&#xe1a2;" Command="{Binding RightAlignCommand}"/>
                         </local:RibbonToggleButtonGroup>
-<!--                        <RibbonToggleButton Grid.Row="2" Grid.Column="0" Label="^" Command="{Binding OverlineDecorationCommand}"/>-->
-<!--                        <RibbonToggleButton Grid.Row="2" Grid.Column="1" Label="_" Command="{Binding UnderlineDecorationCommand}"/>-->
+                        <!--                        <RibbonToggleButton Grid.Row="2" Grid.Column="0" Label="^" Command="{Binding OverlineDecorationCommand}"/>-->
+                        <!--                        <RibbonToggleButton Grid.Row="2" Grid.Column="1" Label="_" Command="{Binding UnderlineDecorationCommand}"/>-->
                     </Grid>
+                </RibbonGroup>
+                <RibbonGroup Header="Элементы" >
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel.Resources>
+                            <Style TargetType="{x:Type RibbonButton}" BasedOn="{StaticResource {x:Type RibbonButton}}">
+                                <Setter Property="FontFamily" Value="Segoe UI Symbol"/>
+
+                            </Style>
+                        </StackPanel.Resources>
+                        <RibbonButton Content="&#xE292;" FontSize="25" Command="{Binding AddUnorderedListCommand}"/>
+                        <RibbonButton Command="{Binding AddOrderedListCommand}">
+                            <Image Width="30" Source="Assets/OrderedListIcon.png"/>
+                        </RibbonButton>
+                        <RibbonButton Content="f(x)" FontStyle="Italic"  FontSize="25" Command="{Binding AddFormulaCommand}"/>
+                        <RibbonButton Content="&#xE193;" FontSize="25" Command="{Binding AddDrawingCommand}"/>
+                        <RibbonButton Command="{Binding AddFromPhoneCommand}">
+                            <Image Source="Assets/MobileIcon.png"/>
+                        </RibbonButton>
+                        <RibbonButton Command="{Binding AddPlotCommand}">
+                            <Image Width="30" Source="Assets/PlotIcon.png"/>
+                        </RibbonButton>
+                    </StackPanel>
                 </RibbonGroup>
                 <RibbonGroup x:Name="StyleGroup" Header="Стили" >
                     <RibbonGroup.DataContext>
@@ -96,26 +118,11 @@
                                         <ContextMenu>
                                             <MenuItem Header="Delete" CommandParameter="{Binding }" Command="{Binding DataContext.DeleteTextStyleCommand, Source={x:Reference StyleGroup}}"/>
                                         </ContextMenu>
-                                    </sp:StylePickerItem.ContextMenu>    
+                                    </sp:StylePickerItem.ContextMenu>
                                 </sp:StylePickerItem>
                             </DataTemplate>
                         </sp:StylePicker.ItemTemplate>
                     </sp:StylePicker>
-                </RibbonGroup>
-                <RibbonGroup Header="Элементы">
-                    <StackPanel Orientation="Horizontal">
-                        <StackPanel.Resources>
-                            <Style TargetType="RibbonButton" BasedOn="{StaticResource {x:Type RibbonButton}}">
-                                <Setter Property="FontFamily" Value="Segoe UI Symbol"></Setter>
-
-                            </Style>
-                        </StackPanel.Resources>
-                        <RibbonButton Content="&#xe292;" FontSize="25" Command="{Binding AddUnorderedListCommand}"/>
-                        <RibbonButton Content="&#xe133;" FontSize="23" Command="{Binding AddOrderedListCommand}"/>
-                        <RibbonButton Content="f(x)" FontStyle="Italic" FontSize="25" Command="{Binding AddFormulaCommand}"></RibbonButton>
-                        <RibbonButton Content="&#xe193;" FontSize="25" Command="{Binding AddDrawingCommand}"/>
-                        <RibbonButton Content="&#xe1d0;" FontSize="25" Command="{Binding AddFromPhoneCommand}"></RibbonButton>
-                    </StackPanel>
                 </RibbonGroup>
             </RibbonTab>
             <!--<RibbonTab Header="Test">

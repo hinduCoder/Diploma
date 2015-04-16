@@ -1,5 +1,6 @@
 using System.Windows;
 using System.Windows.Documents;
+using System.Windows.Media;
 using DiplomaProject.Controls;
 
 namespace DiplomaProject.ViewModel
@@ -35,6 +36,15 @@ namespace DiplomaProject.ViewModel
             AddBlock(new DrawerBlock(), currentSelection);
         }
 
+        public void AddImage(TextSelection currentSelection, ImageSource source)
+        {
+            AddBlock(new ImageBlock { Source = source }, currentSelection);
+        }
+
+        public void AddPlot(TextSelection currentSelection)
+        {
+            AddBlock(new PlotBlock(), currentSelection);
+        }
         private void AddBlock(Block block, TextSelection selection)
         {
             if (selection == null || selection.End == null)

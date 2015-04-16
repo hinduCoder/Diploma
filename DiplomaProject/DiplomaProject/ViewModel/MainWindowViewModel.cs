@@ -1,24 +1,10 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Configuration;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Threading;
-using System.Xml.Serialization;
 using DevExpress.Mvvm;
-using DevExpress.Mvvm.UI.Interactivity;
-using DiplomaProject.Controls;
 using DiplomaProject.DocumentSerialization;
-using DiplomaProject.Properties;
 using DiplomaProject.Text;
 using DiplomaProject.Text.Extenstions;
 using Microsoft.Win32;
@@ -91,13 +77,18 @@ namespace DiplomaProject.ViewModel
             get { return new DelegateCommand(AddFromPhone);}
         }
 
+        public ICommand AddPlotCommand
+        {
+            get {  return new DelegateCommand(() => _formattingProvider.AddPlot(CurrentSelection));}
+        }
+
         private async void AddFromPhone()
         {
             var waitDialogWindow = new WaitDialogWindow { ShowInTaskbar = false };
             waitDialogWindow.Show();
             var reciever = new ImageFromPhoneReciever();
             var bitmapSource = await reciever.RecieveAsync();
-            Document.Blocks.Add(new ImageBlock { Source = bitmapSource });
+            _formattingProvider.AddImage(CurrentSelection, bitmapSource);
             waitDialogWindow.Close();
         }
 

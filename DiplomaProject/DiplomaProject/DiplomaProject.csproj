@@ -77,10 +77,12 @@
     </ApplicationDefinition>
     <Compile Include="Controls\BlockUIContainers\DrawerBlock.cs" />
     <Compile Include="Controls\BlockUIContainers\FormulaBlock.cs" />
+    <Compile Include="Controls\BlockUIContainers\PlotBlock.cs" />
     <Compile Include="Controls\Drawer\DrawerControl.cs" />
     <Compile Include="Controls\Drawer\GeometryHelper.cs" />
     <Compile Include="Controls\Formula\FormulaControl.cs" />
     <Compile Include="Controls\Formula\VisualContainerElement.cs" />
+    <Compile Include="Controls\PlotControl\PlotControl.cs" />
     <Compile Include="Controls\StylePicker\StylePicker.cs" />
     <Compile Include="Controls\StylePicker\StylePickerItem.cs" />
     <Compile Include="DocumentSerialization\FlowDocumentSerializer.cs" />
@@ -90,6 +92,7 @@
     <Compile Include="Misc\Converters.cs" />
     <Compile Include="Misc\DependencyPropertyRegistator.cs" />
     <Compile Include="Misc\FlowDocumentHelper.cs" />
+    <Compile Include="Misc\MarkupExtensions.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Text\Extenstions\TextSelectionExtension.cs" />
@@ -107,6 +110,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\Formula\FormulaControlMarkup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\PlotControl\PlotControlMarkup.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -173,6 +180,15 @@
       <Project>{764E9893-F31A-418F-A24F-22BBDDDBF402}</Project>
       <Name>Controls</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\OrderedListIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\PlotIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\MobileIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

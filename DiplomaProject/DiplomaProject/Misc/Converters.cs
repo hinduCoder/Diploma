@@ -37,7 +37,6 @@ namespace DiplomaProject
         }
     }
 
-
     public class FontWeightToStringConverter : ValueConverter {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
             return value.ToString();
@@ -63,6 +62,7 @@ namespace DiplomaProject
             return FontWeights.Normal;
         }
     }
+
     public class FontStyleToBooleanConverter : ValueConverter
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -75,6 +75,19 @@ namespace DiplomaProject
             if ((bool) value)
                 return FontStyles.Italic;
             return FontStyles.Normal;
+        }
+    }
+
+    public class DivideByTwoConverter : ValueConverter {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            double doubleValue = 0;
+            try {
+                doubleValue = System.Convert.ToDouble(value);
+            } catch {
+                return DependencyProperty.UnsetValue;
+            }
+            return doubleValue / 2;
         }
     }
 }

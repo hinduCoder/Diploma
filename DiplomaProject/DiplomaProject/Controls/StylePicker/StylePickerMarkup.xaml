@@ -8,7 +8,7 @@
     <ControlTemplate x:Key="AddStyleButtonTemplate" TargetType="Button">
         <Border Height="55" Width="45" BorderBrush="Silver" x:Name="border" BorderThickness="3" Background="White" Margin="2">
             <Grid>
-                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}"/>
+                <ContentControl VerticalAlignment="Center" HorizontalAlignment="Center" Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}"/>
             </Grid>
         </Border>
         <ControlTemplate.Triggers>
