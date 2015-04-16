@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -177,6 +178,15 @@ namespace DiplomaProject.ViewModel
                 saveFileDialog.FileName);
         }
 
+        public ICommand OpenFromDropbox
+        {
+            get { return new DelegateCommand<byte[]>(bytes =>
+            {
+                File.WriteAllBytes("temp", bytes);
+                Document = _flowDocumentSerializer.Deserialize("temp");
+                File.Delete("temp");
+            }); }
+        }
         private void SaveFile()
         {
             if (!IsDocumentChanged)

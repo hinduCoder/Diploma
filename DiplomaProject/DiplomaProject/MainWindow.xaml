@@ -28,6 +28,9 @@
         <Ribbon DockPanel.Dock="Top" x:Name="Ribbon">
             <Ribbon.ApplicationMenu>
                 <RibbonApplicationMenu>
+                    <RibbonApplicationMenu.AuxiliaryPaneContent>
+                        <local:DropboxView DownloadCommand="{Binding OpenFromDropbox}"/>
+                    </RibbonApplicationMenu.AuxiliaryPaneContent>
                     <RibbonApplicationMenuItem Header="Открыть" Name="OpenMenuItem" Command="{Binding OpenFileCommand}"/>
                     <RibbonApplicationMenuItem Header="Сохранить" Name="SaveMenuItem" Command="{Binding SaveFileCommand}"/>
                     <RibbonApplicationMenuItem Header="Сохранить как" Name="SaveAsMenuItem" Command="{Binding SaveAsFileCommand}"/>

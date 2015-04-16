@@ -40,6 +40,9 @@
     <Reference Include="DevExpress.Mvvm.UI">
       <HintPath>..\packages\DevExpressMvvm.14.2.3.0\lib\net40-client\DevExpress.Mvvm.UI.dll</HintPath>
     </Reference>
+    <Reference Include="DropNet">
+      <HintPath>..\packages\DropNet.1.10.23.0\lib\net40\DropNet.dll</HintPath>
+    </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>..\packages\DotNetZip.1.9.3\lib\net20\Ionic.Zip.dll</HintPath>
     </Reference>
@@ -47,6 +50,9 @@
       <HintPath>..\packages\MathNet.Numerics.3.6.0\lib\net40\MathNet.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="ReachFramework" />
+    <Reference Include="RestSharp">
+      <HintPath>..\packages\RestSharp.105.0.1\lib\net4\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Numerics" />
@@ -89,6 +95,9 @@
     <Compile Include="DocumentSerialization\IDeserializeBlockStrategy.cs" />
     <Compile Include="DocumentSerialization\ISerializeBlockStrategy.cs" />
     <Compile Include="DocumentSerialization\ParagraphSerializationHelper.cs" />
+    <Compile Include="DropboxView.xaml.cs">
+      <DependentUpon>DropboxView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Misc\Converters.cs" />
     <Compile Include="Misc\DependencyPropertyRegistator.cs" />
     <Compile Include="Misc\FlowDocumentHelper.cs" />
@@ -120,6 +129,10 @@
     <Page Include="Controls\StylePicker\StylePickerMarkup.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DropboxView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -183,6 +196,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\MobileIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
