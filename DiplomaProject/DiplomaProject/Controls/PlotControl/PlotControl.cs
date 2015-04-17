@@ -4,20 +4,24 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Ink;
 using System.Windows.Media;
 using DiplomaProject.Annotations;
 using MathNet.Numerics.Integration;
 
 namespace DiplomaProject.Controls
 {
-    public class PlotControl : Control
-    {
+    public class PlotControl : Control {
+        public static readonly DependencyProperty StrokesProperty;
         public static readonly DependencyProperty BoxSizeProperty;
         public static readonly DependencyProperty ScaleOfBoxProperty;
+
+        public DrawerControl DrawerControl { get; private set; }
 
         static PlotControl()
         {
             var registator = new DependencyPropertyRegistator<PlotControl>();
+            StrokesProperty = registator.Register("Strokes", new StrokeCollection());
             BoxSizeProperty = registator.Register("BoxSize", 30d);
             ScaleOfBoxProperty = registator.Register("ScaleOfBox", 1d);
         }
@@ -31,6 +35,12 @@ namespace DiplomaProject.Controls
             AdornerLayer.GetAdornerLayer(this).Add(new PlotGridAdorner(this));
         }
 
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+            DrawerControl = GetTemplateChild("DrawerControl") as DrawerControl;
+        }
+
         public double BoxSize
         {
             get { return (double) GetValue(BoxSizeProperty); }
@@ -40,7 +50,10 @@ namespace DiplomaProject.Controls
             get { return (double)GetValue(ScaleOfBoxProperty); }
             set { SetValue(ScaleOfBoxProperty, value); }
         }
-
+        public StrokeCollection Strokes {
+            get { return (StrokeCollection)GetValue(StrokesProperty); }
+            set { SetValue(StrokesProperty, value); }
+        }
     }
     public class PlotGridAdorner : Adorner {
         private PlotControl _plotControl;

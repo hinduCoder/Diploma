@@ -56,6 +56,7 @@ namespace DiplomaProject
                 var dir = new FileTreeNode {Name = content.Name, Path = content.Path};
                 rootFileTreeNode.Children.Add(dir);
                 if (content.Is_Dir)
+                    dir.IsDirectory = true;
                     LoadFilesTree(dir, Path.Combine(path, dir.Name).Replace('\\', '/'));
             }
             ProgressBar.Visibility = Visibility.Collapsed;
@@ -76,7 +77,7 @@ namespace DiplomaProject
         private async void OnOpenClick(object sender, RoutedEventArgs e)
         {
             var file = TreeView.SelectedItem as FileTreeNode;
-            if (file.Children.Count != 0)
+            if (file.IsDirectory)
                 return;
             var data = await _client.GetFileTask(file.Path);
             if (DownloadCommand != null)
@@ -108,24 +109,35 @@ namespace DiplomaProject
         }
     }
 
-    public class FileTreeNode : ViewModelBase {
+    public class FileTreeNode : ViewModelBase
+    {
         private string _name;
         private ObservableCollection<FileTreeNode> _children = new ObservableCollection<FileTreeNode>();
         private string _path;
+        private bool _isDirectory;
 
-        public string Name { get { return _name; } set { SetProperty(ref _name, value, () => Name); } }
+        public string Name
+        {
+            get { return _name; }
+            set { SetProperty(ref _name, value, () => Name); }
+        }
 
-        public ObservableCollection<FileTreeNode> Children {
+        public ObservableCollection<FileTreeNode> Children
+        {
             get { return _children; }
             set { SetProperty(ref _children, value, () => Children); }
         }
 
-        public string Path { get { return _path; } set { SetProperty(ref _path, value, () => Path); } }
+        public string Path
+        {
+            get { return _path; }
+            set { SetProperty(ref _path, value, () => Path); }
+        }
 
-        public bool IsDirectory {
-            get {
-                return Children.Count != 0;
-            }
+        public bool IsDirectory
+        {
+            get { return _isDirectory; }
+            set { SetProperty(ref _isDirectory, value, () => IsDirectory); }
         }
     }
 }

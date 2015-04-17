@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿    using System.Collections.Generic;
+    using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Ink;
@@ -56,13 +57,17 @@ namespace DiplomaProject.Controls
             var reducedPoints = GeometryHelper.DouglasPeuckerReduction(points.Select(sp => sp.ToPoint()).ToList(), 10d);
             var spline = CubicSpline.InterpolateNatural(reducedPoints.Select(p => p.X), reducedPoints.Select(p => p.Y));
             Point? prevPoint = null;
+            Points = new List<Point>();
             for(var i = points.Min(sp => sp.X); i <= points.Max(sp => sp.X); i++) {
                 var curPoint = new Point(i, spline.Interpolate(i));
+                Points.Add(curPoint);
                 if(prevPoint != null)
                     context.DrawLine(new Pen(Brushes.Black, 2), prevPoint.Value, curPoint);
                 prevPoint = curPoint;
             }
         }
+
+        public List<Point> Points { get; private set; }
     }
 
     public class InkCanvasEx : InkCanvas {

@@ -83,10 +83,10 @@
     <Compile Include="Controls\BlockUIContainers\DrawerBlock.cs" />
     <Compile Include="Controls\BlockUIContainers\FormulaBlock.cs" />
     <Compile Include="Controls\BlockUIContainers\PlotBlock.cs" />
-    <Compile Include="Controls\Drawer\DrawerControl.cs" />
-    <Compile Include="Controls\Drawer\GeometryHelper.cs" />
-    <Compile Include="Controls\Formula\FormulaControl.cs" />
-    <Compile Include="Controls\Formula\VisualContainerElement.cs" />
+    <Compile Include="Controls\DrawerControl\DrawerControl.cs" />
+    <Compile Include="Controls\DrawerControl\GeometryHelper.cs" />
+    <Compile Include="Controls\FormulaControl\FormulaControl.cs" />
+    <Compile Include="Controls\FormulaControl\VisualContainerElement.cs" />
     <Compile Include="Controls\PlotControl\PlotControl.cs" />
     <Compile Include="Controls\StylePicker\StylePicker.cs" />
     <Compile Include="Controls\StylePicker\StylePickerItem.cs" />
@@ -113,11 +113,11 @@
     <Compile Include="WaitDialogWindow.xaml.cs">
       <DependentUpon>WaitDialogWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="Controls\Drawer\DrawerControlMarkup.xaml">
+    <Page Include="Controls\DrawerControl\DrawerControlMarkup.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\Formula\FormulaControlMarkup.xaml">
+    <Page Include="Controls\FormulaControl\FormulaControlMarkup.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

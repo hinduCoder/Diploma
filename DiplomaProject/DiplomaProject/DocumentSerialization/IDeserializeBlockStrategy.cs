@@ -28,6 +28,8 @@ namespace DiplomaProject.DocumentSerialization
                     return new ListDeserializeStrategy(TextMarkerStyle.Decimal);
                 case "Drawing":
                     return new DrawerDeserializeStrategy();
+                case "Plot":
+                    return new PlotDeserializeStrategy();
             }
             return null;
         }
@@ -110,7 +112,7 @@ namespace DiplomaProject.DocumentSerialization
     {
         public void Deserialize(XmlNode xmlNode, FlowDocument flowDocument)
         {
-            var inkCanvas = new InkCanvas();
+            var inkCanvas = new InkCanvasEx();
             foreach (XmlNode strokeNode in xmlNode.ChildNodes)
             {
                 var points = new StylusPointCollection();
@@ -122,6 +124,22 @@ namespace DiplomaProject.DocumentSerialization
                 inkCanvas.Strokes.Add(new Stroke(points)); //TODO DrawingAttributes
             }
             flowDocument.Blocks.Add(new DrawerBlock { Child = new DrawerControl { Strokes = inkCanvas.Strokes }});
+        }
+    }
+    public class PlotDeserializeStrategy : IDeserializeBlockStrategy
+    {
+        public void Deserialize(XmlNode xmlNode, FlowDocument flowDocument)
+        {
+            var strokes = new StrokeCollection();
+            foreach(XmlNode strokeNode in xmlNode.ChildNodes) {
+                var points = new StylusPointCollection();
+                foreach(XmlNode pointNode in strokeNode.ChildNodes) {
+                    points.Add(new StylusPoint(Double.Parse(pointNode.Attributes["X"].InnerText),
+                        Double.Parse(pointNode.Attributes["Y"].InnerText)));
+                }
+                strokes.Add(new Stroke(points)); //TODO DrawingAttributes
+            }
+            flowDocument.Blocks.Add(new PlotBlock(strokes));
         }
     }
 }
