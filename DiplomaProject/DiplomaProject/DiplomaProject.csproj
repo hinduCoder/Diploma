@@ -113,6 +113,7 @@
     <Compile Include="ViewModel\ImageFromPhoneReciever.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\PartViewModel.cs" />
+    <Compile Include="ViewModel\StylePickerItemViewModel.cs" />
     <Compile Include="ViewModel\StylesGroupViewModel.cs" />
     <Compile Include="WaitDialogWindow.xaml.cs">
       <DependentUpon>WaitDialogWindow.xaml</DependentUpon>

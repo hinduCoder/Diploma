@@ -122,7 +122,15 @@ namespace DiplomaProject.ViewModel
 
         public ICommand TextBoxSelectionChangedCommand
         {
-            get { return new DelegateCommand<RichTextBox>(rtb => _documentState.CurrentSelection = rtb.Selection); }
+            get
+            {
+                return new DelegateCommand<RichTextBox>(rtb =>
+                {
+                    _documentState.CurrentSelection = rtb.Selection;
+                    StylesGroupViewModel.Upadate();
+                    FormattingRibbonGroupViewModel.Update();
+                });
+            }
         }
 
     }
