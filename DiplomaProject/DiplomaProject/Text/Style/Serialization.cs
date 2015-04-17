@@ -36,11 +36,15 @@ namespace DiplomaProject.Text
             {
                 return _styles; // Lazy
             }
-            using (var xmlTextReader = new XmlTextReader(_file.OpenRead()))
+            using (var fileStream = _file.OpenRead())
             {
-                var result = _xmlSerializer.Deserialize(xmlTextReader);
-                _styles = ((StyleCollectionSerializationProxy)result).Styles.Select(s => s.ToRealTextStyle()).ToList();
-                return _styles;
+                using (var xmlTextReader = new XmlTextReader(fileStream))
+                {
+                    var result = _xmlSerializer.Deserialize(xmlTextReader);
+                    _styles =
+                        ((StyleCollectionSerializationProxy) result).Styles.Select(s => s.ToRealTextStyle()).ToList();
+                    return _styles;
+                }
             }
         }
 
@@ -52,9 +56,17 @@ namespace DiplomaProject.Text
         public void DumpTextStyles(IList<ITextStyle> textStyles)
         {
             _styles = new List<ITextStyle>(textStyles);
-            using (var xmlTextWriter = new XmlTextWriter(_file.OpenWrite(), Encoding.Default))
+            using (var fileStream = _file.OpenWrite())
             {
-                _xmlSerializer.Serialize(xmlTextWriter, new StyleCollectionSerializationProxy { Styles = new List<StyleSerializationProxy>(textStyles.Select(s => new StyleSerializationProxy(s)))});
+                using (var xmlTextWriter = new XmlTextWriter(fileStream, Encoding.Default))
+                {
+                    _xmlSerializer.Serialize(xmlTextWriter,
+                        new StyleCollectionSerializationProxy
+                        {
+                            Styles =
+                                new List<StyleSerializationProxy>(textStyles.Select(s => new StyleSerializationProxy(s)))
+                        });
+                }
             }
         }
     }

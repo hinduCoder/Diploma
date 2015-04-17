@@ -8,7 +8,7 @@
     <ControlTemplate x:Key="AddStyleButtonTemplate" TargetType="Button">
         <Border Height="55" Width="45" BorderBrush="Silver" x:Name="border" BorderThickness="3" Background="White" Margin="2">
             <Grid>
-                <ContentControl VerticalAlignment="Center" HorizontalAlignment="Center" Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}"/>
+                <ContentControl Margin="{TemplateBinding Padding}" VerticalAlignment="Center" HorizontalAlignment="Center" Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}"/>
             </Grid>
         </Border>
         <ControlTemplate.Triggers>
@@ -22,7 +22,7 @@
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
             <StackPanel Orientation="Horizontal">
                 <ItemsPresenter/>
-                <Button Content="+" FontSize="50" Foreground="Silver" Name="AddButton" Template="{StaticResource AddStyleButtonTemplate}" />
+                <Button Content="+" FontSize="50" Foreground="Silver" Name="AddButton" Template="{StaticResource AddStyleButtonTemplate}" Padding="0 -10 0 0" />
                 <Popup MinWidth="250"  PlacementTarget="{x:Reference AddButton}" Name="SettingsPopup" DataContext="{TemplateBinding NewTextStyle}">
                     <Border BorderBrush="Black" BorderThickness="1" Background="White">
                         <Grid Margin="20">
@@ -56,7 +56,7 @@
                             <Label Grid.Row="0" Content="Имя: "/>
                             <TextBox Grid.Row="0" Text="{Binding Name}"></TextBox>
                             <Label Grid.Row="1" Content="Шрифт:"/>
-                            <TextBox Grid.Row="1" Text="{Binding FontFamily}"/>
+                            <ComboBox Grid.Row="1" ItemsSource="{x:Static local:Fonts.AvailablleFontFamilies}" SelectedItem="{Binding FontFamily, Mode=TwoWay}"/>
 
                             <Label Grid.Row="2" Content="Размер:"/>
                             <TextBox Grid.Row="2" Text="{Binding FontSize}"/>
@@ -144,9 +144,9 @@
                                 </Style>
                             </Grid.Resources>
                             <Label Grid.Row="0" Content="Name: "/>
-                            <TextBox Grid.Row="0" Text="{Binding Name}"></TextBox>
+                            <TextBox Grid.Row="0" Text="{Binding Name}"/>
                             <Label Grid.Row="1" Content="Font family:"/>
-                            <TextBox Grid.Row="1" Text="{Binding FontFamily}"/>
+                            <ComboBox Grid.Row="1" ItemsSource="{x:Static local:Fonts.AvailablleFontFamilies}" SelectedItem="{Binding FontFamily, Mode=TwoWay}"/>
 
                             <Label Grid.Row="2" Content="Font size:"/>
                             <TextBox Grid.Row="2" Text="{Binding FontSize}"/>
