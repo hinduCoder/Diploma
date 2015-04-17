@@ -22,9 +22,16 @@ namespace DiplomaProject.Controls
         {
             var registator = new DependencyPropertyRegistator<PlotControl>();
             StrokesProperty = registator.Register("Strokes", new StrokeCollection());
-            BoxSizeProperty = registator.Register("BoxSize", 30d);
-            ScaleOfBoxProperty = registator.Register("ScaleOfBox", 1d);
+            BoxSizeProperty = registator.Register("BoxSize", 30d, ParametersChanged);
+            ScaleOfBoxProperty = registator.Register("ScaleOfBox", 1d, ParametersChanged);
         }
+
+        private static void ParametersChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        {
+            var plotControl = dependencyObject as PlotControl;
+            AdornerLayer.GetAdornerLayer(plotControl.DrawerControl).Update();
+        }
+
         public PlotControl()
         {
             Loaded += OnLoaded;
@@ -32,13 +39,13 @@ namespace DiplomaProject.Controls
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            AdornerLayer.GetAdornerLayer(this).Add(new PlotGridAdorner(this));
+            AdornerLayer.GetAdornerLayer(DrawerControl).Add(new PlotGridAdorner(DrawerControl, this));
         }
 
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            DrawerControl = GetTemplateChild("DrawerControl") as DrawerControl;
+            DrawerControl = GetTemplateChild("DrawerControl") as DrawerControl;           
         }
 
         public double BoxSize
@@ -57,9 +64,10 @@ namespace DiplomaProject.Controls
     }
     public class PlotGridAdorner : Adorner {
         private PlotControl _plotControl;
-        public PlotGridAdorner([NotNull] UIElement adornedElement)
-            : base(adornedElement) {
-            _plotControl = adornedElement as PlotControl;
+        public PlotGridAdorner([NotNull] UIElement adornedElement, PlotControl plotControl)
+            : base(adornedElement)
+        {
+            _plotControl = plotControl;
         }
         protected override void OnRender(DrawingContext drawingContext) {
             double step = _plotControl.BoxSize;

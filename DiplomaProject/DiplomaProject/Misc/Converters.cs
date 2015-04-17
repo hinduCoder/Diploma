@@ -10,7 +10,7 @@ namespace DiplomaProject
 {
     public abstract class ValueConverter : MarkupExtension, IValueConverter
     {
-        public override object ProvideValue(IServiceProvider serviceProvider)
+        public sealed override object ProvideValue(IServiceProvider serviceProvider)
         {
             return this;
         }
@@ -88,6 +88,26 @@ namespace DiplomaProject
                 return DependencyProperty.UnsetValue;
             }
             return doubleValue / 2;
+        }
+    }
+
+    public class DoubleToStringConverter : ValueConverter
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return ((double)value).ToString("#");
+        }
+
+        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            try
+            {
+                return System.Convert.ToDouble(value);
+            }
+	        catch (Exception)
+	        {
+	            return String.Empty;
+	        };
         }
     }
 }

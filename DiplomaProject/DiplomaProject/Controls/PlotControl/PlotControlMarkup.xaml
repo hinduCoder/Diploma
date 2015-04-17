@@ -14,22 +14,37 @@
             </Path.Data>
         </Path>
     </ControlTemplate>
-    
-    
+   
     <ControlTemplate TargetType="controls:PlotControl" x:Key="PlotControlTemplate">
         <Grid Background="White" VerticalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
             <Grid.Resources>
                 <Style TargetType="Line">
                     <Setter Property="Stroke" Value="Black"/>
                     <Setter Property="StrokeThickness" Value="1"/>
                 </Style>
             </Grid.Resources>
-            <Line X1="0" Y1="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Grid}, Converter={local:DivideByTwoConverter}}" Y2="{Binding Y1, RelativeSource={RelativeSource Self}}" X2="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Grid}}" Stroke="Black" StrokeThickness="1"/>
-            <Line Y1="0" X1="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Grid}, Converter={local:DivideByTwoConverter}}" X2="{Binding X1, RelativeSource={RelativeSource Self}}" Y2="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Grid}}"/>
-            <controls:ArrowControl RenderTransform="{local:RotateTransform 180}" Width="10" Height="10" HorizontalAlignment="Right" RenderTransformOrigin="0.5 0.5"/>
-            <controls:ArrowControl Width="10" Height="10" VerticalAlignment="Top" RenderTransformOrigin="0.5 0.5" RenderTransform="{local:RotateTransform 90}"/>
-            
-            <controls:DrawerControl Strokes="{TemplateBinding Strokes}" x:Name="DrawerControl" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Background="Transparent" />
+            <Grid  Width="390" Height="390">
+                <Line X1="0" Y1="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Grid}, Converter={local:DivideByTwoConverter}}" Y2="{Binding Y1, RelativeSource={RelativeSource Self}}" X2="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Grid}}" Stroke="Black" StrokeThickness="1"/>
+                <Line Y1="0" X1="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Grid}, Converter={local:DivideByTwoConverter}}" X2="{Binding X1, RelativeSource={RelativeSource Self}}" Y2="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Grid}}"/>
+                <controls:ArrowControl RenderTransform="{local:RotateTransform 180}" Width="10" Height="10" HorizontalAlignment="Right" RenderTransformOrigin="0.5 0.5"/>
+                <controls:ArrowControl Width="10" Height="10" VerticalAlignment="Top" RenderTransformOrigin="0.5 0.5" RenderTransform="{local:RotateTransform 90}"/>
+
+                <controls:DrawerControl Strokes="{TemplateBinding Strokes}" x:Name="DrawerControl" Background="Transparent" Height="390" />
+            </Grid>
+
+            <UniformGrid Grid.Row="1" Rows="1">
+                <UniformGrid.Resources>
+                    <Style TargetType="TextBox">
+                        <Setter Property="Margin" Value="1 5"/>
+                    </Style>
+                </UniformGrid.Resources>
+                <TextBox DockPanel.Dock="Left" Text="{Binding BoxSize, Converter={local:DoubleToStringConverter}, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox DockPanel.Dock="Right" Text="{Binding ScaleOfBox, Converter={local:DoubleToStringConverter}, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </UniformGrid>
         </Grid>
     </ControlTemplate>
     <Style TargetType="controls:PlotControl">

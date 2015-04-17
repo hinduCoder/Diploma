@@ -9,13 +9,13 @@ namespace DiplomaProject.Controls
 
         public PlotBlock()
         {
-            PlotControl = new PlotControl() { Width = 390, Height = 390 };
+            PlotControl = new PlotControl() { MaxWidth = 400, MaxHeight = 430 };
             Child = PlotControl;
         }
 
         internal PlotBlock(StrokeCollection strokes)
         {
-            PlotControl = new PlotControl() { Width = 390, Height = 390, Strokes = strokes };
+            PlotControl = new PlotControl() { MaxWidth = 400, MaxHeight = 430, Strokes = strokes };
             Child = PlotControl;
         }
     }
