@@ -2,17 +2,25 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Input;
 using DevExpress.Mvvm;
 using DiplomaProject.Text;
+using DiplomaProject.Text.Extenstions;
 
 namespace DiplomaProject.ViewModel
 {
-    public class StylesGroupViewModel : ViewModelBase
+    public class StylesGroupViewModel : PartViewModel
     {
         private ObservableCollection<ITextStyle> _textStyles;
         private readonly TextStyleProvider _textStyleProvider = new TextStyleProvider();
 
+        public StylesGroupViewModel(FlowDocument flowDocument, DocumentState documentState)
+            : base(new FormattingProvider(flowDocument), documentState)
+        {
+            _textStyles = new ObservableCollection<ITextStyle>(_textStyleProvider.LoadTextStyles());
+            Application.Current.MainWindow.Closing += MainWindowOnClosing;
+        }
         public ObservableCollection<ITextStyle> TextStyles
         {
             get { return _textStyles; }
@@ -26,10 +34,10 @@ namespace DiplomaProject.ViewModel
         public ICommand DeleteTextStyleCommand {
             get { return new DelegateCommand<ITextStyle>(s => _textStyles.Remove(s)); }
         }
-        public StylesGroupViewModel()
-        {
-            _textStyles = new ObservableCollection<ITextStyle>(_textStyleProvider.LoadTextStyles());
-            Application.Current.MainWindow.Closing += MainWindowOnClosing;
+        public ICommand ApplyStyleCommand { get { return new DelegateCommand<ITextStyle>(ApplyStyle); } }
+
+        private void ApplyStyle(ITextStyle style) {
+            _documentState.CurrentSelection.ApplyTextStyle(style);
         }
 
         private void MainWindowOnClosing(object sender, CancelEventArgs cancelEventArgs)

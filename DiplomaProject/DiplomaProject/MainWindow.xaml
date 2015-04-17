@@ -8,7 +8,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModel="clr-namespace:DiplomaProject.ViewModel"
     xmlns:sp="clr-namespace:DiplomaProject.Controls.StylePicker"
-    xmlns:controls="clr-namespace:DiplomaProject.Controls"
     mc:Ignorable="d" x:Class="DiplomaProject.MainWindow"
         Title="MainWindow" x:Name="TheWindow" Height="700" Width="1000">
     <Window.Resources>
@@ -25,7 +24,7 @@
         <viewModel:MainWindowViewModel/>
     </Window.DataContext>
     <DockPanel>
-        <Ribbon DockPanel.Dock="Top" x:Name="Ribbon">
+        <Ribbon DockPanel.Dock="Top">
             <Ribbon.ApplicationMenu>
                 <RibbonApplicationMenu>
                     <RibbonApplicationMenu.AuxiliaryPaneContent>
@@ -39,7 +38,7 @@
             <RibbonTab x:Name="HomeTab" 
 				Header="Главная">
                 <RibbonGroup x:Name="GroupFont" 
-					Header="Шрифт" Width="auto">
+					Header="Шрифт" Width="auto" DataContext="{Binding FormattingRibbonGroupViewModel}">
                     <!--<RibbonComboBox x:Name="FontFamilyComboBox">
                             <RibbonGallery>
                                 <RibbonGalleryCategory ItemsSource="{x:Static local:Fonts.AvailablleFontFamilies}"/>
@@ -85,7 +84,7 @@
                         </local:RibbonToggleButtonGroup>
                     </Grid>
                 </RibbonGroup>
-                <RibbonGroup Header="Элементы" >
+                <RibbonGroup Header="Элементы" DataContext="{Binding ElementsRibbonGroupViewModel}">
                     <StackPanel Orientation="Horizontal">
                         <StackPanel.Resources>
                             <Style TargetType="{x:Type RibbonButton}" BasedOn="{StaticResource {x:Type RibbonButton}}">
@@ -107,14 +106,11 @@
                         </RibbonButton>
                     </StackPanel>
                 </RibbonGroup>
-                <RibbonGroup x:Name="StyleGroup" Header="Стили" >
-                    <RibbonGroup.DataContext>
-                        <viewModel:StylesGroupViewModel/>
-                    </RibbonGroup.DataContext>
+                <RibbonGroup x:Name="StyleGroup" Header="Стили" DataContext="{Binding StylesGroupViewModel}">
                     <sp:StylePicker ItemsSource="{Binding TextStyles}" AddNewStyleCommand="{Binding AddStyleCommand}">
                         <sp:StylePicker.ItemTemplate>
                             <DataTemplate>
-                                <sp:StylePickerItem TextStyle="{Binding}" Command="{Binding DataContext.ApplyStyleCommand, ElementName=TheWindow}" CommandParameter="{Binding TextStyle, RelativeSource={RelativeSource Self}}">
+                                <sp:StylePickerItem TextStyle="{Binding}" Command="{Binding ElementName=StyleGroup, Path=DataContext.ApplyStyleCommand}" CommandParameter="{Binding TextStyle, RelativeSource={RelativeSource Self}}">
                                     <sp:StylePickerItem.ContextMenu>
                                         <ContextMenu>
                                             <MenuItem Header="Delete" CommandParameter="{Binding }" Command="{Binding DataContext.DeleteTextStyleCommand, Source={x:Reference StyleGroup}}"/>

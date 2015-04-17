@@ -106,9 +106,12 @@
     <Compile Include="Text\Extenstions\TextSelectionExtension.cs" />
     <Compile Include="Text\Style\ITextStyle.cs" />
     <Compile Include="Text\Style\Serialization.cs" />
+    <Compile Include="ViewModel\ElementsRibbonGroupViewModel.cs" />
+    <Compile Include="ViewModel\FormattingRibbonGroupViewModel.cs" />
     <Compile Include="ViewModel\FormattingProvider.cs" />
     <Compile Include="ViewModel\ImageFromPhoneReciever.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
+    <Compile Include="ViewModel\PartViewModel.cs" />
     <Compile Include="ViewModel\StylesGroupViewModel.cs" />
     <Compile Include="WaitDialogWindow.xaml.cs">
       <DependentUpon>WaitDialogWindow.xaml</DependentUpon>
