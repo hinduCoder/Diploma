@@ -29,7 +29,7 @@
             <controls:ArrowControl RenderTransform="{local:RotateTransform 180}" Width="10" Height="10" HorizontalAlignment="Right" RenderTransformOrigin="0.5 0.5"/>
             <controls:ArrowControl Width="10" Height="10" VerticalAlignment="Top" RenderTransformOrigin="0.5 0.5" RenderTransform="{local:RotateTransform 90}"/>
             
-            <controls:DrawerControl x:Name="DrawerControl" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Background="Transparent" />
+            <controls:DrawerControl Strokes="{TemplateBinding Strokes}" x:Name="DrawerControl" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Background="Transparent" />
         </Grid>
     </ControlTemplate>
     <Style TargetType="controls:PlotControl">

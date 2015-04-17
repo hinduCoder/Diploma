@@ -28,6 +28,8 @@ namespace DiplomaProject.DocumentSerialization
             }
             if (block is DrawerBlock)
                 return new DrawerSerializeStrategy();
+            if (block is PlotBlock)
+                return new PlotSerializeStrategy();
             return null;
         }
     }
@@ -128,6 +130,26 @@ namespace DiplomaProject.DocumentSerialization
                 drawerElement.AppendChild(strokeElement);
             }
             return drawerElement;
+        }
+    }
+
+    public class PlotSerializeStrategy : ISerializeBlockStrategy
+    {
+        public XmlElement Serialize(Block block, XmlDocument xmlDocument)
+        {
+            var plotBlock = (PlotBlock) block;
+            var plotElement = xmlDocument.CreateElement("Plot");
+            foreach(SmoothableStroke stroke in plotBlock.PlotControl.DrawerControl.Strokes) {
+                var strokeElement = xmlDocument.CreateElement("Stroke");
+                foreach(var point in stroke.Points) {
+                    var pointElement = xmlDocument.CreateElement("Point");
+                    pointElement.SetAttribute("X", point.X.ToString()); //TODO DrawingAttributes
+                    pointElement.SetAttribute("Y", point.Y.ToString());
+                    strokeElement.AppendChild(pointElement);
+                }
+                plotElement.AppendChild(strokeElement);
+            }
+            return plotElement;
         }
     }
 }
