@@ -14,10 +14,12 @@ namespace DiplomaProject.ViewModel
     {
         private ObservableCollection<ITextStyle> _textStyles;
         private readonly TextStyleProvider _textStyleProvider = new TextStyleProvider();
+        private FlowDocument _flowDocument;
 
         public StylesGroupViewModel(FlowDocument flowDocument, DocumentState documentState)
             : base(new FormattingProvider(flowDocument), documentState)
         {
+            _flowDocument = flowDocument;
             _textStyles = new ObservableCollection<ITextStyle>(_textStyleProvider.LoadTextStyles());
             Application.Current.MainWindow.Closing += MainWindowOnClosing;
         }
@@ -35,6 +37,29 @@ namespace DiplomaProject.ViewModel
             get { return new DelegateCommand<ITextStyle>(s => _textStyles.Remove(s)); }
         }
         public ICommand ApplyStyleCommand { get { return new DelegateCommand<ITextStyle>(ApplyStyle); } }
+
+        public ICommand ChangeStyleCommand
+        {
+            get
+            {
+                return new DelegateCommand<ITextStyle>(ChangeStyle);
+            }
+        }
+
+        private void ChangeStyle(ITextStyle style)
+        {
+            foreach (var block in _flowDocument.Blocks)
+            {
+                var paragraph = block as Paragraph;
+                if (paragraph == null)
+                    continue;
+                foreach (var inline in paragraph.Inlines)
+                {
+                    if (FlowDocumentHelper.GetStyleName(inline) == style.Name)
+                        inline.ApplyTextStyle(style);
+                }
+            }
+        }
 
         private void ApplyStyle(ITextStyle style) {
             _documentState.CurrentSelection.ApplyTextStyle(style);

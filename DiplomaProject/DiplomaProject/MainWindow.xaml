@@ -6,7 +6,7 @@
         xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModel="clr-namespace:DiplomaProject.ViewModel"
-    xmlns:sp="clr-namespace:DiplomaProject.Controls.StylePicker"
+    xmlns:controls="clr-namespace:DiplomaProject.Controls"
     mc:Ignorable="d" x:Class="DiplomaProject.MainWindow"
         Title="MainWindow" x:Name="TheWindow" Height="700" Width="1000">
     <Window.DataContext>
@@ -28,22 +28,6 @@
 				Header="Главная">
                 <RibbonGroup x:Name="GroupFont" 
 					Header="Шрифт" Width="auto" DataContext="{Binding FormattingRibbonGroupViewModel}">
-                    <!--<RibbonComboBox x:Name="FontFamilyComboBox">
-                            <RibbonGallery>
-                                <RibbonGalleryCategory ItemsSource="{x:Static local:Fonts.AvailablleFontFamilies}"/>
-                            </RibbonGallery>
-                        </RibbonComboBox>
-                        <RibbonComboBox Grid.Column="1" IsEditable="True">
-                            <RibbonGallery>
-                                <RibbonGalleryCategory ItemsSource="{Binding Source={StaticResource FontSizesDataProvider}}">
-                                    <RibbonGalleryCategory.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <StackPanel/>
-                                        </ItemsPanelTemplate>
-                                    </RibbonGalleryCategory.ItemsPanel>
-                                </RibbonGalleryCategory>
-                            </RibbonGallery>
-                        </RibbonComboBox>-->
                     <Grid>
                         <Grid.Resources>
                             <Style TargetType="RibbonToggleButton">
@@ -96,39 +80,21 @@
                     </StackPanel>
                 </RibbonGroup>
                 <RibbonGroup x:Name="StyleGroup" Header="Стили" DataContext="{Binding StylesGroupViewModel}">
-                    <sp:StylePicker ItemsSource="{Binding TextStyles}" AddNewStyleCommand="{Binding AddStyleCommand}">
-                        <sp:StylePicker.ItemTemplate>
+                    <controls:StylePicker ItemsSource="{Binding TextStyles}" AddNewStyleCommand="{Binding AddStyleCommand}">
+                        <controls:StylePicker.ItemTemplate>
                             <DataTemplate>
-                                <sp:StylePickerItem TextStyle="{Binding}" Command="{Binding ElementName=StyleGroup, Path=DataContext.ApplyStyleCommand}" CommandParameter="{Binding TextStyle, RelativeSource={RelativeSource Self}}">
-                                    <sp:StylePickerItem.ContextMenu>
+                                <controls:StylePickerItem TextStyle="{Binding}" Command="{Binding ElementName=StyleGroup, Path=DataContext.ApplyStyleCommand}" CommandParameter="{Binding TextStyle, RelativeSource={RelativeSource Self}}" ChangeStyleCommand="{Binding ElementName=StyleGroup, Path=DataContext.ChangeStyleCommand}">
+                                    <controls:StylePickerItem.ContextMenu>
                                         <ContextMenu>
                                             <MenuItem Header="Delete" CommandParameter="{Binding }" Command="{Binding DataContext.DeleteTextStyleCommand, Source={x:Reference StyleGroup}}"/>
                                         </ContextMenu>
-                                    </sp:StylePickerItem.ContextMenu>
-                                </sp:StylePickerItem>
+                                    </controls:StylePickerItem.ContextMenu>
+                                </controls:StylePickerItem>
                             </DataTemplate>
-                        </sp:StylePicker.ItemTemplate>
-                    </sp:StylePicker>
+                        </controls:StylePicker.ItemTemplate>
+                    </controls:StylePicker>
                 </RibbonGroup>
             </RibbonTab>
-            <!--<RibbonTab Header="Test">
-                <RibbonGroup>
-                    <RibbonComboBox Label="1" 
-						SelectionBoxWidth="62"
-						VerticalAlignment="Center" 
-						IsEditable="True" >
-                        <RibbonGallery SelectedValue="Green"
-							SelectedValuePath="Content"
-							MaxColumnCount="1">
-                            <RibbonGalleryCategory>
-                                <RibbonGalleryItem Content="Green" Foreground="Green" />
-                                <RibbonGalleryItem Content="Blue" Foreground="Blue" />
-                                <RibbonGalleryItem Content="Orange" Foreground="Orange" />
-                            </RibbonGalleryCategory>
-                        </RibbonGallery>
-                    </RibbonComboBox>
-                </RibbonGroup>
-            </RibbonTab>-->
         </Ribbon>
         <Grid AllowDrop="True" Background="LightGray">
             <RichTextBox PreviewDragOver="RichTextBox_OnPreviewDragOver" Drop="RichTextBox_OnDrop" VerticalScrollBarVisibility="Visible" Background="White" x:Name="RichTextBox" MaxWidth="850" HorizontalAlignment="Center" IsDocumentEnabled="True" local:FlowDocumentHelper.Document="{Binding Document}">

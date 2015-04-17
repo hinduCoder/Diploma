@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using DiplomaProject.Text;
 
-namespace DiplomaProject.Controls.StylePicker
+namespace DiplomaProject.Controls
 {
     public class StylePicker : ItemsControl
     {
@@ -13,9 +13,9 @@ namespace DiplomaProject.Controls.StylePicker
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof (StylePicker),
                 new FrameworkPropertyMetadata(typeof (StylePicker)));
-            NewTextStyleProperty = DependencyProperty.Register("NewTextStyle", typeof (ITextStyle),
-                typeof (StylePicker), new PropertyMetadata(new TextStyleImpl()));
-            AddNewStyleCommandProperty = DependencyProperty.Register("AddNewStyleCommand", typeof(ICommand), typeof(StylePicker));
+            var registrator = new DependencyPropertyRegistator<StylePicker>();
+            NewTextStyleProperty = registrator.Register("NewTextStyle", new TextStyleImpl());
+            AddNewStyleCommandProperty = registrator.Register<ICommand>("AddNewStyleCommand");
         }
         protected override bool IsItemItsOwnContainerOverride(object item)
         {

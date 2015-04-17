@@ -103,6 +103,7 @@
     <Compile Include="Misc\MarkupExtensions.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="Text\Extenstions\InlineExtenstions.cs" />
     <Compile Include="Text\Extenstions\TextSelectionExtension.cs" />
     <Compile Include="Text\Style\ITextStyle.cs" />
     <Compile Include="Text\Style\Serialization.cs" />
@@ -148,7 +149,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controls\ResizableAdorner\ResizableAdorner.cs" />
-    <Compile Include="Global\Fonts.cs" />
+    <Compile Include="Text\Fonts.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

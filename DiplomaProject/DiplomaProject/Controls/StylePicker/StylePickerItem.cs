@@ -3,21 +3,23 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using DiplomaProject.Text;
 
-namespace DiplomaProject.Controls.StylePicker
+namespace DiplomaProject.Controls
 {
     public class StylePickerItem : RadioButton
     {
+        public static readonly DependencyProperty ChangeStyleCommandProperty;
+        public static readonly DependencyProperty TextStyleProperty;
 
-
-        public StylePickerItem()
-        {
-            DefaultStyleKey = typeof(StylePickerItem);
+        static StylePickerItem() {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(StylePickerItem),
+              new FrameworkPropertyMetadata(typeof(StylePickerItem)));
+            var registrator = new DependencyPropertyRegistator<StylePickerItem>();
+            ChangeStyleCommandProperty = registrator.Register<ICommand>("ChangeStyleCommand", null);
+            TextStyleProperty = registrator.Register<ITextStyle>("TextStyle", null);
         }
-
-        public static readonly DependencyProperty TextStyleProperty = DependencyProperty.Register(
-            "TextStyle", typeof (ITextStyle), typeof (StylePickerItem), new PropertyMetadata(default(ITextStyle)));
 
         public ITextStyle TextStyle
         {
@@ -25,16 +27,9 @@ namespace DiplomaProject.Controls.StylePicker
             set { SetValue(TextStyleProperty, value); }
         }
 
-        public override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
-            var saveStyleButton = this.GetTemplateChild("SaveStyleButton") as Button;
-            saveStyleButton.Click += SaveStyleButtonOnClick;
-        }
-
-        private void SaveStyleButtonOnClick(object sender, RoutedEventArgs routedEventArgs)
-        {
-            
+        public ICommand ChangeStyleCommand {
+            get { return (ICommand)GetValue(ChangeStyleCommandProperty); }
+            set { SetValue(ChangeStyleCommandProperty, value); }
         }
     }
 }

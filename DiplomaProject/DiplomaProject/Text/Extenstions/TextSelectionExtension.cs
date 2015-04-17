@@ -16,4 +16,5 @@ namespace DiplomaProject.Text.Extenstions
             FlowDocumentHelper.SetStyleName(selection.Start.Parent, style.Name);
         }
     }
+
 }
