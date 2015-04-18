@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -12,8 +13,13 @@ namespace DiplomaProject.ViewModel
     {
         public async Task<BitmapSource> RecieveAsync()
         {
-            JpegBitmapDecoder jpegBitmapDecoder;
-            using (var stream = new MemoryStream())
+            if (!Directory.Exists("temp"))
+            {
+                var tempDirectory = Directory.CreateDirectory("temp");
+                tempDirectory.Attributes = FileAttributes.Hidden;
+            }
+            var fileName = Path.Combine("temp", String.Format("Image_{0}.jpg", DateTime.Now.Millisecond));
+            using (var stream = new FileStream(fileName, FileMode.Create, FileAccess.Write))
             {
                 using (var socket = new Socket(SocketType.Stream, ProtocolType.Tcp))
                 {
@@ -30,10 +36,8 @@ namespace DiplomaProject.ViewModel
                         stream.Write(buffer, 0, received);
                     } while (received > 0);
                 }
-                stream.Seek(0, SeekOrigin.Begin);
-                jpegBitmapDecoder = new JpegBitmapDecoder(stream, BitmapCreateOptions.None, BitmapCacheOption.None);
             }
-            return jpegBitmapDecoder.Frames[0];
+            return new BitmapImage(new Uri(Path.GetFullPath(fileName)));
         }
 
     }
