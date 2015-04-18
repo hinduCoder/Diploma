@@ -15,11 +15,14 @@ namespace DiplomaProject.ViewModel
 
         private static BitmapSource Recieve()
         {
-            var socket = new Socket(SocketType.Dgram, ProtocolType.Udp);
-            EndPoint endPoint = new IPEndPoint(IPAddress.Any, 50001);
-            socket.Bind(endPoint);
-            var buffer = new byte[10000000];
-            socket.ReceiveFrom(buffer, ref endPoint);
+            byte[] buffer;
+            using (var socket = new Socket(SocketType.Dgram, ProtocolType.Udp))
+            {
+                EndPoint endPoint = new IPEndPoint(IPAddress.Any, 50001);
+                socket.Bind(endPoint);
+                buffer = new byte[10000000];
+                socket.ReceiveFrom(buffer, ref endPoint);
+            }
             var stream = new MemoryStream(buffer);
             var jpegBitmapDecoder = new JpegBitmapDecoder(stream, BitmapCreateOptions.None, BitmapCacheOption.None);
             return jpegBitmapDecoder.Frames[0];
