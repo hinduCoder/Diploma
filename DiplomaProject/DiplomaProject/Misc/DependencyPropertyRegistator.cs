@@ -7,9 +7,9 @@ namespace DiplomaProject
 {
     public class DependencyPropertyRegistator<T>
     {
-        public DependencyProperty Register<TT>(string name, TT defaultValue = default(TT), PropertyChangedCallback propertyChanged = null)
+        public DependencyProperty Register<TT>(string name, TT defaultValue = default(TT), PropertyChangedCallback propertyChanged = null, CoerceValueCallback coerceValueCallback = null)
         {
-            return DependencyProperty.Register(name, typeof (TT), typeof (T), new PropertyMetadata(defaultValue, propertyChanged));
+            return DependencyProperty.Register(name, typeof (TT), typeof (T), new PropertyMetadata(defaultValue, propertyChanged, coerceValueCallback));
         }
         public DependencyPropertyKey RegisterReadOnly<TT>(string name, TT defaultValue = default(TT), PropertyChangedCallback propertyChanged = null) {
             return DependencyProperty.RegisterReadOnly(name, typeof(TT), typeof(T), new PropertyMetadata(defaultValue, propertyChanged));

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -18,11 +19,16 @@ namespace DiplomaProject.Controls
         static FormulaControl()
         {
             var registator = new DependencyPropertyRegistator<FormulaControl>();
-            FormulaProperty = registator.Register<string>("Formula", propertyChanged:FormulaChanged);
+            FormulaProperty = registator.Register<string>("Formula", propertyChanged:FormulaChanged, coerceValueCallback:OnFormulaCoerceCallback);
             FormulaVisualPropertyKey = registator.RegisterReadOnly<DrawingVisual>("FormulaVisual");
             EditableNowPropertyKey = registator.RegisterReadOnly<bool>("EditableNow");
             FormulaVisualProperty = FormulaVisualPropertyKey.DependencyProperty;
             EditableNowProperty = EditableNowPropertyKey.DependencyProperty;
+        }
+
+        private static object OnFormulaCoerceCallback(DependencyObject dependencyObject, object value)
+        {
+            return value.ToString().Replace(" ", String.Empty).Replace("\n", String.Empty);
         }
 
         private readonly TexFormulaParser _formulaParser;
