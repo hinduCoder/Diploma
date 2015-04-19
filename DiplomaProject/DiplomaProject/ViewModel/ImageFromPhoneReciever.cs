@@ -30,11 +30,14 @@ namespace DiplomaProject.ViewModel
                     var bufferSize = 10000;
                     var buffer = new byte[bufferSize];
                     int received;
-                    do
+                    await Task.Factory.StartNew(() =>
                     {
-                        received = acceptSocket.Receive(buffer, bufferSize, SocketFlags.None);
-                        stream.Write(buffer, 0, received);
-                    } while (received > 0);
+                        do
+                        {
+                            received = acceptSocket.Receive(buffer, bufferSize, SocketFlags.None);
+                            stream.Write(buffer, 0, received);
+                        } while (received > 0);
+                    });
                 }
             }
             return new BitmapImage(new Uri(Path.GetFullPath(fileName)));
