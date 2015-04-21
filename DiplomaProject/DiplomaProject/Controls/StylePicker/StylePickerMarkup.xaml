@@ -101,9 +101,9 @@
     </ControlTemplate>
     
     <ControlTemplate x:Key="StylePickerItemTemplate" TargetType="controls:StylePickerItem">
-        <Border Height="55" Width="45" BorderBrush="Silver" x:Name="border" BorderThickness="3" Background="White" Margin="2">
+        <Border Height="55" Width="50" BorderBrush="Silver" x:Name="border" BorderThickness="3" Background="White" Margin="2">
             <Grid>
-                <TextBlock Text="{Binding TextStyle.Name, RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Center" Margin="3"/>
+                <TextBlock Text="{Binding TextStyle.Name, RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Center" Margin="3" Foreground="{Binding TextStyle.FontColor}" FontWeight="{Binding TextStyle.FontWeight}"  FontFamily="{Binding TextStyle.FontFamily}" FontStyle="{Binding TextStyle.FontStyle}" TextWrapping="Wrap" TextAlignment="Center"/>
                 <TextBlock HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="7" FontFamily="Segoe UI Symbol" Name="Settings">
                     <TextBlock.ContextMenu>
                         <ContextMenu>
