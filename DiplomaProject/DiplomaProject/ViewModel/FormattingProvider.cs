@@ -50,7 +50,7 @@ namespace DiplomaProject.ViewModel
             if (selection == null || selection.End == null)
                 AddBlockToEnd(block);
             else
-                _flowDocument.Blocks.InsertAfter(selection.End.Paragraph, block);
+                _flowDocument.Blocks.InsertAfter(selection.End.GetInsertionPosition(LogicalDirection.Forward).Paragraph, block);
         }
 
         private void AddBlockToEnd(Block block)

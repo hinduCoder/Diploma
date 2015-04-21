@@ -13,7 +13,6 @@ namespace DiplomaProject.ViewModel
         public ICommand AddFormulaCommand
         {
             get { return new DelegateCommand(() => _formattingProvider.AddFormula(_documentState.CurrentSelection)); }
-            //TODO at cursor pos
         }
 
         public ICommand AddUnorderedListCommand
