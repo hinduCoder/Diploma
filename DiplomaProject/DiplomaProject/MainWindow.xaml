@@ -8,7 +8,7 @@
     xmlns:viewModel="clr-namespace:DiplomaProject.ViewModel"
     xmlns:controls="clr-namespace:DiplomaProject.Controls"
     mc:Ignorable="d" x:Class="DiplomaProject.MainWindow"
-        Title="MainWindow" x:Name="TheWindow" Height="700" Width="1000">
+        Title="Editor" x:Name="TheWindow" Height="700" Width="1000">
     <Window.DataContext>
         <viewModel:MainWindowViewModel/>
     </Window.DataContext>

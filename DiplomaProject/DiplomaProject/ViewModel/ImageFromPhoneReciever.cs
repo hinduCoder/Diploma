@@ -20,26 +20,25 @@ namespace DiplomaProject.ViewModel
             }
             var fileName = Path.Combine("temp", String.Format("Image_{0}.jpg", DateTime.Now.Millisecond));
             using (var stream = new FileStream(fileName, FileMode.Create, FileAccess.Write))
+            using (var socket = new Socket(SocketType.Stream, ProtocolType.Tcp))
             {
-                using (var socket = new Socket(SocketType.Stream, ProtocolType.Tcp))
+                EndPoint endPoint = new IPEndPoint(IPAddress.Any, 50001);
+                socket.Bind(endPoint);
+                socket.Listen(1);
+                var acceptSocket = await Task.Factory.StartNew<Socket>(socket.Accept);
+                var bufferSize = 10000;
+                var buffer = new byte[bufferSize];
+                int received;
+                await Task.Factory.StartNew(() =>
                 {
-                    EndPoint endPoint = new IPEndPoint(IPAddress.Any, 50001);
-                    socket.Bind(endPoint);
-                    socket.Listen(1);
-                    var acceptSocket = await Task.Factory.StartNew<Socket>(socket.Accept);
-                    var bufferSize = 10000;
-                    var buffer = new byte[bufferSize];
-                    int received;
-                    await Task.Factory.StartNew(() =>
+                    do
                     {
-                        do
-                        {
-                            received = acceptSocket.Receive(buffer, bufferSize, SocketFlags.None);
-                            stream.Write(buffer, 0, received);
-                        } while (received > 0);
-                    });
-                }
+                        received = acceptSocket.Receive(buffer, bufferSize, SocketFlags.None);
+                        stream.Write(buffer, 0, received);
+                    } while (received > 0);
+                });
             }
+            
             return new BitmapImage(new Uri(Path.GetFullPath(fileName)));
         }
 

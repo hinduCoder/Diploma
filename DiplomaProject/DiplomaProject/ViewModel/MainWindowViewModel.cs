@@ -20,7 +20,7 @@ namespace DiplomaProject.ViewModel
         private readonly FlowDocumentSerializer _flowDocumentSerializer = new FlowDocumentSerializer();
         private DocumentState _documentState = new DocumentState();
 
-        private FlowDocument _document = new FlowDocument(new Paragraph(new Run("TESTTESTTEST")));
+        private FlowDocument _document = new FlowDocument(new Paragraph(new Run()));
 
         private ElementsRibbonGroupViewModel _elementsRibbonGroupViewModel;
         private FormattingRibbonGroupViewModel _formattingRibbonGroupViewModel;
