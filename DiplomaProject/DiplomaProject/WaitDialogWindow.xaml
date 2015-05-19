@@ -1,8 +1,13 @@
 ﻿<Window x:Class="DiplomaProject.WaitDialogWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="WaitDialogWindow" Height="100" Width="200">
-    <Grid>
-        <ProgressBar Height="20" Margin="10" IsIndeterminate="True"/>
+        Title="Wait" SizeToContent="WidthAndHeight">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <ProgressBar Height="20" Margin="0" IsIndeterminate="True"/>
+        <TextBlock Grid.Row="1" Name="ipInterfacesTextBlock"/>
     </Grid>
 </Window>
