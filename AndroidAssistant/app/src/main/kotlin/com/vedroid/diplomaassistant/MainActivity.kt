@@ -25,9 +25,7 @@ import org.apache.http.impl.io.SocketOutputBuffer
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
-import java.net.InetAddress
-import java.net.InetSocketAddress
-import java.net.Socket
+import java.net.*
 import java.nio.channels.ByteChannel
 import java.nio.channels.SocketChannel
 import java.nio.channels.spi.SelectorProvider
@@ -47,6 +45,26 @@ public class MainActivity : Activity() {
         setContentView(R.layout.activity_main)
         ipField.setText(getPreferences(Context.MODE_PRIVATE).getString("ip", ""))
         sendButton.setOnClickListener {onSendButtonClick()}
+        startListen()
+    }
+
+    private fun startListen() {
+        Thread() {
+            val any = InetAddress.getByName("0.0.0.0")
+            val socket = DatagramSocket(50001, any)
+            val bytes = ByteArray(1)
+            val datagramPacket = DatagramPacket(bytes, 1)
+            socket.use {
+                do {
+                    socket.receive(datagramPacket)
+                } while (bytes[0] != 127.toByte())
+            }
+
+            runOnUiThread {
+                Toast.makeText(this, "IP-Адрес получен автоматически", Toast.LENGTH_LONG).show()
+                ipField.setText (datagramPacket.getAddress().toString().trimLeading("/"))
+            }
+        }.start()
     }
 
     private fun onSendButtonClick() {

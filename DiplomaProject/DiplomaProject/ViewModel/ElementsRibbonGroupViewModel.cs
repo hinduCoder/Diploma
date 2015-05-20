@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -57,7 +58,7 @@ namespace DiplomaProject.ViewModel
 
         private async void AddFromPhone()
         {
-            var waitDialogWindow = new WaitDialogWindow {ShowInTaskbar = false};
+            var waitDialogWindow = new WaitDialogWindow {ShowInTaskbar = false, Owner = Application.Current.MainWindow};
             waitDialogWindow.Show();
             var reciever = new ImageFromPhoneReciever();
             var bitmapSource = await reciever.RecieveAsync();
