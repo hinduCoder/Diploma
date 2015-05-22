@@ -73,12 +73,38 @@ namespace DiplomaProject.Controls
     public class InkCanvasEx : InkCanvas {
         protected override void OnStrokeCollected(InkCanvasStrokeCollectedEventArgs e) {
             Strokes.Remove(e.Stroke);
-            var customStroke = new SmoothableStroke(e.Stroke.GetBezierStylusPoints());
-            Strokes.Add(customStroke);
+            var points = e.Stroke.GetBezierStylusPoints().ToList();
+            var pointsX = points.Select(p => p.X).ToList();
+            var direction = pointsX[1] > pointsX[0] ? 1 : -1;
+            var prev = 0;
+            for (int i = 1; i < pointsX.Count; i++)
+            {
+                if (pointsX[i].CompareTo(pointsX[i - 1]) != direction)
+                {
+                    Strokes.Add(new SmoothableStroke(new StylusPointCollection(points.GetRangeFromTo(prev, i+1))));
+                    prev = i;
+                    direction = -direction;
+                }
+            }
+            Strokes.Add(new SmoothableStroke(new StylusPointCollection(points.GetRangeToEnd(prev))));
 
-            InkCanvasStrokeCollectedEventArgs args =
-                new InkCanvasStrokeCollectedEventArgs(customStroke);
-            base.OnStrokeCollected(args);
+            foreach (var stroke in Strokes)
+            {
+                base.OnStrokeCollected(new InkCanvasStrokeCollectedEventArgs(stroke));
+            }
         }
+    }
+
+    static class ListExtenstions
+    {
+        public static List<T> GetRangeFromTo<T>(this List<T> list, int from, int to)
+        {
+            return list.GetRange(from, to - from);
+        }
+
+        public static List<T> GetRangeToEnd<T>(this List<T> list, int from)
+        {
+            return list.GetRangeFromTo(from, list.Count());
+        } 
     }
 }
