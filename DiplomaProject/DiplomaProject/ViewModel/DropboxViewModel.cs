@@ -80,7 +80,7 @@ namespace DiplomaProject.ViewModel
         }
 
         public ICommand AutorizeCommand {
-            get { return new DelegateCommand(() => _dropbox.Autorize(() => _isNotAutorized = false)); }
+            get { return new DelegateCommand(() => _dropbox.Autorize(() => IsNotAutorized = false)); }
         }
 
         public ICommand LoadedCommand
@@ -171,7 +171,7 @@ namespace DiplomaProject.ViewModel
 
         public void Autorize(Action afterAction = null)
         {
-            var redirectUri = "http://localhost:8080";
+            var redirectUri = "http://localhost:8080/";
             Process.Start(_client.BuildAuthorizeUrl(OAuth2AuthorizationFlow.Code, redirectUri));
             var http = new HttpListener { Prefixes = { redirectUri } };
             http.Start();
