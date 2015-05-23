@@ -58,7 +58,7 @@ namespace DiplomaProject.Text
             _styles = new List<ITextStyle>(textStyles);
             using (var fileStream = _file.OpenWrite())
             {
-                using (var xmlTextWriter = new XmlTextWriter(fileStream, Encoding.Default))
+                using (var xmlTextWriter = new XmlTextWriter(fileStream, Encoding.Default) { Formatting = Formatting.Indented})
                 {
                     _xmlSerializer.Serialize(xmlTextWriter,
                         new StyleCollectionSerializationProxy
