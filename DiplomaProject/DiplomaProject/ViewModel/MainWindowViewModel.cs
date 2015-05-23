@@ -30,6 +30,9 @@ namespace DiplomaProject.ViewModel
             _elementsRibbonGroupViewModel = new ElementsRibbonGroupViewModel(_document, _documentState);
             _formattingRibbonGroupViewModel = new FormattingRibbonGroupViewModel(_document, _documentState);
             _stylesGroupViewModel = new StylesGroupViewModel(_document, _documentState);
+
+            Messenger.Default.Register<byte[]>(this, "down", OnOpenDropboxFileMessage);
+            Messenger.Default.Register<Object>(this, "req", OnSaveDropboxFileMessage);
         }
 
         public FlowDocument Document
@@ -51,12 +54,29 @@ namespace DiplomaProject.ViewModel
             get { return _formattingRibbonGroupViewModel; }
             set { SetProperty(ref _formattingRibbonGroupViewModel, value, () => FormattingRibbonGroupViewModel); }
         }
+
         public StylesGroupViewModel StylesGroupViewModel {
             get { return _stylesGroupViewModel; }
             set { SetProperty(ref _stylesGroupViewModel, value, () => StylesGroupViewModel); }
         }
 
         #region Commands
+
+        private void OnOpenDropboxFileMessage(byte[] obj)
+        {
+            var fileName = "tempf";
+            File.WriteAllBytes(fileName, obj);
+            Document = _flowDocumentSerializer.Deserialize(fileName);
+            File.Delete(fileName);
+        }
+
+        private void OnSaveDropboxFileMessage(object obj)
+        {
+            var fileName = "tempf";
+            _flowDocumentSerializer.Serialize(Document, fileName);
+            Messenger.Default.Send(File.ReadAllBytes(fileName), "up");
+            File.Delete(fileName);
+        }
 
         public ICommand OpenFileCommand { get { return new DelegateCommand(OpenFile); } }
         public ICommand SaveFileCommand { get { return new DelegateCommand(SaveFile); } }
@@ -76,30 +96,6 @@ namespace DiplomaProject.ViewModel
                 saveFileDialog.FileName);
         }
 
-        public ICommand OpenFromDropboxCommand
-        {
-            get {
-                return new DelegateCommand<byte[]>(bytes =>
-                {
-                    File.WriteAllBytes("temp", bytes);
-                    Document = _flowDocumentSerializer.Deserialize("temp");
-                    File.Delete("temp");
-                }); 
-            }
-        }
-
-        public ICommand SaveToDropboxCommand
-        {
-            get
-            {
-                return new DelegateCommand<Action<byte[]>>(a =>
-                {
-                    _flowDocumentSerializer.Serialize(Document, "temp");
-                    a(File.ReadAllBytes("temp"));
-                    File.Delete("temp");
-                });
-            }
-        }
         private void SaveFile()
         {
             if (!IsDocumentChanged)

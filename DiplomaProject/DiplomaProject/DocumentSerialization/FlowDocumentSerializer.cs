@@ -23,6 +23,7 @@ namespace DiplomaProject.DocumentSerialization
             xml.AppendChild(root);
 
             var factory = new SerializeBlockStrategyFactory();
+            imageNames.Clear();
             foreach (var block in document.Blocks)
             {
                 if (block is ImageBlock)

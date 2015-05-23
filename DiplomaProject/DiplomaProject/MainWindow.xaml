@@ -17,7 +17,7 @@
             <Ribbon.ApplicationMenu>
                 <RibbonApplicationMenu>
                     <RibbonApplicationMenu.AuxiliaryPaneContent>
-                        <local:DropboxView DownloadCommand="{Binding OpenFromDropboxCommand}" UploadCommand="{Binding SaveToDropboxCommand}"/>
+                        <local:DropboxView />
                     </RibbonApplicationMenu.AuxiliaryPaneContent>
                     <RibbonApplicationMenuItem Header="Открыть" Name="OpenMenuItem" Command="{Binding OpenFileCommand}"/>
                     <RibbonApplicationMenuItem Header="Сохранить" Name="SaveMenuItem" Command="{Binding SaveFileCommand}"/>

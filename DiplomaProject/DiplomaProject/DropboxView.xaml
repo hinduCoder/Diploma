@@ -5,16 +5,24 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:models="clr-namespace:DropNet.Models;assembly=DropNet"
              xmlns:local="clr-namespace:DiplomaProject"
+             xmlns:vm="clr-namespace:DiplomaProject.ViewModel"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.DataContext>
+        <vm:DropboxViewModel/>
+    </UserControl.DataContext>
     <UserControl.Resources>
-        <HierarchicalDataTemplate DataType="{x:Type local:FileTreeNode}" ItemsSource="{Binding Children}">
+        <HierarchicalDataTemplate DataType="{x:Type vm:FileTreeNode}" ItemsSource="{Binding Children}">
             <TextBlock Text="{Binding Name}"/>
         </HierarchicalDataTemplate>
-        
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
+    <dxmvvm:Interaction.Behaviors>
+        <dxmvvm:EventToCommand EventName="Loaded" Command="{Binding LoadedCommand}"/>
+    </dxmvvm:Interaction.Behaviors>
     <Grid>
-        <Grid Name="AutorizedView">
+        <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -25,20 +33,24 @@
                 <RowDefinition  Height="Auto"/>
                 <RowDefinition  Height="Auto"/>
             </Grid.RowDefinitions>
-            <TreeView  x:Name="TreeView" Grid.ColumnSpan="100" />
-            <Button Grid.Row="1" Content="Создать папку" Click="CreateFolder"/>
-            <Button Grid.Row="1" Grid.Column="1" Content="Открыть" Click="OnOpenClick"/>
-            <Button Grid.Row="1" Grid.Column="2" Content="Сохранить здесь" Click="OnSaveClick"/>
+            <TreeView Grid.ColumnSpan="100" ItemsSource="{Binding Files}">
+                <dxmvvm:Interaction.Behaviors>
+                    <vm:BindableSelectedItemBehavior SelectedItem="{Binding SelectedNode, Mode=TwoWay}" />
+                </dxmvvm:Interaction.Behaviors>
+            </TreeView>
+                <Button Grid.Row="1" Grid.Column="0" Command="{Binding CreateFolderCommand}" Content="Создать папку" />
+            <Button Grid.Row="1" Grid.Column="1" Command="{Binding DownloadCommand}" Content="Открыть" />
+            <Button Grid.Row="1" Grid.Column="2" Command="{Binding UploadCommand}" Content="Сохранить здесь" />
 
             <DockPanel Grid.Row="2" Grid.ColumnSpan="100" >
                 <TextBox Text="Имя:" DockPanel.Dock="Left"></TextBox>
-                <TextBox x:Name="NodeName"  Visibility="visible"/>
+                <TextBox Text="{Binding ObejctName, Mode=TwoWay}"/>
             </DockPanel>
-            <ProgressBar IsIndeterminate="True" Grid.Row="2" Grid.ColumnSpan="100" Height="15" Visibility="Collapsed" Name="ProgressBar"/>
+            <ProgressBar IsIndeterminate="True" Grid.Row="2" Grid.ColumnSpan="100" Height="15" Visibility="{Binding IsWaiting, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
         </Grid>
-        <Grid Name="NotAutorizedView">
-            <Button Click="ButtonBase_OnClick">
+        <Grid Visibility="{Binding IsNotAutorized, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Button Command="{Binding AutorizeCommand}">
                 <Image Source="https://cf.dropboxstatic.com/static/images/icons/blue_dropbox_glyph-vflJ8-C5d.png"></Image>
             </Button>
         </Grid>

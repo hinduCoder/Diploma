@@ -122,6 +122,8 @@
     <Compile Include="Text\Extenstions\TextSelectionExtension.cs" />
     <Compile Include="Text\Style\ITextStyle.cs" />
     <Compile Include="Text\Style\Serialization.cs" />
+    <Compile Include="ViewModel\BindableSelectedItemBehavior.cs" />
+    <Compile Include="ViewModel\DropboxViewModel.cs" />
     <Compile Include="ViewModel\ElementsRibbonGroupViewModel.cs" />
     <Compile Include="ViewModel\FormattingRibbonGroupViewModel.cs" />
     <Compile Include="ViewModel\FormattingProvider.cs" />
