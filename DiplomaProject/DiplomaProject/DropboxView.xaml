@@ -14,7 +14,10 @@
     </UserControl.DataContext>
     <UserControl.Resources>
         <HierarchicalDataTemplate DataType="{x:Type vm:FileTreeNode}" ItemsSource="{Binding Children}">
-            <TextBlock Text="{Binding Name}"/>
+            <DockPanel>
+                <Image DockPanel.Dock="Left" Source="{Binding IsDirectory, Converter={local:IsDirectoryToIconSourceConverter}}" Width="16" Stretch="Uniform" />
+                <TextBlock Text="{Binding Name}" Name="Name"/>
+            </DockPanel>
         </HierarchicalDataTemplate>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>

@@ -110,4 +110,13 @@ namespace DiplomaProject
 	        };
         }
     }
+
+    public class IsDirectoryToIconSourceConverter : ValueConverter
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var isDir = (bool) value;
+            return String.Format("Assets\\{0}Icon.png", isDir ? "Folder" : "File");
+        }
+    }
 }
