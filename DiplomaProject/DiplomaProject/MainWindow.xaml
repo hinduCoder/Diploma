@@ -19,15 +19,15 @@
                     <RibbonApplicationMenu.AuxiliaryPaneContent>
                         <local:DropboxView />
                     </RibbonApplicationMenu.AuxiliaryPaneContent>
-                    <RibbonApplicationMenuItem Header="Открыть" Name="OpenMenuItem" Command="{Binding OpenFileCommand}"/>
-                    <RibbonApplicationMenuItem Header="Сохранить" Name="SaveMenuItem" Command="{Binding SaveFileCommand}"/>
-                    <RibbonApplicationMenuItem Header="Сохранить как" Name="SaveAsMenuItem" Command="{Binding SaveAsFileCommand}"/>
+                    <RibbonApplicationMenuItem Header="Открыть" Command="{Binding OpenFileCommand}"/>
+                    <RibbonApplicationMenuItem Header="Сохранить" Command="{Binding SaveFileCommand}"/>
+                    <RibbonApplicationMenuItem Header="Сохранить как" Command="{Binding SaveAsFileCommand}"/>
                 </RibbonApplicationMenu>
             </Ribbon.ApplicationMenu>
-            <RibbonTab x:Name="HomeTab" 
-				Header="Главная">
-                <RibbonGroup x:Name="GroupFont" 
-					Header="Шрифт" Width="auto" DataContext="{Binding FormattingRibbonGroupViewModel}">
+            <RibbonTab
+                Header="Главная">
+                <RibbonGroup
+                    Header="Шрифт" Width="auto" DataContext="{Binding FormattingRibbonGroupViewModel}">
                     <Grid>
                         <Grid.Resources>
                             <Style TargetType="RibbonToggleButton">

@@ -122,6 +122,7 @@
                                 <RowDefinition/>
                                 <RowDefinition/>
                                 <RowDefinition/>
+                                <RowDefinition/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
@@ -158,12 +159,23 @@
                                 </RibbonControlGroup.Resources>
                                 <RibbonToggleButton IsChecked="{Binding Converter={local:FontWeightToBooleanConverter}, Path=FontWeight, Mode=TwoWay}" Label="&#xe1b9;"/>
                                 <RibbonToggleButton IsChecked="{Binding Converter={local:FontStyleToBooleanConverter}, Path=FontStyle, Mode=TwoWay}" Label="&#xe1b4;"/>
+                                <RibbonToggleButton Label="&#xe1b8;"/>
                             </RibbonControlGroup>
 
                             <Label Grid.Row="4" Content="Цвет"/>
                             <xctk:ColorPicker Grid.Row="4" Grid.Column="1" SelectedColor="{Binding Path=FontColor, Mode=TwoWay}" />
-
-                            <Button Name="SaveStyleButton" Content="OK" Grid.ColumnSpan="2" Grid.Row="5" Command="{TemplateBinding ChangeStyleCommand}" CommandParameter="{Binding}"/>
+                            <Label Grid.Row="5" Content="Выравнивание"/>
+                            <local:RibbonToggleButtonGroup Grid.Row="5" Grid.Column="1" HorizontalAlignment="Center" Margin="0 2">
+                                <local:RibbonToggleButtonGroup.Resources>
+                                    <Style TargetType="RibbonToggleButton">
+                                        <Setter Property="FontFamily" Value="Segoe UI Symbol"/>
+                                    </Style>
+                                </local:RibbonToggleButtonGroup.Resources>
+                                <RibbonToggleButton Label="&#xe1a0;" />
+                                <RibbonToggleButton Label="&#xe1a1;" />
+                                <RibbonToggleButton Label="&#xe1a2;" />
+                            </local:RibbonToggleButtonGroup>
+                            <Button Name="SaveStyleButton" Content="OK" Grid.ColumnSpan="2" Grid.Row="6" Command="{TemplateBinding ChangeStyleCommand}" CommandParameter="{Binding}"/>
                         </Grid>
                     </Border>
                 </Popup>
