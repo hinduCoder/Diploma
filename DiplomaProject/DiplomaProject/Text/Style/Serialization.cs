@@ -28,6 +28,10 @@ namespace DiplomaProject.Text
             {
                 Directory.CreateDirectory(directory);
             }
+            if (!_file.Exists)
+            {
+                DumpTextStyles(new List<ITextStyle>());
+            }
         }
 
         public IReadOnlyList<ITextStyle> LoadTextStyles()

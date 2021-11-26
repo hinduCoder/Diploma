@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using WpfMath;
 
 namespace DiplomaProject.Controls
 {
@@ -35,7 +36,6 @@ namespace DiplomaProject.Controls
 
         public FormulaControl()
         {
-            TexFormulaParser.Initialize();
             _formulaParser = new TexFormulaParser();
         }
 
@@ -53,7 +53,7 @@ namespace DiplomaProject.Controls
 
             var formula = formulaControl._formulaParser.Parse(formulaControl.Formula);
             var visual = new DrawingVisual();
-            var renderer = formula.GetRenderer(TexStyle.Display, 20d);
+            var renderer = formula.GetRenderer(TexStyle.Display, 20d, null);
 
             using (var drawingContext = visual.RenderOpen())
             {

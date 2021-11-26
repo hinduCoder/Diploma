@@ -164,7 +164,7 @@ namespace DiplomaProject.ViewModel
         {
             _registyKey = Registry.CurrentUser.CreateSubKey("Software\\HinduCoder\\LectionEditor");
             _isAutorized = !String.IsNullOrEmpty(_registyKey.GetValue(RegistryKey) as String);
-            _client = new DropNetClient("kg97rxrsyodaipj", "z7heg39nx4j1y7e", authenticationMethod:DropNetClient.AuthenticationMethod.OAuth2) { UseSandbox = true };
+            _client = new DropNetClient("kg97rxrsyodaipj", "z7heg39nx4j1y7e", authenticationMethod: DropNetClient.AuthenticationMethod.OAuth2) { UseSandbox = false };
             if (_isAutorized)
                 _client.UserLogin = new UserLogin { Token = _registyKey.GetValue(RegistryKey).ToString() };
         }
